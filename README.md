@@ -1,2 +1,5 @@
-skladisko
+#skladisko
 =========
+
+##Info
+skladisko je projekt na predmet Tvorba Informaèných Systémov na FMFI UK.
