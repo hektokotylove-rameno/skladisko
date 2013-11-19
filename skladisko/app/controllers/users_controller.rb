@@ -16,32 +16,21 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
   end
   
+  def who
+    render text: 'ID of logged user: ' + session[:id].to_s
+  end
+  
   def index
-    @users = User.all
-  end
-  
-  def user_params
-    params.require(:user).permit(:username, :password)
-  end
-  
-  def login
-    render 'login'
-  end
-  
-  def check_login
-    user_data = params[:user]
-    @user = User.find_by_username(user_data[:username])
-    if @user && @user.password_hash == BCrypt::Engine.hash_secret(user_data[:password], @user.password_salt)
-      session[:id] = @user.id;
-      render text: session[:id]
+    if is_logged?
+      @users = User.all
     else
-      @error = true;
-      render 'login'
+      redirect_to login_path
     end
   end
   
-  def logout
-    session[:id] = nil
-    render 'login'
+  def user_params
+    params.require(:user).permit(:username, :password, :password_confirmation, :name)
   end
+  
+  
 end

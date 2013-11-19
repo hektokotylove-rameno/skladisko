@@ -2,12 +2,10 @@ Skladisko::Application.routes.draw do
   
   resources :chemicals
   root 'users#login'
-  #get 'users/new' => 'users#new'
-  #post 'users/new' => 'users#create'
-  #get 'users/:id' => 'users#show'
-  get 'login' => 'users#login'
-  post 'login' => 'users#check_login'
-  get 'logout' => 'users#logout'
+  get 'login' => 'sessions#login'
+  post 'login' => 'sessions#check_login'
+  get 'who' => 'users#who'
+  get 'logout' => 'sessions#logout'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

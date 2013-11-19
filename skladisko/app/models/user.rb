@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
-  validates :username, presence: true, length: {minimum: 3}, uniqueness: true
-  validates :password, presence: true, confirmation: true
-  
   attr_accessor :password
+  validates :username, presence: true, length: {minimum: 3}, uniqueness: true
+  validates :name, presence: true, length: {minimum: 3}
+  
+  validates :password, confirmation: true
+  validates :password_confirmation, presence: true, length: {minimum: 6}
+    
   before_save :encrypt_password
   
   def encrypt_password

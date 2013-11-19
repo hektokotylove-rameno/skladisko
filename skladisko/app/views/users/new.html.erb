@@ -22,8 +22,13 @@
   </p>
   
   <p>
-    <%= user.label :password %><br>
+    <%= user.label :password_confirmation %><br>
     <%= user.password_field :password_confirmation %>
+  </p>
+  
+  <p>
+    <%= user.label :name %><br>
+    <%= user.text_field :name %>
   </p>
   
   <p>

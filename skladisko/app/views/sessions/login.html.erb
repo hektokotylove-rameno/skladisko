@@ -1,7 +1,7 @@
 <h1>Please enter login information</h1>
 <%= form_for :user, url: login_path do |user| %>
   <% if @error %>
-    <ul><li>Wrong username or password</li></ul>
+    <ul><li><%= @error %></li></ul>
   <% end %>
   
   <p>

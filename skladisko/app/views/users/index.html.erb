@@ -3,14 +3,16 @@
   <tr>
     <th>ID</th>
     <th>Username</th>
-    <th>Password</th>
+    <th>Name</th>
+    <th>Admin</th>
   </tr>
  
   <% @users.each do |user| %>
     <tr>
       <td><%= user.id %></td>
       <td><%= user.username %></td>
-      <td><%= user.password %></td>
+      <td><%= user.name %></td>
+      <td><%= user.admin %></td>
     </tr>
   <% end %>
 </table>
