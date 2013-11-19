@@ -1,0 +1,8 @@
+<h1><%= @chemical.name %></h1>
+<p>Total amount: <%= @chemical.total_amount %></p>
+<p>Unit: <%= @chemical.unit %></p>
+<p>Group: <%= @chemical.group %></p>
+<p>Note: <%= @chemical.note %></p>
+
+<%= link_to 'Edit', edit_chemical_path %>
+<%= link_to 'Back', chemicals_path %>

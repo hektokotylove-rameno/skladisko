@@ -1,0 +1,41 @@
+<%= form_for @chemical do |f| %>
+  <% if @chemical.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@chemical.errors.count, "error") %> prohibited
+      this post from being saved:</h2>
+    <ul>
+    <% @chemical.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+  
+  <p>
+    <%= f.label :total_amount %><br>
+    <%= f.text_field :total_amount %>
+  </p>
+  
+  <p>
+    <%= f.label :unit %><br>
+    <%= f.text_field :unit %>
+  </p>
+  
+  <p>
+    <%= f.label :group %><br>
+    <%= f.text_field :group %>
+  </p>
+ 
+  <p>
+    <%= f.label :note %><br>
+    <%= f.text_area :note %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

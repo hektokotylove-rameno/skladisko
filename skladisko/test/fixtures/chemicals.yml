@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  total_amount: 
+  unit: MyString
+  group: MyString
+  note: MyString
+
+two:
+  name: MyString
+  total_amount: 
+  unit: MyString
+  group: MyString
+  note: MyString

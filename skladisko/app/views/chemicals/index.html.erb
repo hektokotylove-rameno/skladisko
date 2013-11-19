@@ -1,0 +1,26 @@
+<h1>Chemicals</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Total amount</th>
+    <th>Unit</th>
+    <th>Group</th>
+    <th>Note</th>
+    <th></th>
+    <th></th>
+  </tr>
+ 
+<% @chemicals.each do |chemical| %>
+  <tr>
+    <td><%= chemical.name %></td>
+    <td><%= chemical.total_amount %></td>
+    <td><%= chemical.unit %></td>
+    <td><%= chemical.group %></td>
+    <td><%= chemical.note %></td>
+    <td><%= link_to 'Show', chemical %></td>
+    <td><%= link_to 'Edit', edit_chemical_path(chemical) %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Create new', new_chemical_path %>
