@@ -1,0 +1,20 @@
+<h1>Please enter login information</h1>
+<%= form_for :user, url: login_path do |user| %>
+  <% if @error %>
+    <ul><li>Wrong username or password</li></ul>
+  <% end %>
+  
+  <p>
+    <%= user.label :username %><br>
+    <%= user.text_field :username %>
+  </p>
+  
+  <p>
+    <%= user.label :password %><br>
+    <%= user.password_field :password %>
+  </p>
+  
+  <p>
+    <%= user.submit %>
+  </p>
+<% end %>
