@@ -12,7 +12,7 @@ class ChemicalsController < ApplicationController
   end
   
   def create
-    @chemical = Chemical.new(params[:chemical].permit(:name, :total_amount, :unit, :group, :note))
+    @chemical = Chemical.new(params[:chemical].permit(:name, :unit, :group, :note))
     if @chemical.save
       redirect_to @chemical
     else
@@ -26,7 +26,7 @@ class ChemicalsController < ApplicationController
   
   def update
     @chemical = Chemical.find(params[:id])
-    if @chemical.update(params[:chemical].permit(:name, :total_amount, :unit, :group, :note))
+    if @chemical.update(params[:chemical].permit(:name, :unit, :group, :note))
       redirect_to @chemical
     else
       render :edit

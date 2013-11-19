@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, only: [:new, :create]
+  
   def new
     @user = User.new
   end
@@ -21,11 +23,7 @@ class UsersController < ApplicationController
   end
   
   def index
-    if is_logged?
-      @users = User.all
-    else
-      redirect_to login_path
-    end
+    @users = User.all
   end
   
   def user_params

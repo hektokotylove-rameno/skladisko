@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_action :require_login, only: [:login, :check_login]
   def login
     render 'login'
   end

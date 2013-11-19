@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20131119132313) do
 
   create_table "chemicals", force: true do |t|
     t.string   "name"
-    t.float    "total_amount"
+    t.float    "total_amount", default: 0.0
     t.string   "unit"
     t.string   "group"
     t.string   "note"
