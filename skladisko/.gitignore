@@ -15,5 +15,6 @@
 /log/*.log
 /tmp
 
-#Ignore .project Aptana info
+#Ignore .project Aptana files
 /.project
+/.metadata
