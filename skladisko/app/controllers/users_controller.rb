@@ -26,6 +26,42 @@ class UsersController < ApplicationController
     @users = User.all
   end
   
+  def edit
+    @user = User.find_by_id(params[:id])
+    if (@user.id == session[:id] || @user.admin)
+      render 'edit'
+    else
+      render text: 'Nemozno upravit ineho'
+    end
+  end
+  
+  def update
+    @user = User.find_by_id(params[:id])
+    if can_edit
+      if check_password
+        if (@user.update(user_params))
+          redirect_to @user
+        else
+          render 'edit'
+        end
+      else
+        @user.errors.add(:old_password, 'does not match');
+        render 'edit'
+      end
+    else
+      render text: 'Nemozno upravit ineho'
+    end
+  end
+  
+  def can_edit
+    return @user.id == session[:id] || @user.admin
+  end
+  
+  def check_password
+    user_data = params[:user]
+    return @user.password_hash == BCrypt::Engine.hash_secret(user_data[:old_password], @user.password_salt)
+  end
+  
   def user_params
     params.require(:user).permit(:username, :password, :password_confirmation, :name)
   end

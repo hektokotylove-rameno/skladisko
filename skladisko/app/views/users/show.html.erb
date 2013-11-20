@@ -1,15 +1,20 @@
   <p>
-    <strong>Username:</strong><br>
+    <strong>Username: </strong>
     <%= @user.username %>
   </p>
  
   <p>
-    <strong>Name:</strong><br>
+    <strong>Name: </strong>
     <%= @user.name %>
   </p>
   
   <p>
-    <strong>Admin:</strong><br>
-    <%= @user.admin %>
+    <strong>Admin: </strong>
+    <% if @user.admin %>
+      true
+    <% else %>
+      false
+    <% end %>
   </p>
+  <td><%= link_to 'Back', users_path %></td>
 
