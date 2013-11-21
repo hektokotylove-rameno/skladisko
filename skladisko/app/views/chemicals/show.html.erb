@@ -3,6 +3,22 @@
 <p>Unit: <%= @chemical.unit %></p>
 <p>Group: <%= @chemical.group %></p>
 <p>Note: <%= @chemical.note %></p>
+<br />
+<h1>Containers</h1>
+<table>
+  <tr>
+    <th>Amount</th>
+    <th>Expiration date</th>
+    <th>Location</th>
+    <th>Catalog number</th>
+  </tr>
+<% @chemical.containers.each do |container| %>
+  <td> <%= container.amount %> </td>
+  <td> <%= container.expiration_date %> </td>
+  <td> <%= container.location %> </td>
+  <td> <%= container.catalog_number %> </td>
+<% end %>
+</table>
 
 <%= link_to 'Edit', edit_chemical_path %>
 <%= link_to 'Back', chemicals_path %>

@@ -1,5 +1,6 @@
 Skladisko::Application.routes.draw do
   
+  resources :operations
   resources :chemicals
   resources :users
 

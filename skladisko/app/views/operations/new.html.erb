@@ -1,0 +1,29 @@
+<h1>Add operation</h1>
+<%= form_for :operation, url: operations_path do |operation| %>
+  <p><%= operation.label :kind %></p>
+  <p><%= operation.select :kind, options_for_select(Operation::KINDS) %></p>
+  
+  <p><%= operation.label :project_id %></p>
+  <p><%= operation.text_field :project_id %></p>
+  
+  <p><%= operation.label :note %></p>
+  <p><%= operation.text_area :note %></p>
+  
+  
+  
+  <%= fields_for :containers do |container| %>
+    <p><%= container.label :chemical_id %></p>
+    <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name) %></p>
+  
+    <p><%= container.label :amount %></p>
+    <p><%= container.text_field :amount %></p>
+    
+    <p><%= container.label :expiration_date %></p>
+    <p><%= container.date_field :expiration_date %></p>
+    
+    <p><%= container.label :catalog_number %></p>
+    <p><%= container.text_field :catalog_number %></p>
+  <% end %>
+  
+  <p><%= operation.submit %></p>
+<% end %>
