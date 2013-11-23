@@ -27,5 +27,5 @@ Skladisko::Application.configure do
   # number of complex assets.
   config.assets.debug = true
   
-  config.assets.compile = false
+  config.assets.compile = true
 end
