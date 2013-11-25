@@ -1,20 +1,15 @@
-<h1>Please enter login information</h1>
-<%= form_for :user, url: login_path do |user| %>
+ <div class="container">
+  <%= form_for :user, html: { class: "form-signin" }, url: login_path do |user| %>
+  <h2 class="form-signin-heading">Please sign in</h2>
   <% if @error %>
-    <ul><li><%= @error %></li></ul>
+  <div class="alert alert-warning">
+    <%= @error %>
+  </div>
   <% end %>
-  
-  <p>
-    <%= user.label :username %><br>
-    <%= user.text_field :username %>
+  <%=  user.text_field :username, class: "form-control", placeholder: "Login", required: "" %>
+  <%=  user.password_field :password, class: "form-control", placeholder: "Password", required: "" %>
+  <p>    
+    <%= user.submit 'Sign in', :class=> 'btn btn-lg btn-primary btn-block' %>
   </p>
-  
-  <p>
-    <%= user.label :password %><br>
-    <%= user.password_field :password %>
-  </p>
-  
-  <p>
-    <%= user.submit %>
-  </p>
-<% end %>
+  <% end %> 
+</div>
