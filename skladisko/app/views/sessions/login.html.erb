@@ -1,4 +1,4 @@
- <div class="container">
+
   <%= form_for :user, html: { class: "form-signin" }, url: login_path do |user| %>
   <h2 class="form-signin-heading">Please sign in</h2>
   <% if @error %>
@@ -12,4 +12,3 @@
     <%= user.submit 'Sign in', :class=> 'btn btn-lg btn-primary btn-block' %>
   </p>
   <% end %> 
-</div>
