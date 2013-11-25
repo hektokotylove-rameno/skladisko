@@ -4,6 +4,7 @@ Skladisko::Application.routes.draw do
   resources :chemicals
   resources :users
 
+  
   get 'login' => 'sessions#login'
   post 'login' => 'sessions#check_login'
   get 'who' => 'users#who'

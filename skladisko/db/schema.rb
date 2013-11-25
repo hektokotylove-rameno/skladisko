@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121163923) do
+ActiveRecord::Schema.define(version: 20131125170800) do
 
   create_table "chemicals", force: true do |t|
     t.string   "name"
@@ -40,10 +40,16 @@ ActiveRecord::Schema.define(version: 20131121163923) do
 
   add_index "containers", ["chemical_id"], name: "index_containers_on_chemical_id"
 
+  create_table "containers_operations", force: true do |t|
+    t.integer "container_id"
+    t.integer "operation_id"
+  end
+
   create_table "operations", force: true do |t|
     t.integer  "kind"
     t.datetime "date"
     t.string   "note"
+    t.boolean  "protocol"
     t.integer  "user_id"
     t.integer  "project_id"
     t.datetime "created_at"
@@ -61,8 +67,10 @@ ActiveRecord::Schema.define(version: 20131121163923) do
 
   create_table "users", force: true do |t|
     t.string   "username"
+    t.string   "name"
     t.string   "password_hash"
     t.string   "password_salt"
+    t.boolean  "admin"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

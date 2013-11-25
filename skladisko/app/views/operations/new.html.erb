@@ -21,9 +21,13 @@
     <p><%= container.label :expiration_date %></p>
     <p><%= container.date_field :expiration_date %></p>
     
+    <p><%= container.label :location %></p>
+    <p><%= container.text_field :location %></p>
+    
     <p><%= container.label :catalog_number %></p>
     <p><%= container.text_field :catalog_number %></p>
   <% end %>
   
-  <p><%= operation.submit %></p>
+  <p><%= operation.submit "Vykonať zmeny", :name => "execute"%></p>
+  <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => "save"%></p>
 <% end %>
