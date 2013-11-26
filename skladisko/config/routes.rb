@@ -6,6 +6,7 @@ Skladisko::Application.routes.draw do
   resources :users
   resources :projects
 
+  get 'operations/new/:kind' => 'operations#new'
   get 'protocols' => 'operations#index_protocols'
   patch 'operations' => 'operations#add_from_protocol'
   get 'login' => 'sessions#login'

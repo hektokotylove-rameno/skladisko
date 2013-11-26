@@ -1,9 +1,28 @@
 class OperationsController < ApplicationController
   def new
     @operation = Operation.new
+    if (params[:kind] == 'add')
+      render 'new'
+    end
+    if (params[:kind] == 'retract')
+      render 'retract'
+    end
   end
-
+  
   def create
+    if (operation_kind == '1')
+      do_add
+    end
+    if (operation_kind == '2')
+      do_retract
+    end 
+  end
+  
+  def operation_kind
+    params[:operation].require(:kind)
+  end
+  
+  def do_add
     @container = Container.new(container_params)
     @project = Project.find(get_project_id)
     @operation = Operation.new(operation_params)
@@ -22,7 +41,37 @@ class OperationsController < ApplicationController
     else
       render 'new'
     end
-    #render text: params
+  end
+  
+  def do_retract
+    @chemical = Chemical.find(get_chem_id)
+    if @chemical.total_amount >= params_amount
+      @chemical.total_amount -= params_amount
+      am = params_amount
+      while (am > 0)
+        container = Container.first(:order => 'expiration_date')
+        if container.amount > am
+          container.amount -= am
+          container.save
+        else
+          container.delete
+        end
+        am -= container.amount
+      end
+      @chemical.save
+      @operation = Operation.new(operation_params)
+      @operation = Operation.new(operation_params)
+      @operation.user = @current_user
+      @operation.project = @project
+      @operation.save
+      redirect_to @chemical
+    else
+      render text: 'Nedostatocne mnozstvo'
+    end
+  end
+  
+  def params_amount
+    params[:container].require(:amount).to_f
   end
   
   def change_total_amount
@@ -78,9 +127,9 @@ class OperationsController < ApplicationController
     params[:operation].require(:project_id)
   end
   
-  def containers_params
-    params[:containers].permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
-  end
+  #def containers_params
+  #  params[:containers].permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
+  #end
   
   def container_params
     params[:container].permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
