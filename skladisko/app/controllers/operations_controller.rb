@@ -5,9 +5,11 @@ class OperationsController < ApplicationController
 
   def create
     @container = Container.new(container_params)
+    @project = Project.find(get_project_id)
     @operation = Operation.new(operation_params)
     @operation.user = @current_user
     @operation.containers.push(@container)
+    @operation.project = @project
     
     change_total_amount
     
@@ -20,6 +22,7 @@ class OperationsController < ApplicationController
     else
       render 'new'
     end
+    #render text: params
   end
   
   def change_total_amount
@@ -40,7 +43,6 @@ class OperationsController < ApplicationController
   end
   
   def edit
-    
     @operation = Operation.find(params[:id])
   end
   
@@ -70,6 +72,10 @@ class OperationsController < ApplicationController
   
   def get_chem_id
     params[:container].require(:chemical_id)
+  end
+  
+  def get_project_id
+    params[:operation].require(:project_id)
   end
   
   def containers_params

@@ -4,6 +4,7 @@ Skladisko::Application.routes.draw do
   resources :operations
   resources :chemicals
   resources :users
+  resources :projects
 
   get 'protocols' => 'operations#index_protocols'
   patch 'operations' => 'operations#add_from_protocol'
