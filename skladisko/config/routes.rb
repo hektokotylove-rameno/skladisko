@@ -1,10 +1,12 @@
 Skladisko::Application.routes.draw do
   
+  get "projects/index"
   resources :operations
   resources :chemicals
   resources :users
 
-  
+  get 'protocols' => 'operations#index_protocols'
+  patch 'operations' => 'operations#add_from_protocol'
   get 'login' => 'sessions#login'
   post 'login' => 'sessions#check_login'
   get 'who' => 'users#who'
