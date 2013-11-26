@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20131126145433) do
     t.datetime "expiration_date"
     t.string   "location"
     t.string   "catalog_number"
+    t.boolean  "real"
     t.integer  "chemical_id"
     t.datetime "created_at"
     t.datetime "updated_at"

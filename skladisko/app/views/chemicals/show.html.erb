@@ -13,12 +13,14 @@
     <th>Catalog number</th>
   </tr>
 <% @chemical.containers.each do |container| %>
-  <tr>
-    <td> <%= container.amount %> </td>
-    <td> <%= container.expiration_date %> </td>
-    <td> <%= container.location %> </td>
-    <td> <%= container.catalog_number %> </td>
-  </tr>
+  <% if container.real %>
+    <tr>
+      <td> <%= container.amount %> </td>
+      <td> <%= container.expiration_date %> </td>
+      <td> <%= container.location %> </td>
+      <td> <%= container.catalog_number %> </td>
+    </tr>
+  <% end %>
 <% end %>
 </table>
 

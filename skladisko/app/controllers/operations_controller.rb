@@ -10,12 +10,16 @@ class OperationsController < ApplicationController
   end
   
   def create
+    choose_operation
+  end
+  
+  def choose_operation
     if (operation_kind == '1')
       do_add
     end
     if (operation_kind == '2')
       do_retract
-    end 
+    end
   end
   
   def operation_kind
@@ -23,18 +27,7 @@ class OperationsController < ApplicationController
   end
   
   def do_add
-    @container = Container.new(container_params)
-    @project = Project.find(get_project_id)
-    @operation = Operation.new(operation_params)
-    @operation.user = @current_user
-    @operation.containers.push(@container)
-    @operation.project = @project
-    
-    change_total_amount
-    
-    if (params[:save])
-      @operation.protocol = true
-    end
+    prepare_variables
     if (@operation.save)
       @chemical.save
       redirect_to chemicals_path
@@ -43,31 +36,62 @@ class OperationsController < ApplicationController
     end
   end
   
+  def prepare_variables
+    @container = Container.new(container_params)
+    @container.real = true
+    @container_op = Container.new(container_params)
+    @container_op.real = false
+    @project = Project.find(get_project_id)
+    @operation = Operation.new(operation_params)
+    @operation.user = @current_user
+    @operation.containers.push(@container)
+    @operation.project = @project
+    if (params[:protocol])
+      @operation.protocol = true
+    end
+    change_total_amount
+  end
+  
   def do_retract
     @chemical = Chemical.find(get_chem_id)
     if @chemical.total_amount >= params_amount
       @chemical.total_amount -= params_amount
       am = params_amount
       while (am > 0)
-        container = Container.first(:order => 'expiration_date')
+        container = Container.find_by_real(true, :order => 'expiration_date')
         if container.amount > am
           container.amount -= am
+          am = 0
           container.save
         else
           container.delete
+          am -= container.amount
         end
-        am -= container.amount
       end
+      @project = Project.find(get_project_id)
+      create_retract_container(container)
+      create_retract_operation
       @chemical.save
-      @operation = Operation.new(operation_params)
-      @operation = Operation.new(operation_params)
-      @operation.user = @current_user
-      @operation.project = @project
       @operation.save
       redirect_to @chemical
     else
       render text: 'Nedostatocne mnozstvo'
     end
+  end
+  
+  def create_retract_operation
+    @operation = Operation.new(operation_params)
+    @operation.user = @current_user
+    @operation.project = @project 
+    @operation.containers.push(@container_op)
+    if (params[:protocol])
+      @operation.protocol = true
+    end
+  end
+  
+  def create_retract_container(c)
+    @container_op = Container.new(container_params)
+    @container_op.real = false
   end
   
   def params_amount
@@ -96,27 +120,7 @@ class OperationsController < ApplicationController
   end
   
   def add_from_protocol
-    @container = Container.new(container_params)
-    @operation = Operation.new(operation_params)
-    @operation.user = @current_user
-    @operation.containers.push(@container)
-    
-    container_params = params[:container]
-    @chemical = Chemical.find(container_params[:chemical_id])
-    @chemical.total_amount  += @container.amount
-    @chemical.containers.push(@container)
-    
-    if (@operation.save)
-      @chemical.save
-      redirect_to chemicals_path
-    else
-      render 'new'
-    end
-    #if (@opreation.save)
-    #  redirect_to chemicals_path
-    #else
-    #  render 'edit'
-    #end
+    choose_operation
   end
   
   def get_chem_id
@@ -126,10 +130,6 @@ class OperationsController < ApplicationController
   def get_project_id
     params[:operation].require(:project_id)
   end
-  
-  #def containers_params
-  #  params[:containers].permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
-  #end
   
   def container_params
     params[:container].permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)

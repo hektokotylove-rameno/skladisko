@@ -5,6 +5,7 @@ class CreateContainers < ActiveRecord::Migration
       t.datetime :expiration_date
       t.string :location
       t.string :catalog_number
+      t.boolean :real
       t.references :chemical, index: true
 
       t.timestamps

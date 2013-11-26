@@ -6,6 +6,7 @@
     <td>Date</td>
     <td>Note</td>
     <td>Protocol</td>
+    <td>Project</td>
     <td>Chemical</td>
     <td>Amount</td>
     <td>Expiration date</td>
@@ -22,6 +23,7 @@
     <% else %>
       <td>false</td>
     <% end %>
+    <td><%= operation.project.name %></td>
     <% operation.containers.each do |container| %>
       <td><%= container.chemical.name %></td>
       <td><%= container.amount %></td>
