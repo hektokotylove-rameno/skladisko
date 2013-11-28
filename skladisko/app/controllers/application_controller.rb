@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
-  before_action :require_login
+  before_action :require_login, :actual_controller
   
   def logged_in?
     if session[:id]
@@ -22,6 +22,10 @@ class ApplicationController < ActionController::Base
       flash[:error] = "You must be logged in to access this section"
       redirect_to login_path # halts request cycle
     end
+  end
+
+  def actual_controller
+    @controller = params["controller"]    
   end
   
 end
