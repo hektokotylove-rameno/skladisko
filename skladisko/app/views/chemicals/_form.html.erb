@@ -1,36 +1,40 @@
+ <div class="col-xs-4">
 <%= form_for @chemical do |f| %>
   <% if @chemical.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@chemical.errors.count, "error") %> prohibited
       this post from being saved:</h2>
+    <div class="alert alert-danger">
     <ul>
     <% @chemical.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
     </ul>
+    </div>
   </div>
   <% end %>
   <p>
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
   </p>
   
   <p>
     <%= f.label :unit %><br>
-    <%= f.text_field :unit %>
+    <%= f.text_field :unit, class: "form-control", placeholder: "Unit" %>
   </p>
   
   <p>
     <%= f.label :group %><br>
-    <%= f.text_field :group %>
+    <%= f.text_field :group, class: "form-control", placeholder: "Group" %>
   </p>
  
   <p>
     <%= f.label :note %><br>
-    <%= f.text_area :note %>
+    <%= f.text_area :note, class: "form-control", placeholder: "Note" %>
   </p>
  
   <p>
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-primary"  %>
   </p>
 <% end %>
+</div>
