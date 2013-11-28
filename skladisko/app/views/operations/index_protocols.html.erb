@@ -1,0 +1,34 @@
+<h1>Protocols</h1>
+<table>
+  <tr>
+    <td>User</td>
+    <td>Kind</td>
+    <td>Date</td>
+    <td>Note</td>
+    <td>Protocol</td>
+    <td>Chemical</td>
+    <td>Amount</td>
+    <td>Expiration date</td>
+    <td>Catalog number</td>
+  </tr>
+  <% @operations.each do |operation| %>
+  <tr>
+    <td><%= operation.user.username %></td>
+    <td><%= operation.kind %></td>
+    <td><%= operation.created_at %></td>
+    <td><%= operation.note %></td>
+    <% if operation.protocol %>
+      <td>true</td>
+    <% else %>
+      <td>false</td>
+    <% end %>
+    <% operation.containers.each do |container| %>
+      <td><%= container.chemical.name %></td>
+      <td><%= container.amount %></td>
+      <td><%= container.expiration_date %></td>
+      <td><%= container.catalog_number %></td>
+    <% end %>
+    <td><%= link_to 'Show', edit_operation_path(operation) %></td>
+  </tr>
+  <% end %>
+</table>

@@ -1,0 +1,13 @@
+<h1>Projects</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+  </tr>
+  <% @projects.each do |project| %>
+    <tr>
+      <td><%= project.id %></td>
+      <td><%= project.name %></td>
+    </tr>
+  <% end %>
+</table>
