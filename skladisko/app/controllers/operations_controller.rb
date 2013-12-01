@@ -44,7 +44,7 @@ class OperationsController < ApplicationController
     @project = Project.find(get_project_id)
     @operation = Operation.new(operation_params)
     @operation.user = @current_user
-    @operation.containers.push(@container)
+    @operation.containers.push(@container_op)
     @operation.project = @project
     if (params[:save])
       @operation.protocol = true
@@ -58,18 +58,18 @@ class OperationsController < ApplicationController
       @chemical.total_amount -= params_amount
       am = params_amount
       while (am > 0)
-        container = Container.find_by_real(true, :order => 'expiration_date')
+        container = Container.find_by_chemical_id_and_real(@chemical.id, true)
         if container.amount > am
           container.amount -= am
           am = 0
           container.save
         else
-          container.delete
           am -= container.amount
+          container.delete
         end
       end
       @project = Project.find(get_project_id)
-      create_retract_container(container)
+      create_retract_container
       create_retract_operation
       @chemical.save
       @operation.save
@@ -89,7 +89,7 @@ class OperationsController < ApplicationController
     end
   end
   
-  def create_retract_container(c)
+  def create_retract_container
     @container_op = Container.new(container_params)
     @container_op.real = false
   end
@@ -112,9 +112,6 @@ class OperationsController < ApplicationController
     @operations = Operation.find_all_by_protocol(true)
     @protocols_only = true
     render :index
-  end
-  
-  def show
   end
   
   def edit

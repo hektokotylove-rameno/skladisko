@@ -16,7 +16,11 @@
   <% if container.real %>
     <tr>
       <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
-      <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
+      <% if container.expiration_date %>
+        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
+      <% else %>
+        <td></td>
+      <% end %>
       <td> <%= container.location %> </td>
       <td> <%= container.catalog_number %> </td>
     </tr>
