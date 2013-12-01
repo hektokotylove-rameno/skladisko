@@ -1,4 +1,8 @@
-<h1>Edit protocol</h1>
+<% if @operation.kind == 2 %>
+  <h1>Protocol - Retract</h1>
+<% else %>
+  <h1>Protocol - Add</h1>
+<% end %>
  
 <%= render 'form' %>
  

@@ -1,6 +1,11 @@
 <%= form_for @operation, url: operations_path do |operation| %>
-  <p><%= operation.label :kind %></p>
-  <p><%= operation.select :kind, options_for_select(Operation::KINDS) %></p>
+  <!--<p><%= operation.label :kind %></p>
+  <p><%= operation.select :kind, options_for_select(Operation::KINDS) %></p>-->
+  <% if (@operation.kind == 2) %>
+    <%= operation.hidden_field(:kind, :value => '2') %>
+  <% else %>
+    <%= operation.hidden_field(:kind, :value => '1') %>
+  <% end %>
   
   <p><%= operation.label :project_name %></p>
   <p><%= operation.collection_select(:project_id, Project.all, :id, :name) %></p>
@@ -16,15 +21,16 @@
     
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount %></p>
-      
-      <p><%= container.label :expiration_date %></p>
-      <p><%= container.date_field :expiration_date %></p>
-      
-      <p><%= container.label :location %></p>
-      <p><%= container.text_field :location %></p>
-      
-      <p><%= container.label :catalog_number %></p>
-      <p><%= container.text_field :catalog_number %></p>
+      <% if (@operation.kind == 1) %>
+        <p><%= container.label :expiration_date %></p>
+        <p><%= container.date_field :expiration_date %></p>
+        
+        <p><%= container.label :location %></p>
+        <p><%= container.text_field :location %></p>
+        
+        <p><%= container.label :catalog_number %></p>
+        <p><%= container.text_field :catalog_number %></p>
+      <% end %>
     <% end %>
     <p><%= operation.submit "Vykonať zmeny", :name => "execute"%></p>
   <% else %>
@@ -44,8 +50,8 @@
       <p><%= container.label :catalog_number %></p>
       <p><%= container.text_field :catalog_number %></p>
     <% end %>
-    <p><%= operation.submit "Vykonať zmeny", :name => "execute"%></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => "save"%></p>
+    <p><%= operation.submit "Vykonať zmeny", :name => 'execute' %></p>
+    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save' %></p>
   <% end %>
   
   

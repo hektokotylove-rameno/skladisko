@@ -46,7 +46,7 @@ class OperationsController < ApplicationController
     @operation.user = @current_user
     @operation.containers.push(@container)
     @operation.project = @project
-    if (params[:protocol])
+    if (params[:save])
       @operation.protocol = true
     end
     change_total_amount
@@ -136,7 +136,7 @@ class OperationsController < ApplicationController
   end
   
   def operation_params
-    params[:operation].permit(:kind, :project_id, :note)
+    params[:operation].permit(:kind, :project_id, :note, :protocol)
   end
   
 end
