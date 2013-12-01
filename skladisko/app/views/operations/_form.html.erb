@@ -1,6 +1,4 @@
 <%= form_for @operation, url: operations_path do |operation| %>
-  <!--<p><%= operation.label :kind %></p>
-  <p><%= operation.select :kind, options_for_select(Operation::KINDS) %></p>-->
   <% if (@operation.kind == 2) %>
     <%= operation.hidden_field(:kind, :value => '2') %>
   <% else %>

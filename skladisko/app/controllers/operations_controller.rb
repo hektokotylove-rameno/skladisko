@@ -110,6 +110,8 @@ class OperationsController < ApplicationController
   
   def index_protocols
     @operations = Operation.find_all_by_protocol(true)
+    @protocols_only = true
+    render :index
   end
   
   def show
@@ -136,7 +138,7 @@ class OperationsController < ApplicationController
   end
   
   def operation_params
-    params[:operation].permit(:kind, :project_id, :note, :protocol)
+    params[:operation].permit(:kind, :project_id, :note)
   end
   
 end

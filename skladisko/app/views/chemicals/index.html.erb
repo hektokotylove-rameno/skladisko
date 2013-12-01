@@ -6,8 +6,7 @@
     <th>Unit</th>
     <th>Group</th>
     <th>Note</th>
-    <th></th>
-    <th></th>
+    <th>Actions</th>
   </tr>
  
 <% @chemicals.each do |chemical| %>
@@ -17,8 +16,14 @@
     <td><%= chemical.unit %></td>
     <td><%= chemical.group %></td>
     <td><%= chemical.note %></td>
-    <td><%= link_to 'Show', chemical %></td>
-    <td><%= link_to 'Edit', edit_chemical_path(chemical) %></td>
+    <td>
+      <div class="btn-group">
+          <%= link_to 'Show', chemical, :class => "btn btn-default" %>
+          <%= link_to 'Edit', edit_chemical_path(chemical), :class => "btn btn-default" %>
+      </div>
+    </td>
+    <!--<td><%= link_to 'Show', chemical %></td>
+    <td><%= link_to 'Edit', edit_chemical_path(chemical) %></td>-->
   </tr>
 <% end %>
 </table>

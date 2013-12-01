@@ -5,7 +5,7 @@
 <p>Note: <%= @chemical.note %></p>
 <br />
 <h1>Containers</h1>
-<table>
+<table class="table table-striped">
   <tr>
     <th>Amount</th>
     <th>Expiration date</th>
@@ -15,8 +15,8 @@
 <% @chemical.containers.each do |container| %>
   <% if container.real %>
     <tr>
-      <td> <%= container.amount %> </td>
-      <td> <%= container.expiration_date %> </td>
+      <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
+      <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
       <td> <%= container.location %> </td>
       <td> <%= container.catalog_number %> </td>
     </tr>

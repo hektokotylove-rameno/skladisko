@@ -1,34 +1,46 @@
-<h1>Operations</h1>
+<% if @protocols_only %>
+  <h1>Protocols</h1>
+<% else %>
+  <h1>Operations</h1>
+<% end %>
 <table class="table table-striped">
   <tr>
     <th>User</th>
     <th>Kind</th>
-    <th>Date</th>
+    <% if @protocols_only %>
+      <th>Created</th>
+    <% else %>
+      <th>Executed</th>
+    <% end %>
     <th>Note</th>
-    <th>Protocol</th>
     <th>Project</th>
     <th>Chemical</th>
     <th>Amount</th>
     <th>Expiration date</th>
     <th>Catalog number</th>
+    <% if @protocols_only %>
+      <td></td>
+    <% end %>
   </tr>
   <% @operations.each do |operation| %>
   <tr>
     <td><%= operation.user.username %></td>
-    <td><%= operation.kind %></td>
-    <td><%= operation.created_at %></td>
+    <td><%= operation.get_kind %></td>
+    <td><%= operation.created_at.to_date.to_formatted_s(:long) %></td>
     <td><%= operation.note %></td>
-    <% if operation.protocol %>
-      <td>true</td>
-    <% else %>
-      <td>false</td>
-    <% end %>
     <td><%= operation.project.name %></td>
     <% operation.containers.each do |container| %>
       <td><%= container.chemical.name %></td>
-      <td><%= container.amount %></td>
-      <td><%= container.expiration_date %></td>
+      <td><%= container.amount.to_s + ' ' + container.chemical.unit %></td>
+      <% if container.expiration_date %>
+        <td><%= container.expiration_date.to_date.to_formatted_s(:long) %></td>
+      <% else %>
+        <td></td>
+      <% end %>
       <td><%= container.catalog_number %></td>
+    <% end %>
+    <% if @protocols_only %>
+      <td><%= link_to 'Show', edit_operation_path(operation), :class => "btn btn-default" %></td>
     <% end %>
   </tr>
   <% end %>

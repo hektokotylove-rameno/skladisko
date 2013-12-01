@@ -1,5 +1,5 @@
 <h1>Protocols</h1>
-<table>
+<table class="table table-striped">
   <tr>
     <td>User</td>
     <td>Kind</td>
@@ -10,6 +10,9 @@
     <td>Amount</td>
     <td>Expiration date</td>
     <td>Catalog number</td>
+    <% if @protocols_only %>
+      <td></td>
+    <% end %>
   </tr>
   <% @operations.each do |operation| %>
   <tr>
@@ -28,7 +31,9 @@
       <td><%= container.expiration_date %></td>
       <td><%= container.catalog_number %></td>
     <% end %>
-    <td><%= link_to 'Show', edit_operation_path(operation) %></td>
+    <% if @protocols_only %>
+      <td><%= link_to 'Show', edit_operation_path(operation) %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>

@@ -6,4 +6,16 @@ class Operation < ActiveRecord::Base
   
   KINDS = {'Add' => 1, 'Retract' => 2, 'Modify' => 3}
   
+  def get_kind
+    if self.kind == 1
+      return 'add'
+    end
+    if self.kind == 2
+      return 'retract'
+    end
+    if self.kind == 3
+      return 'modify'
+    end
+  end    
+  
 end
