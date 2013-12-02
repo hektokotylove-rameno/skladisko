@@ -12,8 +12,8 @@
   <p><%= operation.text_area :note %></p>
   
   
-  <% if (@operation.containers.length != 0) %>
-    <%= fields_for @operation.containers[0] do |container| %>
+  <% if (@operation.containers.length <= 0) %>
+    <%= fields_for :containers do |container| %>
       <p><%= container.label :chemical_id %></p>
       <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name) %></p>
     
@@ -32,7 +32,9 @@
     <% end %>
     <p><%= operation.submit "Vykonať zmeny", :name => "execute"%></p>
   <% else %>
-    <%= fields_for :container do |container| %>
+    <%= operation.nested_fields_for :containers, wrapper_tag: :div do |container| %>
+    
+      <p><%= container.remove_nested_fields_link "Remove this container" %></p>
       <p><%= container.label :chemical_id %></p>
       <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name) %></p>
     
@@ -48,6 +50,7 @@
       <p><%= container.label :catalog_number %></p>
       <p><%= container.text_field :catalog_number %></p>
     <% end %>
+    <p><%= operation.add_nested_fields_link :containers, "Add another container" %></p>
     <p><%= operation.submit "Vykonať zmeny", :name => 'execute' %></p>
     <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save' %></p>
   <% end %>

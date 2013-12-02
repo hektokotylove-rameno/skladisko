@@ -10,6 +10,7 @@ class OperationsController < ApplicationController
   end
   
   def create
+    #render text: params
     choose_operation
   end
   
@@ -29,7 +30,7 @@ class OperationsController < ApplicationController
   def do_add
     prepare_variables
     if (@operation.save)
-      @chemical.save
+      #@chemical.save
       redirect_to chemicals_path
     else
       render 'new'
@@ -37,19 +38,34 @@ class OperationsController < ApplicationController
   end
   
   def prepare_variables
-    @container = Container.new(container_params)
-    @container.real = true
-    @container_op = Container.new(container_params)
-    @container_op.real = false
+    containers = []
+    containers_fake = []
+    container_attributes = params[:operation][:containers_attributes]
+    container_attributes.each do |container|
+      p " ********************************************8"
+      p container
+      cont = Container.new(permit_container_params(container[1]))
+      cont.real = true
+      containers += [cont]
+      cont_fake = Container.new(permit_container_params(container[1]))
+      cont_fake.real = false
+      containers_fake += [cont_fake]
+    end
+    #@container = Container.new(container_params)
+    #@container.real = true
+    #@container_op = Container.new(container_params)
+    #@container_op.real = false
     @project = Project.find(get_project_id)
     @operation = Operation.new(operation_params)
     @operation.user = @current_user
-    @operation.containers.push(@container_op)
+    #@operation.containers.push(@container_op)
+    @operation.containers += containers_fake
     @operation.project = @project
     if (params[:save])
       @operation.protocol = true
     end
-    change_total_amount
+    #change_total_amount
+    update_chemical_amounts(containers)
   end
   
   def do_retract
@@ -98,6 +114,15 @@ class OperationsController < ApplicationController
     params[:container].require(:amount).to_f
   end
   
+  def update_chemical_amounts(containers)
+    containers.each do |container|
+      chemical = Chemical.find(container.chemical_id)
+      chemical.total_amount += container.amount
+      chemical.containers += [container]
+      chemical.save
+    end
+  end
+  
   def change_total_amount
     @chemical = Chemical.find(get_chem_id)
     @chemical.total_amount  += @container.amount
@@ -132,6 +157,10 @@ class OperationsController < ApplicationController
   
   def container_params
     params[:container].permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
+  end
+  
+  def permit_container_params(args)
+    args#.permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
   end
   
   def operation_params
