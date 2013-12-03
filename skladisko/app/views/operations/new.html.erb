@@ -1,4 +1,8 @@
-<h1>Add chemical</h1>
+<% if (@operation.kind == 2) %>
+<h1>Retract chemical</h1>
+<% else %>
+  <h1>Add chemical</h1>
+<% end %>
 
 <%= render 'form' %>
 

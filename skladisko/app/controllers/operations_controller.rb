@@ -5,13 +5,14 @@ class OperationsController < ApplicationController
       render 'new'
     end
     if (params[:kind] == 'retract')
-      render 'retract'
+      @operation.kind = 2
+      render 'new'
     end
   end
   
   def create
-    render text: params
-    #choose_operation
+    #render text: params
+    choose_operation
   end
   
   def choose_operation
@@ -67,27 +68,61 @@ class OperationsController < ApplicationController
   end
   
   def do_retract
-    @chemical = Chemical.find(get_chem_id)
-    if @chemical.total_amount >= params_amount
-      @chemical.total_amount -= params_amount
-      am = params_amount
-      while (am > 0)
-        container = Container.find_by_chemical_id_and_real(@chemical.id, true)
-        if container.amount > am
-          container.amount -= am
-          am = 0
-          container.save
-        else
-          am -= container.amount
-          container.delete
-        end
+    @chemicals = []
+    container_attributes = params[:operation][:containers_attributes]
+    #@chemical = Chemical.find(get_chem_id)
+    enough = true
+    container_attributes.each do |key,container|
+      chemical = Chemical.find(container[:chemical_id])
+      amount = container[:amount].to_f
+      if chemical.total_amount < amount
+        enough = false
+        break
       end
+    end
+    if enough
+      @containers_fake = []
+      container_attributes.each do |key,cont|
+        chemical = Chemical.find(cont[:chemical_id])
+        remaining_amount = cont[:amount].to_f
+        chemical.total_amount -= remaining_amount
+        while (remaining_amount > 0)
+          container = Container.find_by_chemical_id_and_real(chemical.id, true)
+          if container.amount > remaining_amount
+            container.amount -= remaining_amount
+            remaining_amount = 0
+            container.save
+          else
+            remaining_amount -= container.amount
+            container.delete
+          end
+        end
+        container_fake = Container.new
+        container_fake.chemical = chemical
+        container_fake.amount = cont[:amount].to_f
+        container_fake.real = false
+        @containers_fake += [container_fake]
+        chemical.save
+      end
+      #@chemical.total_amount -= params_amount
+      #am = params_amount
+      #while (am > 0)
+      #  container = Container.find_by_chemical_id_and_real(@chemical.id, true)
+      #  if container.amount > am
+      #    container.amount -= am
+      #    am = 0
+      #    container.save
+      #  else
+      #    am -= container.amount
+      #    container.delete
+      #  end
+      #end
       @project = Project.find(get_project_id)
-      create_retract_container
+      #create_retract_container
       create_retract_operation
-      @chemical.save
+      #@chemical.save
       @operation.save
-      redirect_to @chemical
+      redirect_to "/operations"
     else
       render text: 'Nedostatocne mnozstvo'
     end
@@ -97,8 +132,8 @@ class OperationsController < ApplicationController
     @operation = Operation.new(operation_params)
     @operation.user = @current_user
     @operation.project = @project 
-    @operation.containers.push(@container_op)
-    if (params[:protocol])
+    @operation.containers += @containers_fake
+    if (params[:save])
       @operation.protocol = true
     end
   end
