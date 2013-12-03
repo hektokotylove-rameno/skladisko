@@ -10,8 +10,8 @@ class OperationsController < ApplicationController
   end
   
   def create
-    #render text: params
-    choose_operation
+    render text: params
+    #choose_operation
   end
   
   def choose_operation
@@ -41,13 +41,11 @@ class OperationsController < ApplicationController
     containers = []
     containers_fake = []
     container_attributes = params[:operation][:containers_attributes]
-    container_attributes.each do |container|
-      p " ********************************************8"
-      p container
-      cont = Container.new(permit_container_params(container[1]))
+    container_attributes.each do |key,container|
+      cont = Container.new(permit_container_params(container))
       cont.real = true
       containers += [cont]
-      cont_fake = Container.new(permit_container_params(container[1]))
+      cont_fake = Container.new(permit_container_params(container))
       cont_fake.real = false
       containers_fake += [cont_fake]
     end
@@ -140,10 +138,12 @@ class OperationsController < ApplicationController
   end
   
   def edit
+    #render text: params
     @operation = Operation.find(params[:id])
   end
   
   def add_from_protocol
+    #render json: params
     choose_operation
   end
   
@@ -160,7 +160,7 @@ class OperationsController < ApplicationController
   end
   
   def permit_container_params(args)
-    args#.permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
+    ActionController::Parameters.new(args).permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
   end
   
   def operation_params

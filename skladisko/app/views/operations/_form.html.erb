@@ -12,7 +12,7 @@
   <p><%= operation.text_area :note %></p>
   
   
-  <% if (@operation.containers.length <= 0) %>
+  <% if (@operation.containers.length < 0) %>
     <%= fields_for :containers do |container| %>
       <p><%= container.label :chemical_id %></p>
       <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name) %></p>
