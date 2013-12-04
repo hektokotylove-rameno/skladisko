@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require nested_form_fields
+//= require bootstrap-typeahead-rails
 //= require_tree .
 //= require bootstrap-select
 

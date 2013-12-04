@@ -13,4 +13,5 @@
  *= require bootstrap
  *= require custom
  *= require bootstrap-select
+ *= require bootstrap-typeahead-rails
  */

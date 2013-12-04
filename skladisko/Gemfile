@@ -38,6 +38,8 @@ gem "bcrypt-ruby", :require => "bcrypt"
 
 gem 'nested_form_fields'
 
+gem 'bootstrap-typeahead-rails'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
