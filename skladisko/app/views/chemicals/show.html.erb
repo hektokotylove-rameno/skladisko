@@ -1,32 +1,42 @@
-<h1><%= @chemical.name %></h1>
-<p>Total amount: <%= @chemical.total_amount %></p>
-<p>Unit: <%= @chemical.unit %></p>
-<p>Group: <%= @chemical.group %></p>
-<p>Note: <%= @chemical.note %></p>
-<br />
-<h1>Containers</h1>
-<table class="table table-striped">
-  <tr>
-    <th>Amount</th>
-    <th>Expiration date</th>
-    <th>Location</th>
-    <th>Catalog number</th>
-  </tr>
-<% @chemical.containers.each do |container| %>
-  <% if container.real %>
-    <tr>
-      <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
-      <% if container.expiration_date %>
-        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
-      <% else %>
-        <td></td>
-      <% end %>
-      <td> <%= container.location %> </td>
-      <td> <%= container.catalog_number %> </td>
-    </tr>
-  <% end %>
-<% end %>
-</table>
+<div class="row">
+  <div class="col-xs-4">
+    <div class="well">
+      <h1><%= @chemical.name %></h1>    
+      <table class="table">
+        <tr><td><b>Total amount: </b></td><td><%= @chemical.total_amount %></td></tr>
+        <tr><td><b>Unit: </b></td><td><%= @chemical.unit %></td></tr>
+        <tr><td><b>Group: </b></td><td><%= @chemical.group %></td></tr>
+        <tr><td><b>Note: </b></td><td><%= @chemical.note %></td></tr>
+      </table>
+    </div>
+  </div>
 
-<%= link_to 'Edit', edit_chemical_path %>
-<%= link_to 'Back', chemicals_path %>
+  <div class="col-xs-8">
+    <h1>Containers</h1>
+    <table class="table table-striped">
+      <tr>
+        <th>Amount</th>
+        <th>Expiration date</th>
+        <th>Location</th>
+        <th>Catalog number</th>
+      </tr>
+      <% @chemical.containers.each do |container| %>
+      <% if container.real %>
+      <tr>
+        <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
+        <% if container.expiration_date %>
+        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
+        <% else %>
+        <td></td>
+        <% end %>
+        <td> <%= container.location %> </td>
+        <td> <%= container.catalog_number %> </td>
+      </tr>
+      <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<%= link_to 'Back', chemicals_path, class: "btn btn-default"  %>
+<%= link_to 'Edit', edit_chemical_path, class: "btn btn-primary" %>

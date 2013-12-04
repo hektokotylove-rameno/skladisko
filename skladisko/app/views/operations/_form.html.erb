@@ -5,47 +5,53 @@
     <%= operation.hidden_field(:kind, :value => '1') %>
   <% end %>
   
+
   <p><%= operation.label :project_name %></p>
-  <p><%= operation.collection_select(:project_id, Project.all, :id, :name) %></p>
+  <p><%= operation.collection_select(:project_id, Project.all, :id, :name, {} ,{:class=>'selectpicker'}) %></p>
   
   <p><%= operation.label :note %></p>
-  <p><%= operation.text_area :note %></p>
+  <p><%= operation.text_area :note, class: "form-control"%></p>
   
   <% if (@operation.kind == 2) %>
+
+
     <%= operation.nested_fields_for :containers, wrapper_tag: :div do |container| %>
     
       <p><%= container.remove_nested_fields_link "Remove this chemical" %></p>
       <p><%= container.label :chemical_id %></p>
-      <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name) %></p>
+      <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name, {} ,{:class=>'selectpicker'}) %></p>
     
       <p><%= container.label :amount %></p>
-      <p><%= container.text_field :amount %></p>
+      <p><%= container.text_field :amount, class: "form-control", placeholder: "Amount"  %></p>
     <% end %>
     <p><%= operation.add_nested_fields_link :containers, "Add another chemical" %></p>
-    <p><%= operation.submit "Vykonať zmeny", :name => 'execute' %></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save' %></p>
+    <p><%= operation.submit "Vykonať zmeny", :name => 'execute', class: "btn btn-primary" %></p>
+    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', class: "btn btn-primary" %></p>
+  
+
+
   <% else %>
     <%= operation.nested_fields_for :containers, wrapper_tag: :div do |container| %>
     
       <p><%= container.remove_nested_fields_link "Remove this container" %></p>
       <p><%= container.label :chemical_id %></p>
-      <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name) %></p>
+      <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name,{} ,{:class=>'selectpicker'}) %></p>
     
       <p><%= container.label :amount %></p>
-      <p><%= container.text_field :amount %></p>
+      <p><%= container.text_field :amount, class: "form-control", placeholder: "Amount"  %></p>
       
       <p><%= container.label :expiration_date %></p>
-      <p><%= container.date_field :expiration_date %></p>
+      <p><%= container.date_field :expiration_date,  class: "form-control" %></p>
       
       <p><%= container.label :location %></p>
-      <p><%= container.text_field :location %></p>
+      <p><%= container.text_field :location, class: "form-control", placeholder: "Location"  %></p>
       
       <p><%= container.label :catalog_number %></p>
-      <p><%= container.text_field :catalog_number %></p>
+      <p><%= container.text_field :catalog_number, class: "form-control", placeholder: "Catalog number"  %></p>
     <% end %>
     <p><%= operation.add_nested_fields_link :containers, "Add another container" %></p>
-    <p><%= operation.submit "Vykonať zmeny", :name => 'execute' %></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save' %></p>
+    <p><%= operation.submit "Vykonať zmeny", :name => 'execute', class: "btn btn-primary" %></p>
+    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', class: "btn btn-primary" %></p>
   <% end %>
   
   

@@ -26,8 +26,8 @@
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount %></p>
     <% end %>
-    <p><%= operation.submit "Vykonať zmeny", :name => 'save'%></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'protocol'%></p>
+    <p><%= operation.submit "Vykonať zmeny", :name => 'save', class: "btn btn-primary"%></p>
+    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'protocol', class: "btn btn-primary"%></p>
   <% end %>
   
   

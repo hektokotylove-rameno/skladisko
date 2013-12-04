@@ -16,3 +16,12 @@
 //= require bootstrap
 //= require nested_form_fields
 //= require_tree .
+//= require bootstrap-select
+
+$(window).on('load', function () {
+	$('.selectpicker').selectpicker();
+// 	$('.add_nested_fields_link').click().function(){
+// 		$('.selectpicker').selectpicker();		
+// 		}
+// });
+
