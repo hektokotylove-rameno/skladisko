@@ -1,5 +1,7 @@
 Skladisko::Application.routes.draw do
   
+  get 'operations/projects' => 'operations#options_projects'
+  
   get "projects/index"
   resources :operations
   resources :chemicals
@@ -13,6 +15,8 @@ Skladisko::Application.routes.draw do
   post 'login' => 'sessions#check_login'
   get 'who' => 'users#who'
   get 'logout' => 'sessions#logout'
+  
+  
   
   root 'sessions#login'
   # The priority is based upon order of creation: first created -> highest priority.
