@@ -19,7 +19,7 @@
 //= require_tree .
 //= require bootstrap-select
 
-$(window).on('load', function () {
+$(window).on('ready', function () {
 	$('.selectpicker').selectpicker();
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		
