@@ -10,6 +10,15 @@ class OperationsController < ApplicationController
     end
   end
   
+  def options_projects
+    projects = Project.all
+    @options = []
+    projects.each do |project|
+      @options.push(project.name)
+    end
+    render json: @options
+  end
+  
   def create
     #render text: params
     choose_operation
@@ -54,7 +63,7 @@ class OperationsController < ApplicationController
     #@container.real = true
     #@container_op = Container.new(container_params)
     #@container_op.real = false
-    @project = Project.find(get_project_id)
+    @project = Project.find_or_create_by_name(get_project_name)
     @operation = Operation.new(operation_params)
     @operation.user = @current_user
     #@operation.containers.push(@container_op)
@@ -117,7 +126,7 @@ class OperationsController < ApplicationController
       #    container.delete
       #  end
       #end
-      @project = Project.find(get_project_id)
+      @project = Project.find_or_create_by_name(get_project_name)
       #create_retract_container
       create_retract_operation
       #@chemical.save
@@ -186,8 +195,8 @@ class OperationsController < ApplicationController
     params[:container].require(:chemical_id)
   end
   
-  def get_project_id
-    params[:operation].require(:project_id)
+  def get_project_name
+    params[:project_name]
   end
   
   def container_params
