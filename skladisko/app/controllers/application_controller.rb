@@ -25,7 +25,8 @@ class ApplicationController < ActionController::Base
   end
 
   def actual_controller
-    @controller = params["controller"]    
+    @controller = params["controller"]  
+    @current_username =  logged_in?;
   end
   
 end
