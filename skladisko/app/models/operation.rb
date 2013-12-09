@@ -5,17 +5,17 @@ class Operation < ActiveRecord::Base
   has_and_belongs_to_many :containers
   accepts_nested_attributes_for :containers, allow_destroy: true
   
-  KINDS = {'Add' => 1, 'Retract' => 2, 'Modify' => 3}
+  KINDS = {'Add' => 1, 'Withdraw' => 2, 'Modify' => 3}
   
   def get_kind
     if self.kind == 1
-      return 'add'
+      return 'Add'
     end
     if self.kind == 2
-      return 'retract'
+      return 'Withdraw'
     end
     if self.kind == 3
-      return 'modify'
+      return 'Modify'
     end
   end    
   

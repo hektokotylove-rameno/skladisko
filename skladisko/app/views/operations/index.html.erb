@@ -3,6 +3,9 @@
 <% else %>
 <h1>Operations</h1>
 <% end %>
+<%= form_tag url: operations_path do%>
+
+<% end %>
 <table class="table table-striped">
   <tr>
     <th>User</th>
@@ -14,33 +17,19 @@
     <% end %>
     <th>Note</th>
     <th>Project</th>
-    <th>Chemical</th>
-    <th>Amount</th>
-    <th>Expiration date</th>
-    <th>Catalog number</th>
-    <% if @protocols_only %>
     <td></td>
-    <% end %>
   </tr>
   <% @operations.each do |operation| %>
   <tr>
-    <td><%= operation.user.username %></td>
+    <td><%= operation.user.name %></td>
     <td><%= operation.get_kind %></td>
     <td><%= operation.created_at.to_date.to_formatted_s(:long) %></td>
     <td><%= operation.note %></td>
     <td><%= operation.project.name %></td>
-    <% operation.containers.each do |container| %>
-    <td><%= container.chemical.name %></td>
-    <td><%= container.amount.to_s + ' ' + container.chemical.unit %></td>
-    <% if container.expiration_date %>
-    <td><%= container.expiration_date.to_date.to_formatted_s(:long) %></td>
-    <% else %>
-    <td></td>
-    <% end %>
-    <td><%= container.catalog_number %></td>
-    <% end %>
     <% if @protocols_only %>
     <td><%= link_to 'Show', edit_operation_path(operation), :class => "btn btn-default" %></td>
+    <% else %>
+    <td><%= link_to 'Show', operation_path(operation), :class => "btn btn-default" %></td>
     <% end %>
   </tr>
 <% end %>
