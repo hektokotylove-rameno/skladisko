@@ -183,6 +183,14 @@ class OperationsController < ApplicationController
   end
     
   def index
+    conditions = {}
+    if not (params[:user].nil?)
+      conditions["user"] = {"name" => params[:user]}
+    end
+    if not (params[:project].nil?)
+      conditions["project"] = {"name" => params[:project]}
+    end
+    
     @operations = Operation.all;
   end
   

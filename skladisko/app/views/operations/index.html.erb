@@ -3,8 +3,12 @@
 <% else %>
 <h1>Operations</h1>
 <% end %>
-<%= form_tag url: operations_path do%>
-
+<%= form_tag(operations_path, method: "get") do%>
+<%= label_tag("user", "User") %>
+<%= text_field_tag("user" , "") %>
+<%= label_tag("project", "Project") %>
+<%= text_field_tag("project" , "") %>
+<%= submit_tag("Search") %>
 <% end %>
 <table class="table table-striped">
   <tr>
