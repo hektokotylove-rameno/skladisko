@@ -1,6 +1,7 @@
 class OperationsController < ApplicationController
   def new
     @operation = Operation.new
+    @operation.containers.build
     if (params[:kind] == 'add')
       render 'new'
     end
@@ -16,7 +17,9 @@ class OperationsController < ApplicationController
     projects.each do |project|
       @options.push(project.name)
     end
-    render json: @options
+    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
+    #format.js   {@options.reverse}
+    render json: @options.reverse
   end
   
   def create

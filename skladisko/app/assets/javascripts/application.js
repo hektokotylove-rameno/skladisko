@@ -19,8 +19,23 @@
 //= require_tree .
 //= require bootstrap-select
 
-$(window).on('ready', function () {
-	$('.selectpicker').selectpicker();
+$(window).bind('page:change', function() {
+    $('.project-auto-complete').typeahead({
+  name: 'Projects',
+  ttl: 0,
+  prefetch: '/operations/projects',  
+  limit: 10 });
+    $('.selectpicker').selectpicker();
+    });
+
+$(document).ready( function () {
+    $('.project-auto-complete').typeahead({
+  name: 'Projects',
+  prefetch: {url: "/operations/projects", ttl: 0},
+  ttl: 1,
+  //remote: "/operations/projects",
+  limit: 10 });
+	$('.selectpicker').selectpicker();});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		
 // 		}
