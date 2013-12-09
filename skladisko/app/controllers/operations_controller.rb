@@ -17,6 +17,9 @@ class OperationsController < ApplicationController
     projects.each do |project|
       @options.push(project.name)
     end
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
     #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
     #format.js   {@options.reverse}
     render json: @options.reverse
