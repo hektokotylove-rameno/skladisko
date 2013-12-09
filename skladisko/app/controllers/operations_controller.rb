@@ -1,4 +1,9 @@
 class OperationsController < ApplicationController
+  
+  def show
+    @operation = Operation.find(params[:id])
+  end
+  
   def new
     @operation = Operation.new
     @operation.containers.build
