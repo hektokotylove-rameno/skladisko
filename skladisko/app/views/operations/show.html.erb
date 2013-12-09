@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-xs-4">
+    <div class="well">
+      <h1>Operation detail</h1>
+      <table class="table">
+        <tr><td><b>Type: <%= @operation.get_kind%></b></td></tr>
+        <tr><td><b>Executed by: <%= @operation.user.name%></b></td></tr>
+        <tr><td><b>Date: <%= @operation.created_at.to_formatted_s(:long)%></b></td></tr>
+        <tr><td><b>Note: <%= @operation.note%></b></td></tr>
+        <tr><td><b>Project: <%= @operation.project.name%></b></td></tr>
+      </table></h1>    
+    </div>
+  </div>
+
+  <div class="col-xs-8">
+    <h1>Affected containers</h1>
+    <table class="table table-striped">
+      <tr>
+        <th>Chemical</th>
+        <th>Amount</th>
+        <th>Expiration date</th>
+        <th>Location</th>
+        <th>Catalog number</th>
+      </tr>
+      <% @operation.containers.each do |container| %>
+      <% if container %>
+      <tr>
+        <td> <%= container.chemical.name %> </td>
+        <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
+        <% if container.expiration_date %>
+        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
+        <% else %>
+        <td></td>
+        <% end %>
+        <td> <%= container.location %> </td>
+        <td> <%= container.catalog_number %> </td>
+      </tr>
+      <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<%= link_to 'Back', chemicals_path, class: "btn btn-default"  %>
+<%= link_to 'Edit', edit_chemical_path, class: "btn btn-primary" %>
