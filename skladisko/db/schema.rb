@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131126145433) do
+ActiveRecord::Schema.define(version: 20131210134700) do
 
   create_table "chemicals", force: true do |t|
     t.string   "name"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 20131126145433) do
     t.integer "container_id"
     t.integer "operation_id"
   end
+
+  create_table "messages", force: true do |t|
+    t.integer  "kind"
+    t.string   "text"
+    t.integer  "chemical_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["chemical_id"], name: "index_messages_on_chemical_id"
 
   create_table "operations", force: true do |t|
     t.integer  "kind"

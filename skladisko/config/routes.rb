@@ -1,5 +1,6 @@
 Skladisko::Application.routes.draw do
   
+  get "messages/index"
   get 'operations/projects' => 'operations#options_projects'
   
   get "projects/index"
