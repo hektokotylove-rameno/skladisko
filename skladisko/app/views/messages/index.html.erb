@@ -1,2 +1,19 @@
-<h1>Messages#index</h1>
-<p>Find me in app/views/messages/index.html.erb</p>
+<h1>Messages</h1>
+<table class="table table-striped">
+  <tr>
+    <th>Chemical</th>
+    <th>Type</th>
+    <th>Text</th>
+    <th>Date</th>
+  </tr>
+  <% @messages.each do |message| %>
+    <tr>
+      <td><%= message.chemical.name %></td>
+      <td><%= message.kind %></td>
+      <td><%= message.text %></td>
+      <td><%= message.created_at.to_formatted_s(:long) %></td>
+    </tr>
+  <% end %>
+</table>
+
+
