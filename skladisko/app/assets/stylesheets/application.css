@@ -15,3 +15,5 @@
  *= require bootstrap-select
  *= require bootstrap-typeahead-rails
  */
+ 
+ul.nav li.dropdown:hover ul.dropdown-menu { display: block;}
