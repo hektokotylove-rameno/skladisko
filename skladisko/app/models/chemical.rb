@@ -7,18 +7,30 @@ class Chemical < ActiveRecord::Base
   before_update :check_minimum
   
   def check_minimum
-    if (self.total_amount <= self.critical_amount)
-      message = Message.new()
-      message.chemical = self;
-      message.text = 'critical amount'
-      message.kind = 1
-      message.save
-    else
-      msgs = Message.find_all_by_chemical_id_and_kind(self.id, 1)
-      msgs.each do |message|
-        message.destroy
+    if below_minimum
+      if !minimum_message_sent
+        message = Message.new()
+        message.chemical = self;
+        message.text = 'critical amount'
+        message.kind = 1
+        message.save
       end
+    else
+      message = Message.find_by_chemical_id_and_kind(self.id, 1)
+      message.destroy
     end
+  end
+  
+  def below_minimum
+    self.total_amount <= self.critical_amount
+  end
+  
+  def minimum_message_sent
+    message = Message.find_by_chemical_id_and_kind(self.id, 1)
+    if message
+      return true
+    end
+    return false
   end
   
 end
