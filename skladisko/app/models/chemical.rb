@@ -17,7 +17,9 @@ class Chemical < ActiveRecord::Base
       end
     else
       message = Message.find_by_chemical_id_and_kind(self.id, 1)
-      message.destroy
+      if message
+        message.destroy
+      end
     end
   end
   

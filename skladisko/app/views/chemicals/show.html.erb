@@ -26,7 +26,7 @@
       <tr>
         <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
         <% if container.expiration_date %>
-        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
+        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> <% if container.expired %> - expired <% end %></td>
         <% else %>
         <td></td>
         <% end %>
