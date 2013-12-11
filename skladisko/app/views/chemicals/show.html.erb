@@ -4,6 +4,7 @@
       <h1><%= @chemical.name %></h1>    
       <table class="table">
         <tr><td><b>Total amount: </b></td><td><%= @chemical.total_amount %></td></tr>
+        <tr><td><b>Critical amount: </b></td><td><%= @chemical.critical_amount %></td></tr>
         <tr><td><b>Unit: </b></td><td><%= @chemical.unit %></td></tr>
         <tr><td><b>Group: </b></td><td><%= @chemical.group %></td></tr>
         <tr><td><b>Note: </b></td><td><%= @chemical.note %></td></tr>
@@ -25,7 +26,7 @@
       <tr>
         <td> <%= container.amount.to_s + ' ' + container.chemical.unit %> </td>
         <% if container.expiration_date %>
-        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> </td>
+        <td> <%= container.expiration_date.to_date.to_formatted_s(:long) %> <% if container.expired %> - expired <% end %></td>
         <% else %>
         <td></td>
         <% end %>

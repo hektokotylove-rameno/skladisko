@@ -22,15 +22,17 @@
 				<ul class="nav navbar-nav">
 					<li <% if(@controller=="") %> class="active" <% end %>><a href="./">Home</a></li>
 					<li <% if(@controller=="users") %> class="active" <% end %>><a href="/users">Users</a></li>
-					<li<% if(@controller=="chemicals") %> class="active" <% end %>><a href="/chemicals">Chemicals</a></li>					
+					<li<% if(@controller=="chemicals") %> class="active" <% end %>><a href="/chemicals">Chemicals</a></li>
+					<li<% if(@controller=="messages") %> class="active" <% end %>><a href="/messages">Messages</a></li>					
 					<li class="dropdown<% if(@controller=="operations") %> active<% end %>">
 						<a href="/operations" class="dropdown-toggle" data-toggle="dropdown">Operations <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="/operations/">List</a></li>
+							<li class="divider"></li>
 							<li><a href="/operations/new/add">Add</a></li>
 							<li><a href="/operations/new/retract">Retract</a></li>
 							<li><a href="/operations/new/modify">Modify</a></li>
-							<!-- <li class="divider"></li>
+							<!-- 
 							<li class="dropdown-header">Nav header</li>
 							<li><a href="#">Separated link</a></li>
 							<li><a href="#">One more separated link</a></li> -->
@@ -38,9 +40,19 @@
 					</li>
 					<li<% if(@controller=="projects") %> class="active" <% end %>><a href="/projects">Projects</a></li>										
 				</ul>
-				<!-- <ul class="nav navbar-nav navbar-right">
-					<li><a href="./">Logout</a></li>					
-				</ul> -->
+				<% if @current_username!=false %>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="/operations" class="dropdown-toggle" data-toggle="dropdown">Hellou, <% concat @current_username.name %><b class="caret"></b></a>
+						<ul class="dropdown-menu">						
+							<li><a href="/users/<% concat @current_username.id %>/edit">Edit profile</a></li>
+							<li><a href="/yolo/">Yolo</a></li>
+							<li class="divider"></li>
+							<li><a href="/logout">Logout</a></li>							
+						</ul>
+					</li>
+				</ul>
+				<% end %>
 			</div><!--/.nav-collapse -->
 		</div>
 	</div>

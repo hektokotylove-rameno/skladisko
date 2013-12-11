@@ -1,0 +1,21 @@
+<h1>Messages</h1>
+<table class="table table-striped">
+  <tr>
+    <th>Chemical</th>
+    <th>Text</th>
+    <th>Date</th>
+  </tr>
+  <% @messages.each do |message| %>
+    <tr>
+      <% if message.chemical %>
+        <td><%= message.chemical.name %></td>
+      <% else %>
+        <td></td>
+      <% end %>
+      <td><%= message.text %></td>
+      <td><%= message.created_at.to_formatted_s(:long) %></td>
+    </tr>
+  <% end %>
+</table>
+
+
