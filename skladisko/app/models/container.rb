@@ -7,4 +7,9 @@ class Container < ActiveRecord::Base
     return expiration_date < DateTime.now
   end
   
+  def remove_obsolete_messages
+    message = Message.find_by_container_id(self.id)
+    message.delete
+  end
+  
 end

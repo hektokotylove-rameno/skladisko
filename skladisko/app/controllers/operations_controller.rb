@@ -114,6 +114,7 @@ class OperationsController < ApplicationController
             container.save
           else
             remaining_amount -= container.amount
+            container.remove_obsolete_messages
             container.delete
           end
         end
