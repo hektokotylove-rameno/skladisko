@@ -51,11 +51,13 @@ ActiveRecord::Schema.define(version: 20131210134700) do
     t.integer  "kind"
     t.string   "text"
     t.integer  "chemical_id"
+    t.integer  "container_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "messages", ["chemical_id"], name: "index_messages_on_chemical_id"
+  add_index "messages", ["container_id"], name: "index_messages_on_container_id"
 
   create_table "operations", force: true do |t|
     t.integer  "kind"

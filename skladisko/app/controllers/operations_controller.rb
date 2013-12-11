@@ -107,13 +107,14 @@ class OperationsController < ApplicationController
         remaining_amount = cont[:amount].to_f
         chemical.total_amount -= remaining_amount
         while (remaining_amount > 0)
-          container = Container.find_by_chemical_id_and_real(chemical.id, true)
+          container = Container.find_by_chemical_id_and_real(chemical.id, true, :order => :expiration_date)
           if container.amount > remaining_amount
             container.amount -= remaining_amount
             remaining_amount = 0
             container.save
           else
             remaining_amount -= container.amount
+            container.remove_obsolete_messages
             container.delete
           end
         end

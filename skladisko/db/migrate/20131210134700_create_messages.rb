@@ -4,6 +4,7 @@ class CreateMessages < ActiveRecord::Migration
       t.integer :kind
       t.string :text
       t.references :chemical, index: true
+      t.references :container, index: true
 
       t.timestamps
     end
