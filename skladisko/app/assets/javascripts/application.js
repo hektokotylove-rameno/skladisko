@@ -41,3 +41,10 @@ $(document).ready( function () {
 // 		}
 // });
 
+$(function() {
+  $("#operations_filter input").keyup(function() {
+    $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
+    return false;
+  });
+});
+
