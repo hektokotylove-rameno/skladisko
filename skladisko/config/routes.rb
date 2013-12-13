@@ -2,6 +2,7 @@ Skladisko::Application.routes.draw do
   
   get "messages/index"
   get 'messages' => 'messages#index'
+  get 'messages/check_expired' => 'messages#check_expired'
   
   get "projects/index"
   resources :operations
