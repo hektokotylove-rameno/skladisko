@@ -1,0 +1,28 @@
+<table class="table table-striped">
+    <tr>
+      <th>User</th>
+      <th>Kind</th>
+      <% if @protocols_only %>
+      <th>Created</th>
+      <% else %>
+      <th>Executed</th>
+      <% end %>
+      <th>Note</th>
+      <th>Project</th>
+      <td></td>
+    </tr>
+    <% @operations.each do |operation| %>
+    <tr>
+      <td><%= operation.user.name %></td>
+      <td><%= operation.get_kind %></td>
+      <td><%= operation.created_at.to_date.to_formatted_s(:long) %></td>
+      <td><%= operation.note %></td>
+      <td><%= operation.project.name %></td>
+      <% if @protocols_only %>
+      <td><%= link_to 'Show', edit_operation_path(operation), :class => "btn btn-default" %></td>
+      <% else %>
+      <td><%= link_to 'Show', operation_path(operation), :class => "btn btn-default" %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </table>

@@ -184,15 +184,24 @@ class OperationsController < ApplicationController
   end
     
   def index
-    conditions = {}
-    if not (params[:user] == "")
-      conditions["users"] = {"name" => params[:user]}
+    user = ""
+    project = ""
+    if not (params[:user].nil? or (params[:user] == ""))
+      user = params[:user]
     end
-    if not (params[:project] == "")
-      conditions["projects"] = {"name" => params[:project]}
+    if not (params[:project].nil? or params[:project] == "")
+      project = params[:project]
     end
-    
-    @operations = Operation.joins(:user, :project).where(conditions);
+    #if conditions.empty?
+    #  @operations = Operation.all
+    #else
+    @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ?", "%#{user}%", "%#{project}%");
+    #end
+    respond_to do |format|
+      format.html
+      format.js {}
+      format.json {}
+    end
   end
   
   def index_protocols

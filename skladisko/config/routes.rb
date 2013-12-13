@@ -5,6 +5,7 @@ Skladisko::Application.routes.draw do
   get 'messages/check_expired' => 'messages#check_expired'
   
   get "projects/index"
+  get "operations/projects" => 'operations#options_projects'
   resources :operations
   resources :chemicals
   resources :users
