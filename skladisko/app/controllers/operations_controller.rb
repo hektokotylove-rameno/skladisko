@@ -30,6 +30,20 @@ class OperationsController < ApplicationController
     render json: @options.reverse
   end
   
+  def options_chemicals
+    chemicals = Chemical.all
+    @options = []
+    chemicals.each do |chemical|
+      @options.push(chemical.name)
+    end
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
+    #format.js   {@options.reverse}
+    render json: @options
+  end
+  
   def create
     #render text: params
     choose_operation
@@ -63,12 +77,14 @@ class OperationsController < ApplicationController
     containers_fake = []
     container_attributes = params[:operation][:containers_attributes]
     container_attributes.each do |key,container|
-      cont = Container.new(permit_container_params(container))
-      cont.real = true
-      containers += [cont]
-      cont_fake = Container.new(permit_container_params(container))
-      cont_fake.real = false
-      containers_fake += [cont_fake]
+      if (container["_destroy"] == "false")
+        cont = Container.new(permit_container_params(container))
+        cont.real = true
+        containers += [cont]
+        cont_fake = Container.new(permit_container_params(container))
+        cont_fake.real = false
+        containers_fake += [cont_fake]
+      end
     end
     #@container = Container.new(container_params)
     #@container.real = true
@@ -93,17 +109,19 @@ class OperationsController < ApplicationController
     #@chemical = Chemical.find(get_chem_id)
     enough = true
     container_attributes.each do |key,container|
-      chemical = Chemical.find(container[:chemical_id])
-      amount = container[:amount].to_f
-      if chemical.total_amount < amount
-        enough = false
-        break
+      if (container["_destroy"] == "false")
+        chemical = Chemical.find_by_name(container[:chemical_name])
+        amount = container[:amount].to_f
+        if chemical.total_amount < amount
+          enough = false
+          break
+        end
       end
     end
     if enough
       @containers_fake = []
       container_attributes.each do |key,cont|
-        chemical = Chemical.find(cont[:chemical_id])
+        chemical = Chemical.find_by_name(cont[:chemical_name])
         remaining_amount = cont[:amount].to_f
         chemical.total_amount -= remaining_amount
         while (remaining_amount > 0)
