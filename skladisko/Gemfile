@@ -36,9 +36,12 @@ end
 # gem 'bcrypt-ruby', '~> 3.1.2'
 gem "bcrypt-ruby", :require => "bcrypt"
 
-gem 'nested_form_fields'
+#gem 'nested_form_fields'
+gem "nested_form"
 
 gem 'bootstrap-typeahead-rails'
+
+gem 'jquery-turbolinks'
 
 gem 'whenever', :require => false
 

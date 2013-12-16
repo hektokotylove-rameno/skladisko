@@ -11,40 +11,68 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery_nested_form
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
-//= require nested_form_fields
+//= require bootstrap-select
+// C= require nested_form_fields
 //= require bootstrap-typeahead-rails
 //= require_tree .
-//= require bootstrap-select
 
-$(window).bind('page:change', function() {
-    $('.project-auto-complete').typeahead({
-  name: 'Projects',
-  ttl: 0,
-  prefetch: '/operations/projects',  
-  limit: 10 });
-    $('.selectpicker').selectpicker();
-    });
+//$(window).bind('page:change', function() {
+//    $("#operations_filter input").keyup(function() {
+//        $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
+//        return false;
+//      });
+//    $('.project-auto-complete').typeahead({
+//  name: 'Projects',
+//  ttl: 0,
+//  prefetch: '/operations/projects',  
+//  limit: 10 });
+//    $('.selectpicker').selectpicker();
+//    });
 
 $(document).ready( function () {
+    $("#operations_filter input").keyup(function() {
+        $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
+        return false;
+      });
+    
     $('.project-auto-complete').typeahead({
   name: 'Projects',
   prefetch: {url: "/operations/projects", ttl: 0},
   ttl: 1,
   //remote: "/operations/projects",
   limit: 10 });
+    
+    $('.chemicals-auto-complete').typeahead({
+    name: 'Chemicals',
+    prefetch: {url: "/operations/chemicals", ttl: 0},
+    ttl: 1,
+    limit: 10 });
+    
 	$('.selectpicker').selectpicker();});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		
 // 		}
 // });
 
-$(function() {
-  $("#operations_filter input").keyup(function() {
-    $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
-    return false;
-  });
-});
+//$(function() {
+//  $("#operations_filter input").keyup(function() {
+//    $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
+//    return false;
+//  });
+//});
+
+$(document).on('nested:fieldAdded', function(event){
+    $('.chemicals-auto-complete').typeahead({
+        name: 'Chemicals',
+        prefetch: {url: "/operations/chemicals", ttl: 0},
+        ttl: 1,
+        limit: 10 });
+    
+    $('.selectpicker').selectpicker();
+})
 
