@@ -6,10 +6,7 @@ class Container < ActiveRecord::Base
   has_and_belongs_to_many :messages
   
   def expired
-    setting = Setting.find(1)
-    days_before_warn = setting.days_before_warn
-    warn_date = DateTime.now + days_before_warn
-    return expiration_date < warn_date
+    return expiration_date < DateTime.now
   end
   
   def remove_obsolete_messages
