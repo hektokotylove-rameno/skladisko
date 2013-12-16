@@ -1,0 +1,17 @@
+<h1>Settings</h1>
+<%= form_for @setting, url: settings_path do |s| %>
+  <% if session[:message] %>
+    <div class="alert alert-success">
+      <%= session[:message] %>
+    </div>
+  <% end %>
+
+  <p>
+    <%= s.label :days_before_warn %><br>
+    <%= s.text_field :days_before_warn, class: "form-control", placeholder: "How many days before expiration is warning sent" %>
+  </p>
+  
+  <p>
+    <%= s.submit class: "btn btn-primary"  %>
+  </p>
+<% end %>

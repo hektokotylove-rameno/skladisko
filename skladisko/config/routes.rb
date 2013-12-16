@@ -1,6 +1,7 @@
 Skladisko::Application.routes.draw do
   
-  get "messages/index"
+  get "settings" => 'settings#index'
+  patch "settings" => 'settings#save'
   get 'messages' => 'messages#index'
   get 'messages/check_expired' => 'messages#check_expired'
   
