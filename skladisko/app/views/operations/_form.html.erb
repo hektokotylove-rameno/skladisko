@@ -1,68 +1,86 @@
 <%= nested_form_for @operation, url: operations_path do |operation| %>
-  <% if @operation.errors.any? %>
-    <div id="error_explanation">
-         <div class="alert alert-danger">
-          <% @operation.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-          <% end %>
-         </div>
-      </div>
+<% if @operation.errors.any? %>
+<div id="error_explanation">
+ <div class="alert alert-danger">
+  <% @operation.errors.full_messages.each do |msg| %>
+  <li><%= msg %></li>
   <% end %>
-  <% if (@operation.kind == 2) %>
-    <%= operation.hidden_field(:kind, :value => '2') %>
-  <% else %>
-    <%= operation.hidden_field(:kind, :value => '1') %>
-  <% end %>
-  
-
-  <p><%= label_tag(:project_name) %></p>
-  <p><%= text_field_tag(:project_name, '', class: 'project-auto-complete', placeholder: 'Projects') %></p>
-  
-  <p><%= operation.label :note %></p>
-  <p><%= operation.text_area :note, class: "form-control"%></p>
-  
-  <% if (@operation.kind == 2) %>
+</div>
+</div>
+<% end %>
+<% if (@operation.kind == 2) %>
+<%= operation.hidden_field(:kind, :value => '2') %>
+<% else %>
+<%= operation.hidden_field(:kind, :value => '1') %>
+<% end %>
 
 
-    <%= operation.fields_for :containers, wrapper: :div do |container| %>
-    
-      <p><%= container.link_to_remove "Remove this chemical" %></p>
-      <p><%= container.label :chemical_name %></p>
-      <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %></p>
-      
-    
+<p><%= label_tag(:project_name) %></p>
+<p><%= text_field_tag(:project_name, '', class: 'project-auto-complete', placeholder: 'Projects') %></p>
+
+<p><%= operation.label :note %></p>
+<p><%= operation.text_area :note, class: "form-control"%></p>
+
+<% if (@operation.kind == 2) %>
+
+
+<%= operation.fields_for :containers, wrapper: :div do |container| %>
+<div class="well">
+  <p><%= container.label :chemical_name %></p>
+  <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %> <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p></p>
+
+  <div class="row">
+    <div class="col-md-6">   
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount, class: "form-control", placeholder: "Amount"  %></p>
-    <% end %>
-    <p><%= operation.link_to_add "Add another chemical", :containers %></p>
-    <p><%= operation.submit "Vykonať zmeny", :name => 'execute', class: "btn btn-primary" %></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', class: "btn btn-primary" %></p>
-  
+    </div>
+  </div>
+</div>
+<% end %>
+<p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-success" %></p>
+<p><div class="btn-group">
+<%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-primary" %>
+<%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>
+</div></p></p>
 
 
-  <% else %>
-    <%= operation.fields_for :containers, wrapper: :div do |container| %>
-    
-      <p><%= container.link_to_remove "Remove this chemical" %></p>
-      <p><%= container.label :chemical_id %></p>
-      <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name,{} ,{:class=>'selectpicker'}) %></p>
-    
+
+<% else %>
+<%= operation.fields_for :containers, wrapper: :div do |container| %>
+
+<div class="well">
+  <p><%= container.label :chemical_id %></p>
+  <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name,{} ,{:class=>'selectpicker form-control'}) %> <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
+  <div class="row">
+    <div class="col-md-6">
+
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount, class: "form-control", placeholder: "Amount"  %></p>
-      
+
       <p><%= container.label :expiration_date %></p>
       <p><%= container.date_field :expiration_date,  class: "form-control" %></p>
-      
+    </div>
+    <div class="col-md-6">
+
       <p><%= container.label :location %></p>
       <p><%= container.text_field :location, class: "form-control", placeholder: "Location"  %></p>
-      
+
       <p><%= container.label :catalog_number %></p>
       <p><%= container.text_field :catalog_number, class: "form-control", placeholder: "Catalog number"  %></p>
-    <% end %>
-    <p><%= operation.link_to_add "Add another chemical", :containers %></p>
-    <p><%= operation.submit "Vykonať zmeny", :name => 'execute', class: "btn btn-primary" %></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', class: "btn btn-primary" %></p>
-  <% end %>
-  
-  
+    </div>
+  </div>
+</div>
+<% end %>
+
+
+<p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-success" %></p>
+<p><div class="btn-group">
+<%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-primary" %>
+<%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>
+</div></p>
+
+<% end %>
+
+
+
 <% end %>
