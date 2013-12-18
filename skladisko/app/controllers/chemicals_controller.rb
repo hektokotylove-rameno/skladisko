@@ -28,6 +28,8 @@ class ChemicalsController < ApplicationController
   
   def update
     @chemical = Chemical.find(params[:id])
+    @group = Group.find_or_create_by_name(params[:group_name])
+    @chemical.group = @group
     if @chemical.update(chem_params)
       redirect_to @chemical
     else

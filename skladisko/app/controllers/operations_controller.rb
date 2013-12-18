@@ -198,9 +198,13 @@ class OperationsController < ApplicationController
   def update_chemical_amounts(containers)
     containers.each do |container|
       chemical = Chemical.find(container.chemical_id)
-      chemical.total_amount += container.amount
-      chemical.containers += [container]
-      chemical.save
+      if (container)
+        chemical.total_amount += container.amount
+        chemical.containers += [container]
+        chemical.save
+      end
+      
+      
     end
   end
   
