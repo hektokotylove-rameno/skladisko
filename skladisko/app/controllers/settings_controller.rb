@@ -11,10 +11,13 @@ class SettingsController < ApplicationController
       save_database
     end
     if (params[:load])
-      if File.exists?('./db/data.yml')
-        
+      if system "/usr/local/bin/rake db:data:load"
+        session[:message] = 'Database loaded successfully!'
+      else
+        session[:message] = 'Error occured while loading database'
+        session[:type] = 'error'
       end
-      
+      redirect_to settings_path
     end
     if (params[:settings])
       save_settings
@@ -22,13 +25,11 @@ class SettingsController < ApplicationController
   end
   
   def save_database
-    system "/usr/local/bin/rake db:data:dump >> ./logs/db_dump.txt"
-    if File.exists?('./logs/db_dump.txt')
+    if system "/usr/local/bin/rake db:data:dump"
+      session[:message] = 'Database saved successfully!'
+    else
       session[:message] = 'Error occured while saving database'
       session[:type] = 'error'
-      File.delete('./logs/db_dump.txt')
-    else
-      session[:message] = 'Database saved'
     end
     redirect_to settings_path
   end
