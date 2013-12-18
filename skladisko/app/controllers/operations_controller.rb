@@ -78,11 +78,13 @@ class OperationsController < ApplicationController
     container_attributes = params[:operation][:containers_attributes]
     container_attributes.each do |key,container|
       if (container["_destroy"] == "false")
-        chemical = Chemical.find_or_create_by_name(container["chemical_name"])
         chemical_data = container["chemical"]
+        group = Group.find_or_create_by_name(chemical_data["group"])
+        group.save
+        chemical = Chemical.find_or_create_by_name(container["chemical_name"])
         chemical.unit = chemical_data["unit"]
         chemical.critical_amount = chemical_data["critical_amount"]
-        chemical.group = chemical_data["group"]
+        chemical.group = group
         chemical.note = chemical_data["note"]
         chemical.save
         cont = Container.new(permit_container_params(container))

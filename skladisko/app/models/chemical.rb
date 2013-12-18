@@ -1,4 +1,6 @@
 class Chemical < ActiveRecord::Base
+  attr_accessor :group_name
+  after_initialize :add_group_name
   belongs_to :group
   has_many :containers, :order => 'expiration_date, amount'
   has_and_belongs_to_many :operations
@@ -34,6 +36,10 @@ class Chemical < ActiveRecord::Base
       return true
     end
     return false
+  end
+  
+  def add_group_name
+    group_name = ""
   end
   
 end
