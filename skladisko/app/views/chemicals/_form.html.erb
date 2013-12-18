@@ -30,7 +30,7 @@
   </p>
   
   <p><%= label_tag(:group_name) %></p>
-  <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group') %></p>
+  <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name) %></p>
  
   <p>
     <%= f.label :note %><br>
