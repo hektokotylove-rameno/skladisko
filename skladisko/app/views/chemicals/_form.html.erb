@@ -13,6 +13,7 @@
     </div>
   </div>
   <% end %>
+
   <p>
     <%= f.label :name %><br>
     <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
@@ -28,14 +29,16 @@
     <%= f.text_field :critical_amount, class: "form-control", placeholder: "Critical amount" %>
   </p>
   
-  <p>
-    <%= f.label :group %><br>
-    <%= f.text_field :group, class: "form-control", placeholder: "Group" %>
-  </p>
+  <p><%= label_tag(:group_name) %></p>
+  <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group') %></p>
  
   <p>
     <%= f.label :note %><br>
     <%= f.text_area :note, class: "form-control", placeholder: "Note" %>
+  </p>
+  
+  <p>
+    <%= f.submit :class => "btn btn-primary" %>
   </p>
  
    

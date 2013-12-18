@@ -11,18 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131216143622) do
+ActiveRecord::Schema.define(version: 20131218153401) do
 
   create_table "chemicals", force: true do |t|
     t.string   "name"
     t.float    "total_amount",    default: 0.0
     t.float    "critical_amount", default: 0.0
     t.string   "unit"
-    t.string   "group"
+    t.integer  "group_id"
     t.string   "note"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "chemicals", ["group_id"], name: "index_chemicals_on_group_id"
 
   create_table "chemicals_operations", force: true do |t|
     t.integer "chemical_id"
@@ -45,6 +47,12 @@ ActiveRecord::Schema.define(version: 20131216143622) do
   create_table "containers_operations", force: true do |t|
     t.integer "container_id"
     t.integer "operation_id"
+  end
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "messages", force: true do |t|

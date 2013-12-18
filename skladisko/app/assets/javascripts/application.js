@@ -53,6 +53,12 @@ $(document).ready( function () {
     ttl: 1,
     limit: 10 });
     
+    $('.groups-auto-complete').typeahead({
+    name: 'Groups',
+    prefetch: {url: "/groups", ttl: 0},
+    ttl: 1,
+    limit: 10 });
+    
 	$('.selectpicker').selectpicker();});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		

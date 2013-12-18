@@ -13,6 +13,8 @@ class ChemicalsController < ApplicationController
   
   def create
     @chemical = Chemical.new(chem_params)
+    @group = Group.find_or_create_by_name(params[:group_name])
+    @chemical.group = @group
     if @chemical.save
       redirect_to @chemical
     else
@@ -34,6 +36,6 @@ class ChemicalsController < ApplicationController
   end
   
   def chem_params
-    params[:chemical].permit(:name, :unit, :critical_amount, :group, :note)
+    params[:chemical].permit(:name, :unit, :critical_amount, :note)
   end
 end
