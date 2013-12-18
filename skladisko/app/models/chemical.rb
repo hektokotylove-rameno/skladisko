@@ -5,6 +5,7 @@ class Chemical < ActiveRecord::Base
   has_many :containers, :order => 'expiration_date, amount'
   has_and_belongs_to_many :operations
   has_and_belongs_to_many :messages
+  validates :group_id, presence: true
   
   #before_save :check_minimum
   before_update :check_minimum
