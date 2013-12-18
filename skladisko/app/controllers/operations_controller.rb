@@ -204,16 +204,20 @@ class OperationsController < ApplicationController
   def index
     user = ""
     project = ""
+    chemical = ""
     if not (params[:user].nil? or (params[:user] == ""))
       user = params[:user]
     end
     if not (params[:project].nil? or params[:project] == "")
       project = params[:project]
     end
+    if not (params[:chemical].nil? or params[:chemical] == "")
+      chemical = params[:chemical]
+    end
     #if conditions.empty?
     #  @operations = Operation.all
     #else
-    @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ?", "%#{user}%", "%#{project}%");
+    @operations = Operation.joins(:user, :project, :containers, :chemical).where("users.name LIKE ? AND projects.name LIKE ? AND containers.chemicals.name LIKE ?", "%#{user}%", "%#{project}%", "%#{chemical}%");
     #end
     respond_to do |format|
       format.html
