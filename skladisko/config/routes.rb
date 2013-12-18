@@ -1,5 +1,6 @@
 Skladisko::Application.routes.draw do
   
+  get "groups" => 'groups#index'
   get "settings" => 'settings#index'
   patch "settings" => 'settings#save'
   get 'messages' => 'messages#index'

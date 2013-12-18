@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/jetthoughts/yaml_db.git
+  revision: fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba
+  ref: fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba
+  specs:
+    yaml_db (0.2.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -88,6 +95,9 @@ GEM
     sdoc (0.3.20)
       json (>= 1.1.3)
       rdoc (~> 3.10)
+    seed_dump (3.0.0)
+      activerecord
+      activesupport
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -128,6 +138,8 @@ DEPENDENCIES
   rails (= 4.0.1)
   sass-rails (~> 4.0.0)
   sdoc
+  seed_dump
   sqlite3
   turbolinks
   uglifier (>= 1.3.0)
+  yaml_db!

@@ -5,7 +5,7 @@ class CreateChemicals < ActiveRecord::Migration
       t.float :total_amount, :default => 0.0
       t.float :critical_amount, :default => 0.0
       t.string :unit
-      t.string :group
+      t.references :group, index: true
       t.string :note
 
       t.timestamps

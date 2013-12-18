@@ -1,4 +1,5 @@
 class Chemical < ActiveRecord::Base
+  belongs_to :group
   has_many :containers, :order => 'expiration_date, amount'
   has_and_belongs_to_many :operations
   has_and_belongs_to_many :messages

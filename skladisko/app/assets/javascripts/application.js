@@ -57,6 +57,11 @@ $(document).ready( function () {
     
     //$('.chemical-new').click(function() { $('.chemical-form').show() });
     $('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
+    $('.groups-auto-complete').typeahead({
+    name: 'Groups',
+    prefetch: {url: "/groups", ttl: 0},
+    ttl: 1,
+    limit: 10 });
     
 	$('.selectpicker').selectpicker();});
 // 	$('.add_nested_fields_link').click().function(){
