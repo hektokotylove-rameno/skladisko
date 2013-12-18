@@ -27,7 +27,8 @@
 <%= operation.fields_for :containers, wrapper: :div do |container| %>
 <div class="well">
   <p><%= container.label :chemical_name %></p>
-  <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %> <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p></p>
+  <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
 
   <div class="row">
     <div class="col-md-6">   
@@ -49,9 +50,36 @@
 <%= operation.fields_for :containers, wrapper: :div do |container| %>
 
 <div class="well">
-  <p><%= container.label :chemical_id %></p>
-  <p><%= container.collection_select(:chemical_id, Chemical.all, :id, :name,{} ,{:class=>'selectpicker form-control'}) %> <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
+  <p><%= container.label :chemical_name %></p>
+  <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <%= container.link_to_remove "Remove", class: "btn btn-danger" %>
+  <a class="chemical-new btn btn-primary">Create chemical</a></p>
   <div class="row">
+    <div class="chemical-form" style="display: none">
+      <%= container.fields_for :chemical, wrapper: :div do |chemical|%>
+      
+      <div class="col-md-6">
+
+      <p><%= chemical.label :unit %></p>
+      <p><%= chemical.text_field :unit, class: "form-control", placeholder: "Unit"  %></p>
+
+      <p><%= chemical.label :critical_amount %></p>
+      <p><%= chemical.text_field :critical_amount,  class: "form-control", placeholder: "Critical amount"  %></p>
+      
+      </div>
+      <div class="col-md-6">
+      
+      <p><%= chemical.label :group %></p>
+      <p><%= chemical.text_field :group,  class: "form-control", placeholder: "Group"  %></p>
+      
+      <p><%= chemical.label :note %></p>
+      <p><%= chemical.text_area:note,  class: "form-control", placeholder: "Note"  %></p>
+      
+      </div>
+      
+      <% end %>
+    </div>
+    
     <div class="col-md-6">
 
       <p><%= container.label :amount %></p>
@@ -73,9 +101,9 @@
 <% end %>
 
 
-<p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-success" %></p>
+<p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-primary" %></p>
 <p><div class="btn-group">
-<%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-primary" %>
+<%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-success" %>
 <%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>
 </div></p>
 

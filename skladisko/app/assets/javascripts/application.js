@@ -53,6 +53,11 @@ $(document).ready( function () {
     ttl: 1,
     limit: 10 });
     
+    //$('.chemical-form').toggle();//css('display','none');
+    
+    //$('.chemical-new').click(function() { $('.chemical-form').show() });
+    $('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
+    
 	$('.selectpicker').selectpicker();});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		
@@ -72,6 +77,11 @@ $(document).on('nested:fieldAdded', function(event){
         prefetch: {url: "/operations/chemicals", ttl: 0},
         ttl: 1,
         limit: 10 });
+    
+    //$('.chemical-form').toggle();//css('display','none');
+    
+    $('.chemical-new').unbind("click");
+    $('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
     
     $('.selectpicker').selectpicker();
 })

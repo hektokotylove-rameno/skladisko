@@ -78,10 +78,19 @@ class OperationsController < ApplicationController
     container_attributes = params[:operation][:containers_attributes]
     container_attributes.each do |key,container|
       if (container["_destroy"] == "false")
+        chemical = Chemical.find_or_create_by_name(container["chemical_name"])
+        chemical_data = container["chemical"]
+        chemical.unit = chemical_data["unit"]
+        chemical.critical_amount = chemical_data["critical_amount"]
+        chemical.group = chemical_data["group"]
+        chemical.note = chemical_data["note"]
+        chemical.save
         cont = Container.new(permit_container_params(container))
+        cont.chemical = chemical
         cont.real = true
         containers += [cont]
         cont_fake = Container.new(permit_container_params(container))
+        cont_fake.chemical = chemical
         cont_fake.real = false
         containers_fake += [cont_fake]
       end
@@ -217,7 +226,7 @@ class OperationsController < ApplicationController
     #if conditions.empty?
     #  @operations = Operation.all
     #else
-    @operations = Operation.joins(:user, :project, :containers, :chemical).where("users.name LIKE ? AND projects.name LIKE ? AND containers.chemicals.name LIKE ?", "%#{user}%", "%#{project}%", "%#{chemical}%");
+    @operations = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", "%#{chemical}%");
     #end
     respond_to do |format|
       format.html
@@ -255,7 +264,7 @@ class OperationsController < ApplicationController
   end
   
   def permit_container_params(args)
-    ActionController::Parameters.new(args).permit(:chemical_id, :amount, :expiration_date, :catalog_number, :location)
+    ActionController::Parameters.new(args).permit(:amount, :expiration_date, :catalog_number, :location)
   end
   
   def operation_params

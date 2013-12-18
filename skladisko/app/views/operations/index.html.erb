@@ -6,6 +6,7 @@
 <%= form_tag(operations_path, method: "get", remote: true, id: "operations_filter", :class => 'form-inline', :role => 'form') do%>
 <%= text_field_tag("user" , "",:placeholder => "User" , :class => 'form-control') %>
 <%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'form-control') %>
+<%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'form-control') %>
 <%= submit_tag("Search", :class => "btn btn-primary") %>
 <% end %>
 <div id="operations">
