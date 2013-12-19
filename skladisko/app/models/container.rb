@@ -6,6 +6,7 @@ class Container < ActiveRecord::Base
   has_and_belongs_to_many :messages
   validates :amount, presence: true, numericality: true
   validates :expiration_date, presence: true, if: :real?
+  validates :catalog_number, presence: true
   
   def expired
     return expiration_date < DateTime.now
