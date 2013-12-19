@@ -5,6 +5,11 @@ class OperationsController < ApplicationController
   
   def show
     @operation = Operation.find(params[:id])
+    @participants = [];
+    @operation.participants.each do |part| 
+      @participants += [part.name]
+    end
+    @participants = @participants.join(',')
   end
   
   def new
