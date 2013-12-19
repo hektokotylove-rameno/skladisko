@@ -78,6 +78,7 @@ class OperationsController < ApplicationController
   
   def do_add
     prepare_variables
+    p @operation
     if (@operation.save)
       #@chemical.save
       redirect_to chemicals_path
