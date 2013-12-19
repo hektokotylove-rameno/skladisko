@@ -5,6 +5,8 @@ class Operation < ActiveRecord::Base
   has_and_belongs_to_many :containers
   accepts_nested_attributes_for :containers, allow_destroy: true
   validates :kind, presence: true
+  validates :project_id, presence: true
+  validates :chemical_id, presence: true
   
   KINDS = {'Add' => 1, 'Withdraw' => 2, 'Modify' => 3}
   
