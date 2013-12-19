@@ -1,10 +1,11 @@
 class User < ActiveRecord::Base
   attr_accessor :password
+  has_and_belongs_to_many :participations, class_name: "Operation"
   validates :username, presence: true, length: {minimum: 3}, uniqueness: true
   validates :name, presence: true, length: {minimum: 3}
   
   validates :password, confirmation: true
-  validates :password_confirmation, presence: true, length: {minimum: 6}
+  #validates :password_confirmation, presence: true, length: {minimum: 6}
     
   before_save :encrypt_password
   

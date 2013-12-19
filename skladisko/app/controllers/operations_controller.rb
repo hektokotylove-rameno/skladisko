@@ -17,6 +17,10 @@ class OperationsController < ApplicationController
       @operation.kind = 2
       render 'new'
     end
+    if (params[:kind] == 'modify')
+      @operation.kind = 3
+      render 'new'
+    end
   end
   
   def options_projects
@@ -73,6 +77,9 @@ class OperationsController < ApplicationController
     if (operation_kind == '2')
       do_retract
     end
+    if (operation_kind == '3')
+      do_retract
+    end
   end
   
   def operation_kind
@@ -98,7 +105,8 @@ class OperationsController < ApplicationController
       if (container["_destroy"] == "false")
         chemical_data = container["chemical"]
         chemical = nil
-        if not ((chemical_data["unit"] == "") || (chemical_data["critical_amount"] == "") && (chemical_data["note"] == "") && (chemical_data["group"] == ""))
+        chemical = Chemical.find_by_name(container["chemical_name"])
+        if chemical.nil? and not ((chemical_data["unit"] == "") || (chemical_data["critical_amount"] == "") && (chemical_data["note"] == "") && (chemical_data["group"] == ""))
           group = Group.find_or_create_by_name(chemical_data["group"])
           group.save
           chemical = Chemical.new()
@@ -108,8 +116,6 @@ class OperationsController < ApplicationController
           chemical.group = group
           chemical.note = chemical_data["note"]
           chemical.save
-        else
-          chemical = Chemical.find_by_name(container["chemical_name"])
         end
         
         cont = Container.new(permit_container_params(container))
@@ -131,6 +137,15 @@ class OperationsController < ApplicationController
     @operation.user = @current_user
     #@operation.containers.push(@container_op)
     @operation.containers += containers_fake
+    participants_attributes = params[:operation][:participants_attributes]
+    participants = []
+    participants_attributes.each do |key,partic|
+      if (partic["_destroy" ] == "false")
+        participant = User.find_by_name(partic["name"])
+        participants += [participant]
+      end
+    end
+    @operation.participants = participants
     @operation.project = @project
     if (params[:is_protocol])
       @operation.protocol = true
@@ -149,6 +164,10 @@ class OperationsController < ApplicationController
       if (container["_destroy"] == "false")
         chemical = Chemical.find_by_name(container[:chemical_name])
         amount = container[:amount].to_f
+        if (params[:operation][:kind] == "3")
+          amount = -amount
+        end
+        
         if chemical.total_amount < amount
           enough = false
           break
@@ -161,6 +180,9 @@ class OperationsController < ApplicationController
         if (cont["_destroy"] == "false")
           chemical = Chemical.find_by_name(cont[:chemical_name])
           remaining_amount = cont[:amount].to_f
+          if (params[:operation][:kind] == "3")
+            remaining_amount = -remaining_amount
+          end
           chemical.total_amount -= remaining_amount
           while (remaining_amount > 0)
             container = Container.find_by_chemical_id_and_real(chemical.id, true, :order => :expiration_date)
@@ -199,12 +221,14 @@ class OperationsController < ApplicationController
       @project = Project.find_or_create_by_name(get_project_name)
       #create_retract_container
       create_retract_operation
+      
       #@chemical.save
       p @operation
       if @operation.save
         p "JUHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU***********************************"
       else
         p "HOVNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO**************************"
+        p @operation.participants.to_json
         p @operation.errors.full_messages.to_json
       end
       redirect_to "/operations"
@@ -218,6 +242,15 @@ class OperationsController < ApplicationController
     @operation.user = @current_user
     @operation.project = @project 
     @operation.containers += @containers_fake
+    participants_attributes = params[:operation][:participants_attributes]
+    participants = []
+    participants_attributes.each do |key,partic|
+      if (partic["_destroy" ] == "false")
+        participant = User.find_by_name(partic["name"])
+        participants += [participant]
+      end
+    end
+    @operation.participants = participants
     if (params[:is_protocol])
       @operation.protocol = true
       @operation.name = params[:operation][:name]

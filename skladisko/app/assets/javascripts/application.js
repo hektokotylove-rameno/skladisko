@@ -132,6 +132,12 @@ $(document).on('nested:fieldAdded', function(event){
         ttl: 1,
         limit: 10 });
     
+    $('.users-auto-complete').typeahead({
+    name: 'user',
+    prefetch: {url: "/operations/users", ttl: 0},
+    ttl: 1,
+    limit: 10 });
+    
     //$('.chemical-form').toggle();//css('display','none');
     
     $('.chemical-new').unbind("click");

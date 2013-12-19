@@ -5,7 +5,9 @@ class Operation < ActiveRecord::Base
   belongs_to :project
   has_and_belongs_to_many :chemicals
   has_and_belongs_to_many :containers
+  has_and_belongs_to_many :participants, class_name: "User"
   accepts_nested_attributes_for :containers, allow_destroy: true
+  accepts_nested_attributes_for :participants, allow_destroy: true
   validates :kind, presence: true
   validates :project_id, presence: true
   #validates :chemical_id, presence: true
