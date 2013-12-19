@@ -4,7 +4,7 @@ class Operation < ActiveRecord::Base
   has_and_belongs_to_many :chemicals
   has_and_belongs_to_many :containers
   accepts_nested_attributes_for :containers, allow_destroy: true
-  validates :kind, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 3}
+  validates :kind, presence: true
   
   KINDS = {'Add' => 1, 'Withdraw' => 2, 'Modify' => 3}
   

@@ -44,6 +44,20 @@ class OperationsController < ApplicationController
     render json: @options
   end
   
+  def options_users
+    users = User.all
+    @options = []
+    users.each do |user|
+      @options.push(user.name)
+    end
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
+    #format.js   {@options.reverse}
+    render json: @options
+  end
+  
   def create
     #render text: params
     choose_operation
@@ -79,14 +93,21 @@ class OperationsController < ApplicationController
     container_attributes.each do |key,container|
       if (container["_destroy"] == "false")
         chemical_data = container["chemical"]
-        group = Group.find_or_create_by_name(chemical_data["group"])
-        group.save
-        chemical = Chemical.find_or_create_by_name(container["chemical_name"])
-        chemical.unit = chemical_data["unit"]
-        chemical.critical_amount = chemical_data["critical_amount"]
-        chemical.group = group
-        chemical.note = chemical_data["note"]
-        chemical.save
+        chemical = nil
+        if not ((chemical_data["unit"] == "") || (chemical_data["critical_amount"] == "") && (chemical_data["note"] == "") && (chemical_data["group"] == ""))
+          group = Group.find_or_create_by_name(chemical_data["group"])
+          group.save
+          chemical = Chemical.new()
+          chemical.name = container["chemical_name"]
+          chemical.unit = chemical_data["unit"]
+          chemical.critical_amount = chemical_data["critical_amount"]
+          chemical.group = group
+          chemical.note = chemical_data["note"]
+          chemical.save
+        else
+          chemical = Chemical.find_by_name(container["chemical_name"])
+        end
+        
         cont = Container.new(permit_container_params(container))
         cont.chemical = chemical
         cont.real = true
@@ -132,27 +153,30 @@ class OperationsController < ApplicationController
     if enough
       @containers_fake = []
       container_attributes.each do |key,cont|
-        chemical = Chemical.find_by_name(cont[:chemical_name])
-        remaining_amount = cont[:amount].to_f
-        chemical.total_amount -= remaining_amount
-        while (remaining_amount > 0)
-          container = Container.find_by_chemical_id_and_real(chemical.id, true, :order => :expiration_date)
-          if container.amount > remaining_amount
-            container.amount -= remaining_amount
-            remaining_amount = 0
-            container.save
-          else
-            remaining_amount -= container.amount
-            container.remove_obsolete_messages
-            container.delete
+        if (cont["_destroy"] == "false")
+          chemical = Chemical.find_by_name(cont[:chemical_name])
+          remaining_amount = cont[:amount].to_f
+          chemical.total_amount -= remaining_amount
+          while (remaining_amount > 0)
+            container = Container.find_by_chemical_id_and_real(chemical.id, true, :order => :expiration_date)
+            if container.amount > remaining_amount
+              container.amount -= remaining_amount
+              remaining_amount = 0
+              container.save
+            else
+              remaining_amount -= container.amount
+              container.remove_obsolete_messages
+              container.delete
+            end
           end
+          container_fake = Container.new
+          container_fake.chemical = chemical
+          container_fake.expiration_date = DateTime.now
+          container_fake.amount = cont[:amount].to_f
+          container_fake.real = false
+          @containers_fake += [container_fake]
+          chemical.save
         end
-        container_fake = Container.new
-        container_fake.chemical = chemical
-        container_fake.amount = cont[:amount].to_f
-        container_fake.real = false
-        @containers_fake += [container_fake]
-        chemical.save
       end
       #@chemical.total_amount -= params_amount
       #am = params_amount
@@ -171,7 +195,13 @@ class OperationsController < ApplicationController
       #create_retract_container
       create_retract_operation
       #@chemical.save
-      @operation.save
+      p @operation
+      if @operation.save
+        p "JUHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU***********************************"
+      else
+        p "HOVNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO**************************"
+        p @operation.errors.full_messages.to_json
+      end
       redirect_to "/operations"
     else
       render text: 'Nedostatocne mnozstvo'
@@ -219,9 +249,19 @@ class OperationsController < ApplicationController
   def index
     user = ""
     project = ""
+    kinds = []
     chemical = ""
     if not (params[:user].nil? or (params[:user] == ""))
       user = params[:user]
+    end
+    if not (params[:kind_1].nil?)
+      kinds += [1]
+    end
+    if not (params[:kind_2].nil?)
+      kinds += [2]
+    end
+    if not (params[:kind_3].nil?)
+      kinds += [3]
     end
     if not (params[:project].nil? or params[:project] == "")
       project = params[:project]
@@ -232,7 +272,23 @@ class OperationsController < ApplicationController
     #if conditions.empty?
     #  @operations = Operation.all
     #else
-    @operations = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", "%#{chemical}%");
+    if kinds.empty?
+      kinds = [1, 2, 3]
+    end
+    
+    if (chemical == "")
+      @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?)", "%#{user}%", "%#{project}%", kinds)
+    else
+      @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%")
+      ids = []
+      @operations = []
+      @ops.each do |op|
+        if not ids.include? op.id
+          ids += [op.id]
+          @operations += [op]
+        end
+      end
+    end
     #end
     respond_to do |format|
       format.html
@@ -274,7 +330,7 @@ class OperationsController < ApplicationController
   end
   
   def operation_params
-    params[:operation].permit(:kind, :project_id, :note)
+    params[:operation].permit(:kind, :note)
   end
   
 end
