@@ -1,4 +1,7 @@
 class ChemicalsController < ApplicationController
+  
+  skip_before_action :require_admin, only: [:index, :show, :new, :create]
+  
   def index
     @chemicals = Chemical.all
   end

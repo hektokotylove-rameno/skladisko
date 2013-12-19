@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
-  before_action :require_login, :actual_controller
+  before_action :require_login, :actual_controller, :require_admin
   
   def logged_in?
     if session[:id]
@@ -23,6 +23,24 @@ class ApplicationController < ActionController::Base
       redirect_to login_path # halts request cycle
     end
   end
+  
+  def require_admin
+    unless is_admin?
+      redirect_to login_path
+    end
+  end
+    
+  def is_admin?
+    if session[:id]
+      begin
+        user = User.find(session[:id])
+        return user.admin
+      rescue
+        return false
+      end
+    end
+  end
+    
 
   def actual_controller
     @controller = params["controller"]  

@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20131219152418) do
     t.datetime "date"
     t.string   "note"
     t.boolean  "protocol"
+    t.string   "name"
     t.integer  "user_id"
     t.integer  "project_id"
     t.datetime "created_at"

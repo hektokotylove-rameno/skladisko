@@ -1,5 +1,8 @@
 class OperationsController < ApplicationController
   
+  skip_before_action :require_admin, only: [:show, :index, :options_projects, :options_chemicals, :options_users, :new,
+                                            :create, :index, :index_protocols, :edit, :add_from_protocol]
+  
   def show
     @operation = Operation.find(params[:id])
   end
@@ -129,8 +132,9 @@ class OperationsController < ApplicationController
     #@operation.containers.push(@container_op)
     @operation.containers += containers_fake
     @operation.project = @project
-    if (params[:save])
+    if (params[:is_protocol])
       @operation.protocol = true
+      @operation.name = params[:operation][:name]
     end
     #change_total_amount
     update_chemical_amounts(containers)
@@ -214,8 +218,9 @@ class OperationsController < ApplicationController
     @operation.user = @current_user
     @operation.project = @project 
     @operation.containers += @containers_fake
-    if (params[:save])
+    if (params[:is_protocol])
       @operation.protocol = true
+      @operation.name = params[:operation][:name]
     end
   end
   
