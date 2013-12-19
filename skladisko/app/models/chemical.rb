@@ -6,6 +6,7 @@ class Chemical < ActiveRecord::Base
   has_and_belongs_to_many :operations
   has_and_belongs_to_many :messages
   validates :group_id, presence: true
+  validates :name, presence: true
   
   #before_save :check_minimum
   before_update :check_minimum

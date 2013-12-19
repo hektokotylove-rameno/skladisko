@@ -5,7 +5,7 @@ class Container < ActiveRecord::Base
   has_and_belongs_to_many :operations
   has_and_belongs_to_many :messages
   validates :amount, presence: true, numericality: true
-  validates :expiration_date, presence: true
+  validates :expiration_date, presence: true, if: :real?
   
   def expired
     return expiration_date < DateTime.now
@@ -18,6 +18,10 @@ class Container < ActiveRecord::Base
   
   def add_chemical_name
     chemical_name = ""
+  end
+  
+  def real?
+    return self.real
   end
   
 end
