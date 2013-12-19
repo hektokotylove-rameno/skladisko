@@ -138,5 +138,12 @@ $(document).on('nested:fieldAdded', function(event){
     $('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
     
     $('.selectpicker').selectpicker();
+    
+    $('.amount-validation').keyup(function() {
+        value = $(this).val();
+        if (!$.isNumeric(value) && !(value == "-")) {
+            $(this).val("");
+        }
+    });
 })
 
