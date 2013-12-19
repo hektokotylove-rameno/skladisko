@@ -3,6 +3,8 @@ class MessagesController < ApplicationController
   
   def index
     @messages = Message.all
+    @current_user.new_message = false
+    current_user.save
   end
   
   
@@ -19,6 +21,11 @@ class MessagesController < ApplicationController
         message.kind = 2
         message.text = 'Container expired'
         message.save
+        users = User.all
+        users.each do |user|
+          user.new_message = true
+          user.save
+        end
       end
     end
     render text: 'checked'
