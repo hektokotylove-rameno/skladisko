@@ -74,6 +74,36 @@ $(document).ready( function () {
     ttl: 1,
     limit: 10 });
     
+	e = document.getElementById('operation_protocol_name');
+	box = document.getElementById('is_protocol');
+//	if(e.style.display == 'block')
+//            e.style.display = 'none';
+//	else
+//	    e.style.display = 'block';
+	    
+	if(!box.checked == true)
+            e.style.display = 'none';
+	else
+	    e.style.display = 'block';    
+	
+	//e.toggle();
+    
+    $('#is_protocol').click (function() {
+	e = document.getElementById('operation_protocol_name');
+	box = document.getElementById('is_protocol');
+//	if(e.style.display == 'block')
+//            e.style.display = 'none';
+//	else
+//	    e.style.display = 'block';
+	    
+	if(!box.checked == true)
+            e.style.display = 'none';
+	else
+	    e.style.display = 'block';    
+	
+	//e.toggle();
+    });
+    
 	$('.selectpicker').selectpicker();});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		

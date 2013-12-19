@@ -99,9 +99,14 @@
   </div>
 </div>
 <% end %>
-
-
 <p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-primary" %></p>
+
+<p><%= check_box_tag(:is_protocol, '', false) %> <%= label_tag(:is_protocol, "Save as protocol") %></p>
+  <div id="operation_protocol_name" style="display: none;">
+    <p><%= label_tag(:protocol_name) %></p>
+    <p><%= text_field_tag(:protocol_name, '', class: "form-control", placeholder: "Protocol name") %></p>
+  </div>
+
 <p><div class="btn-group">
 <%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-success" %>
 <%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>

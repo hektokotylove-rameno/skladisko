@@ -59,8 +59,8 @@ class OperationsController < ApplicationController
   end
   
   def create
-    #render text: params
-    choose_operation
+    render text: params
+    #choose_operation
   end
   
   def choose_operation
