@@ -5,6 +5,7 @@ class CreateOperations < ActiveRecord::Migration
       t.datetime :date
       t.string :note
       t.boolean :protocol
+      t.string :name
       t.references :user, index: true
       t.references :project, index: true
 

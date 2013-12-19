@@ -59,8 +59,8 @@ class OperationsController < ApplicationController
   end
   
   def create
-    render text: params
-    #choose_operation
+    #render text: params
+    choose_operation
   end
   
   def choose_operation
@@ -129,8 +129,9 @@ class OperationsController < ApplicationController
     #@operation.containers.push(@container_op)
     @operation.containers += containers_fake
     @operation.project = @project
-    if (params[:save])
+    if (params[:is_protocol])
       @operation.protocol = true
+      @operation.name = params[:operation][:name]
     end
     #change_total_amount
     update_chemical_amounts(containers)
@@ -214,8 +215,9 @@ class OperationsController < ApplicationController
     @operation.user = @current_user
     @operation.project = @project 
     @operation.containers += @containers_fake
-    if (params[:save])
+    if (params[:is_protocol])
       @operation.protocol = true
+      @operation.name = params[:operation][:name]
     end
   end
   

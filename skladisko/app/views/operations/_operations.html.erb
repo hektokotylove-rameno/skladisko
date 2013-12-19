@@ -1,5 +1,8 @@
 <table class="table table-striped">
     <tr>
+      <% if @protocols_only %>
+        <th>Name</th>
+      <% end %>
       <th>User</th>
       <th>Kind</th>
       <% if @protocols_only %>
@@ -13,6 +16,9 @@
     </tr>
     <% @operations.each do |operation| %>
     <tr>
+      <% if @protocols_only %>
+        <td><%= operation.name %></td>
+      <% end %>
       <td><%= operation.user.name %></td>
       <td><%= operation.get_kind %></td>
       <td><%= operation.created_at.to_date.to_formatted_s(:long) %></td>

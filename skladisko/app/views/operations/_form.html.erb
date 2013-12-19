@@ -16,18 +16,35 @@
 
 
 <p><%= label_tag(:project_name) %></p>
-<p><%= text_field_tag(:project_name, '', class: 'project-auto-complete', placeholder: 'Projects') %></p>
+<% if @operation.protocol %>
+  <% val = @operation.name %>
+<% else %>
+  <% val = '' %>
+<% end %>
+<p><%= text_field_tag(:project_name, val, class: 'project-auto-complete', placeholder: 'Projects') %></p>
 
 <p><%= operation.label :note %></p>
 <p><%= operation.text_area :note, class: "form-control"%></p>
 
-<% if (@operation.kind == 2) %>
+<p><%= check_box_tag(:is_protocol, '', false) %> <%= label_tag(:is_protocol, "Save as protocol") %></p>
+<div id="operation_protocol_name" style="display: none;">
+<p><%= operation.label(:name) %></p>
+<p><%= operation.text_field :name, class: "form-control", placeholder: "Protocol name" %></p>
+</div>
 
+<% if (@operation.kind == 2) %>
+<% counter = 0 %>
 
 <%= operation.fields_for :containers, wrapper: :div do |container| %>
 <div class="well">
+  <% if @operation.containers[counter] && @operation.containers[counter].chemical %>
+    <% @val = @operation.containers[counter].chemical.name %>
+  <% else %>
+    <% @val = ''%>
+  <% end %>
   <p><%= container.label :chemical_name %></p>
-  <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
 
   <div class="row">
@@ -47,11 +64,17 @@
 
 
 <% else %>
+  <% counter = 0 %>
 <%= operation.fields_for :containers, wrapper: :div do |container| %>
-
+  <% if @operation.containers[counter] && @operation.containers[counter].chemical %>
+    <% @val = @operation.containers[counter].chemical.name %>
+  <% else %>
+    <% @val = ''%>
+  <% end %>
 <div class="well">
   <p><%= container.label :chemical_name %></p>
-  <p><%= container.text_field(:chemical_name, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger" %>
   <a class="chemical-new btn btn-primary">Create chemical</a></p>
   <div class="row">
@@ -98,18 +121,14 @@
     </div>
   </div>
 </div>
+
 <% end %>
 <p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-primary" %></p>
 
-<p><%= check_box_tag(:is_protocol, '', false) %> <%= label_tag(:is_protocol, "Save as protocol") %></p>
-  <div id="operation_protocol_name" style="display: none;">
-    <p><%= label_tag(:protocol_name) %></p>
-    <p><%= text_field_tag(:protocol_name, '', class: "form-control", placeholder: "Protocol name") %></p>
-  </div>
+  
 
 <p><div class="btn-group">
 <%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-success" %>
-<%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>
 </div></p>
 
 <% end %>
