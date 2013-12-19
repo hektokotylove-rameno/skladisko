@@ -1,5 +1,8 @@
 class OperationsController < ApplicationController
   
+  skip_before_action :require_admin, only: [:show, :index, :options_projects, :options_chemicals, :options_users, :new,
+                                            :create, :index, :index_protocols, :edit, :add_from_protocol]
+  
   def show
     @operation = Operation.find(params[:id])
   end

@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  skip_before_action :require_login, only: [:check_expired]
+  skip_before_action :require_login, :require_admin, only: [:check_expired, :index]
   
   def index
     @messages = Message.all
