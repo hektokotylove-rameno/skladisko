@@ -4,9 +4,15 @@
 <h1>Operations</h1>
 <% end %>
 <%= form_tag(operations_path, method: "get", remote: true, id: "operations_filter", :class => 'form-inline', :role => 'form') do%>
-<%= text_field_tag("user" , "",:placeholder => "User" , :class => 'form-control') %>
-<%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'form-control') %>
-<%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'form-control') %>
+<%= check_box_tag("kind_1") %>
+<%= label_tag("kind_1", "I own a dog") %>
+<%= check_box_tag("kind_2") %>
+<%= label_tag("kind_2", "I own a cat") %>
+<%= check_box_tag("kind_3") %>
+<%= label_tag("kind_3", "I own a shit") %>
+<%= text_field_tag("user" , "",:placeholder => "User" , :class => 'users-auto-complete') %>
+<%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'project-auto-complete') %>
+<%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'chemicals-auto-complete') %>
 <%= submit_tag("Search", :class => "btn btn-primary") %>
 <% end %>
 <div id="operations">

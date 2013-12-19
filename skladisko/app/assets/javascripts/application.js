@@ -35,6 +35,11 @@
 //    });
 
 $(document).ready( function () {
+    $("#operations_filter input").change(function() {
+        $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
+        return false;
+      });
+    
     $("#operations_filter input").keyup(function() {
         $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
         return false;
@@ -50,6 +55,12 @@ $(document).ready( function () {
     $('.chemicals-auto-complete').typeahead({
     name: 'Chemicals',
     prefetch: {url: "/operations/chemicals", ttl: 0},
+    ttl: 1,
+    limit: 10 });
+    
+    $('.users-auto-complete').typeahead({
+    name: 'user',
+    prefetch: {url: "/operations/users", ttl: 0},
     ttl: 1,
     limit: 10 });
     

@@ -9,6 +9,7 @@ Skladisko::Application.routes.draw do
   get "projects/index"
   get "operations/projects" => 'operations#options_projects'
   get "operations/chemicals" => 'operations#options_chemicals'
+  get "operations/users" => 'operations#options_users'
   resources :operations
   resources :chemicals
   resources :users
