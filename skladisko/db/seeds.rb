@@ -12,4 +12,3 @@ Group.create!([
 Setting.create!([
   {days_before_warn: 0}
 ])
-

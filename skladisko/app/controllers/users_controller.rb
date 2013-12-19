@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find_by_id(params[:id])
-    if (@user.id == session[:id] || @user.admin)
+    if (@user.id == @current_user.id || @current_user.admin)
       render 'edit'
     else
       render text: 'Nemozno upravit ineho'
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by_id(params[:id])
     if can_edit
-      if check_password
+      if @current_user.admin || check_password
         if (@user.update(user_params))
           redirect_to @user
         else
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   end
   
   def can_edit
-    return @user.id == session[:id] || @user.admin
+    return @user.id == session[:id] || @current_user.admin
   end
   
   def check_password
