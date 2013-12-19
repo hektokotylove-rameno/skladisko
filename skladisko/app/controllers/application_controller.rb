@@ -40,7 +40,6 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-    
 
   def actual_controller
     @controller = params["controller"]  

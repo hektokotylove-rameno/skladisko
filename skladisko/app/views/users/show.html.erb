@@ -1,8 +1,9 @@
   <p>
-    <strong>Username: </strong>
+
+    <h1><strong>Username: </strong></h1>
     <%= @user.username %>
   </p>
- 
+ <div class="well">
   <p>
     <strong>Name: </strong>
     <%= @user.name %>
@@ -16,5 +17,6 @@
       false
     <% end %>
   </p>
-  <td><%= link_to 'Back', users_path %></td>
+  </div>
+  <td><%= link_to 'Back', users_path, :class => "btn btn-primary" %></td>
 

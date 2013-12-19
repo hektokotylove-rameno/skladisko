@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   def index
     @messages = Message.all
     @current_user.new_message = false
-    current_user.save
+    @current_user.save
   end
   
   
