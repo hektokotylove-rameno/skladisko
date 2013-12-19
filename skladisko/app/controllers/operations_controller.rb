@@ -59,8 +59,8 @@ class OperationsController < ApplicationController
   end
   
   def create
-    render text: params
-    #choose_operation
+    #render text: params
+    choose_operation
   end
   
   def choose_operation
@@ -319,7 +319,7 @@ class OperationsController < ApplicationController
   end
   
   def get_project_name
-    params[:project_name]
+    params[:operation].require(:project_name)
   end
   
   def container_params

@@ -1,4 +1,6 @@
 class Operation < ActiveRecord::Base
+  attr_accessor :project_name
+  after_initialize :add_project_name
   belongs_to :user
   belongs_to :project
   has_and_belongs_to_many :chemicals
@@ -20,6 +22,10 @@ class Operation < ActiveRecord::Base
     if self.kind == 3
       return 'Modify'
     end
-  end    
+  end
+  
+  def add_project_name
+    project_name = ""
+  end
   
 end
