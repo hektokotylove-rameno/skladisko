@@ -7,6 +7,7 @@ class Chemical < ActiveRecord::Base
   has_and_belongs_to_many :messages
   validates :group_id, presence: true
   validates :name, presence: true
+  validates :total_amount, numericality: { greater_than_or_equal_to: 0 }
   
   #before_save :check_minimum
   before_update :check_minimum
