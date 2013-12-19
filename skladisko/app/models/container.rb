@@ -7,6 +7,7 @@ class Container < ActiveRecord::Base
   validates :amount, presence: true, numericality: true
   validates :expiration_date, presence: true, if: :real?
   validates :catalog_number, presence: true
+  validates :location, presence: true
   
   def expired
     return expiration_date < DateTime.now
