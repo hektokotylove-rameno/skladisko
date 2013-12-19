@@ -144,10 +144,12 @@ class OperationsController < ApplicationController
     @operation.containers += containers_fake
     participants_attributes = params[:operation][:participants_attributes]
     participants = []
-    participants_attributes.each do |key,partic|
-      if (partic["_destroy" ] == "false")
-        participant = User.find_by_name(partic["name"])
-        participants += [participant]
+    if not participants_attributes.nil?
+      participants_attributes.each do |key,partic|
+        if (partic["_destroy" ] == "false")
+          participant = User.find_by_name(partic["name"])
+          participants += [participant]
+        end
       end
     end
     @operation.participants = participants
@@ -249,10 +251,12 @@ class OperationsController < ApplicationController
     @operation.containers += @containers_fake
     participants_attributes = params[:operation][:participants_attributes]
     participants = []
-    participants_attributes.each do |key,partic|
-      if (partic["_destroy" ] == "false")
-        participant = User.find_by_name(partic["name"])
-        participants += [participant]
+    if not participants_attributes.nil?
+      participants_attributes.each do |key,partic|
+        if (partic["_destroy" ] == "false")
+          participant = User.find_by_name(partic["name"])
+          participants += [participant]
+        end
       end
     end
     @operation.participants = participants
