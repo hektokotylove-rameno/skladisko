@@ -324,7 +324,7 @@ class OperationsController < ApplicationController
   end
   
   def get_project_name
-    params[:project_name]
+    params[:operation].require(:project_name)
   end
   
   def container_params
