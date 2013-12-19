@@ -26,6 +26,7 @@
                         <% if @current_user.admin %><li<% if(@controller=="users") && params[:action] == 'new' %> class="active" <% end %>><a href="/users/new">Create user</a></li><% end %>
                         <li<% if(@controller=="chemicals") %> class="active" <% end %>><a href="/chemicals">Chemicals</a></li>
                         <li<% if(@controller=="messages") %> class="active" <% end %>><a href="/messages">Messages
+                        
                         <% if(@current_user.new_message)  %> <span style="color: red;" class="glyphicon glyphicon-exclamation-sign"></span><% end %></a></li>
                         <% if @current_user.admin %><li<% if(@controller=="settings") %> class="active" <% end %>><a href="/settings">Settings</a></li><% end %>
                         <li class="dropdown<% if(@controller=="operations") %> active<% end %>">
