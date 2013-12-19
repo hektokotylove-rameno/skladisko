@@ -12,6 +12,3 @@ Group.create!([
 Setting.create!([
   {days_before_warn: 0}
 ])
-User.create!([
-  {username: "michal", name: "Michal Raška", password_hash: "$2a$10$wrjxz2QZwFs2E.RXMvhkwOJZXowPzIhIJVT13RWDTLdGRuyodLKC.", password_salt: "$2a$10$wrjxz2QZwFs2E.RXMvhkwO", admin: nil}
-])
