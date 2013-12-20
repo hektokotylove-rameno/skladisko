@@ -12,10 +12,11 @@
     <% end %>
   <% end %>
   
-  <p>
+  <div class="btn-group">
     <%= s.submit "Save database", :name => 'save', class: "btn btn-primary"  %>
     <%= s.submit "Load database", :name => 'load', class: "btn btn-primary"  %>
-  </p>
+    <%= s.submit "Force Check Expired", :name => 'check', class: "btn btn-primary"  %>
+  </div>
 
   <p>
     <%= s.label :days_before_warn %><br>

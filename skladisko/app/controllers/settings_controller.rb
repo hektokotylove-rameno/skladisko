@@ -11,17 +11,24 @@ class SettingsController < ApplicationController
       save_database
     end
     if (params[:load])
-      if system "/home/andrej/.rvm/gems/ruby-2.0.0-p247@global/bin/rake db:data:load"
-        session[:message] = 'Database loaded successfully!'
-      else
-        session[:message] = 'Error occured while loading database'
-        session[:type] = 'error'
-      end
-      redirect_to settings_path
+      load_database
     end
     if (params[:settings])
       save_settings
     end
+    if (params[:check])
+      force_check_expired_chems
+    end
+  end
+  
+  def load_database
+    if system "/home/andrej/.rvm/gems/ruby-2.0.0-p247@global/bin/rake db:data:load"
+      session[:message] = 'Database loaded successfully!'
+    else
+      session[:message] = 'Error occured while loading database'
+      session[:type] = 'error'
+    end
+    redirect_to settings_path
   end
   
   def save_database
@@ -29,6 +36,17 @@ class SettingsController < ApplicationController
       session[:message] = 'Database saved successfully!'
     else
       session[:message] = 'Error occured while saving database'
+      session[:type] = 'error'
+    end
+    redirect_to settings_path
+  end
+  
+  
+  def force_check_expired_chems
+    if system "wget localhost:3000/messages/check_expired"
+      session[:message] = 'Expiration dates checked succesfully!'
+    else
+      session[:message] = 'Error occured while checking expiration dates'
       session[:type] = 'error'
     end
     redirect_to settings_path
