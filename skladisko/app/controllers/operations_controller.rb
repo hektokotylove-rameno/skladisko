@@ -350,25 +350,26 @@ class OperationsController < ApplicationController
     
     if (chemical == "")
       if (user == "")
-        @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?)", "%#{user}%", "%#{project}%", kinds)
+        @ops = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?)", "%#{user}%", "%#{project}%", kinds)
       else
-        @operations = Operation.joins(:project).joins("INNER JOIN 'users' AS 'owner' ON 'owner'.'id' = 'operations'.'user_id' LEFT OUTER JOIN 'operations_users' ON 'operations_users'.'id' = 'operations'.'id' LEFT OUTER JOIN 'users' AS 'participants_operations' ON 'participants_operations'.'id' = 'operations_users'.'user_id'").where("((owner.name LIKE ?) OR (participants_operations.name LIKE ?)) AND projects.name LIKE ? AND operations.kind IN (?)", "%#{user}%", "%#{user}%", "%#{project}%", kinds)
+        @ops = Operation.joins(:project).joins("INNER JOIN 'users' AS 'owner' ON 'owner'.'id' = 'operations'.'user_id' LEFT OUTER JOIN 'operations_users' ON 'operations_users'.'operation_id' = 'operations'.'id' LEFT OUTER JOIN 'users' AS 'participants_operations' ON 'participants_operations'.'id' = 'operations_users'.'user_id'").where("(('owner'.'name' LIKE ?) OR ('participants_operations'.'name' LIKE ?)) AND 'projects'.'name' LIKE ? AND 'operations'.'kind' IN (?)", "%#{user}%", "%#{user}%", "%#{project}%", kinds)
       end
       if @protocols_only
-        @operations = @operations.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
+        @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
       end
     else
       @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%")
       if @protocols_only
         @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
       end
-      ids = []
-      @operations = []
-      @ops.each do |op|
-        if not ids.include? op.id
-          ids += [op.id]
-          @operations += [op]
-        end
+      
+    end
+    ids = []
+    @operations = []
+    @ops.each do |op|
+      if not ids.include? op.id
+        ids += [op.id]
+        @operations += [op]
       end
     end
     #end
