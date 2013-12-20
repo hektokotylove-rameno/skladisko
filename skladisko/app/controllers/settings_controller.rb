@@ -13,7 +13,7 @@ class SettingsController < ApplicationController
     if (params[:load])
       load_database
     end
-    if (params[:load])
+    if (params[:drop])
       drop_and_load
     end
     if (params[:settings])
@@ -26,16 +26,17 @@ class SettingsController < ApplicationController
   
   def drop_and_load
     if system "rake db:data:load"
-      if system "rake db:drop && rake db:data:load"
+      if system "rake db:drop && rake db:migrate && rake db:data:load"
         session[:message] = 'Database Restored Successfully!'
       else
         session[:message] = 'Error Occured While Restoring Database'
         session[:type] = 'error'
       end
+    else
       session[:message] = 'Database Backup Corrupted, Please Backup Again'
       session[:type] = 'error'
     end
-    
+    redirect_to settings_path
   end
   
   def load_database

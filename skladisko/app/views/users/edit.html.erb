@@ -16,8 +16,13 @@
     <% end %>
 
     <p>
-      <%= f.label :name %><br>
+      <%= f.label :name %>
       <%= f.text_field :name, class: "form-control" %>
+    </p>
+    
+    <p>
+      <%= f.check_box :admin %>
+      <%= f.label :admin %>
     </p>
 
     <p>
