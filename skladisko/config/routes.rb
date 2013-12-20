@@ -10,13 +10,14 @@ Skladisko::Application.routes.draw do
   get "operations/projects" => 'operations#options_projects'
   get "operations/chemicals" => 'operations#options_chemicals'
   get "operations/users" => 'operations#options_users'
+  get "operations/protocols" => 'operations#options_protocols'
   resources :operations
   resources :chemicals
   resources :users
   resources :projects
   
   get 'operations/new/:kind' => 'operations#new'
-  get 'protocols' => 'operations#index_protocols'
+  get 'protocols' => 'operations#index', :protocols => true
   patch 'operations' => 'operations#add_from_protocol'
   get 'login' => 'sessions#login'
   post 'login' => 'sessions#check_login'

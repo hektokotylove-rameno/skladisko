@@ -1,16 +1,22 @@
 <% if @protocols_only %>
+<% path_form = protocols_path %>
 <h1>Protocols</h1>
 <% else %>
+<% path_form = operations_path %>
 <h1>Operations</h1>
 <% end %>
-<%= form_tag(operations_path, method: "get", remote: true, id: "operations_filter", :class => 'form-inline', :role => 'form') do%>
+<%= form_tag(path_form, method: "get", remote: true, id: "operations_filter", :class => 'form-inline', :role => 'form') do%>
 <%= check_box_tag("kind_1") %>
-<%= label_tag("kind_1", "I own a dog") %>
+<%= label_tag("kind_1", "Add") %>
 <%= check_box_tag("kind_2") %>
-<%= label_tag("kind_2", "I own a cat") %>
+<%= label_tag("kind_2", "Withdraw") %>
 <%= check_box_tag("kind_3") %>
 <%= label_tag("kind_3", "Modify") %>
+<% if @protocols_only %>
+<%= text_field_tag("protocol_name" , "",:placeholder => "Name" , :class => 'protocols-name-auto-complete') %>
+<% else %>
 <%= text_field_tag("user" , "",:placeholder => "User" , :class => 'users-auto-complete') %>
+<% end %>
 <%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'project-auto-complete') %>
 <%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'chemicals-auto-complete') %>
 <%= submit_tag("Search", :class => "btn btn-primary") %>
