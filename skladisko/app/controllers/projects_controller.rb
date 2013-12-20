@@ -1,4 +1,7 @@
 class ProjectsController < ApplicationController
+  
+  skip_before_action :require_admin, only: [:index]
+  
   def index
     @projects = Project.all
   end
