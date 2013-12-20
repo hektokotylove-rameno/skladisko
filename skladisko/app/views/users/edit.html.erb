@@ -15,21 +15,9 @@
     </div>
     <% end %>
 
-    <% if !@current_user.admin %>
-      <p>
-        <%= f.label :old_password %><br>
-        <%= f.password_field :old_password, class: "form-control" %>
-      </p>
-    <% end %>
-
     <p>
-      <%= f.label :password %><br>
-      <%= f.password_field :password, class: "form-control" %>
-    </p>
-
-    <p>
-      <%= f.label :password_confirmation %><br>
-      <%= f.password_field :password_confirmation, class: "form-control" %>
+      <%= f.label :name %><br>
+      <%= f.text_field :name, class: "form-control" %>
     </p>
 
     <p>

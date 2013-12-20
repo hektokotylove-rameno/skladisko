@@ -5,6 +5,7 @@ Skladisko::Application.routes.draw do
   patch "settings" => 'settings#save'
   get 'messages' => 'messages#index'
   get 'messages/check_expired' => 'messages#check_expired'
+  get 'users/:id/change_password' => 'users#change_password'
   
   get "projects/index"
   get "operations/projects" => 'operations#options_projects'
