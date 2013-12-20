@@ -27,12 +27,12 @@ class SettingsController < ApplicationController
   def drop_and_load
     if system "rake db:data:load"
       if system "rake db:drop && rake db:data:load"
-        session[:message] = 'Database restored successfully!'
+        session[:message] = 'Database Restored Successfully!'
       else
-        session[:message] = 'Error occured while restoring database'
+        session[:message] = 'Error Occured While Restoring Database'
         session[:type] = 'error'
       end
-      session[:message] = 'Database backup corrupted, please backup again'
+      session[:message] = 'Database Backup Corrupted, Please Backup Again'
       session[:type] = 'error'
     end
     
@@ -40,7 +40,7 @@ class SettingsController < ApplicationController
   
   def load_database
     if system "rake db:data:load"
-      session[:message] = 'Database loaded successfully!'
+      session[:message] = 'Database Loaded Successfully!'
     else
       session[:message] = 'Error Occured While Loading Database'
       session[:type] = 'error'
@@ -50,7 +50,7 @@ class SettingsController < ApplicationController
   
   def save_database
     if system "rake db:data:dump"
-      session[:message] = 'Database saved successfully!'
+      session[:message] = 'Database Saved Successfully!'
     else
       session[:message] = 'Error Occured While Saving Database'
       session[:type] = 'error'
@@ -60,22 +60,8 @@ class SettingsController < ApplicationController
   
   
   def force_check_expired_chems
-<<<<<<< HEAD
     Message.create_expired_messages
-    #if system "/usr/bin/wget localhost:3000/messages/check_expired"
-      session[:message] = 'Expiration dates checked succesfully!'
-    #else
-      #session[:message] = 'Error occured while checking expiration dates'
-      #session[:type] = 'error'
-    #end
-=======
-    if system "wget localhost:3000/messages/check_expired"
-      session[:message] = 'Expiration Dates Checked Succesfully!'
-    else
-      session[:message] = 'Error Occured While Checking Expiration Dates'
-      session[:type] = 'error'
-    end
->>>>>>> b468e650c4ea7f46a739c746a1cbd0eb75702a33
+    session[:message] = 'Expiration Dates Checked Succesfully!'
     redirect_to settings_path
   end
   
