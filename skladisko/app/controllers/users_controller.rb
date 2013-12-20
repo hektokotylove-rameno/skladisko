@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create]
-  skip_before_action :require_admin, only: [:index, :show, :edit, :update]
+  skip_before_action :require_admin, only: [:index, :show, :change_password, :update]
   
   ####treba vymazat potom####
   skip_before_action :require_admin, only: [:new, :create]
@@ -34,6 +34,15 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     if (@user.id == @current_user.id || @current_user.admin)
       render 'edit'
+    else
+      render text: 'Nemozno upravit ineho'
+    end
+  end
+  
+  def change_password
+    @user = User.find(params[:id])
+    if (@user.id == @current_user.id || @current_user.admin)
+      render 'change'
     else
       render text: 'Nemozno upravit ineho'
     end

@@ -10,6 +10,7 @@ class Operation < ActiveRecord::Base
   accepts_nested_attributes_for :participants, allow_destroy: true
   validates :kind, presence: true
   validates :project_id, presence: true
+  validates :project_name, presence: true
   #validates :chemical_id, presence: true
   
   KINDS = {'Add' => 1, 'Withdraw' => 2, 'Modify' => 3}

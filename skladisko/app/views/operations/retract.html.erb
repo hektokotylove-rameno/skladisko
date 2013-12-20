@@ -1,4 +1,4 @@
-<h1>Retract chemical</h1>
+<h1>Retract Chemical</h1>
 
 <%= form_for @operation, url: operations_path do |operation| %>
   <%= operation.hidden_field(:kind, :value => '2') %>
@@ -17,7 +17,7 @@
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount %></p>
     <% end %>
-    <p><%= operation.submit "Vykonať zmeny", :name => "execute"%></p>
+    <p><%= operation.submit "Submit Changes", :name => "execute"%></p>
   <% else %>
     <%= fields_for :container do |container| %>
       <p><%= container.label :chemical_id %></p>
@@ -26,8 +26,8 @@
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount %></p>
     <% end %>
-    <p><%= operation.submit "Vykonať zmeny", :name => 'save', class: "btn btn-primary"%></p>
-    <p><%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'protocol', class: "btn btn-primary"%></p>
+    <p><%= operation.submit "Submit Changes", :name => 'save', class: "btn btn-primary"%></p>
+    <p><%= operation.submit "Submit Changes and Save as Protocol", :name => 'protocol', class: "btn btn-primary"%></p>
   <% end %>
   
   
