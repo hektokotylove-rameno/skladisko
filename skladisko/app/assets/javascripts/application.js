@@ -35,11 +35,13 @@
 //    });
 
 $(document).ready( function () {
+    // change
     $("#operations_filter input").change(function() {
         $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
         return false;
       });
     
+    // key up
     $("#operations_filter input").keyup(function() {
         $.get($("#operations_filter").attr("action"), $("#operations_filter").serialize(), null, "script");
         return false;
@@ -51,6 +53,12 @@ $(document).ready( function () {
   ttl: 1,
   //remote: "/operations/projects",
   limit: 10 });
+    
+    $('.protocols-name-auto-complete').typeahead({
+    name: 'Protocols',
+    prefetch: {url: "/operations/protocols", ttl: 0},
+    ttl: 1,
+    limit: 10 });
     
     $('.chemicals-auto-complete').typeahead({
     name: 'Chemicals',

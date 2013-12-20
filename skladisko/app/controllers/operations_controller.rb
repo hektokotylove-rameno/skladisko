@@ -71,6 +71,20 @@ class OperationsController < ApplicationController
     render json: @options
   end
   
+  def options_protocols
+    operations = Operation.where({protocol: true})
+    @options = []
+    operations.each do |operation|
+      @options.push(operation.name)
+    end
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
+    #format.js   {@options.reverse}
+    render json: @options
+  end
+  
   def create
     #render text: params
     choose_operation
@@ -192,16 +206,18 @@ class OperationsController < ApplicationController
             remaining_amount = -remaining_amount
           end
           chemical.total_amount -= remaining_amount
-          while (remaining_amount > 0)
-            container = Container.find_by_chemical_id_and_real(chemical.id, true, :order => :expiration_date)
-            if container.amount > remaining_amount
-              container.amount -= remaining_amount
-              remaining_amount = 0
-              container.save
-            else
-              remaining_amount -= container.amount
-              container.remove_obsolete_messages
-              container.delete
+          if (params[:operation][:kind] == "2")
+            while (remaining_amount > 0)
+              container = Container.find_by_chemical_id_and_real(chemical.id, true, :order => :expiration_date)
+              if container.amount > remaining_amount
+                container.amount -= remaining_amount
+                remaining_amount = 0
+                container.save
+              else
+                remaining_amount -= container.amount
+                container.remove_obsolete_messages
+                container.delete
+              end
             end
           end
           container_fake = Container.new
@@ -300,10 +316,15 @@ class OperationsController < ApplicationController
   end
     
   def index
+    if params[:protocols]
+      @protocols_only = true
+    end
+    
     user = ""
     project = ""
     kinds = []
     chemical = ""
+    protocol_name = ""
     if not (params[:user].nil? or (params[:user] == ""))
       user = params[:user]
     end
@@ -322,6 +343,9 @@ class OperationsController < ApplicationController
     if not (params[:chemical].nil? or params[:chemical] == "")
       chemical = params[:chemical]
     end
+    if not (params[:protocol_name].nil? or params[:protocol_name] == "")
+      protocol_name = params[:protocol_name]
+    end
     #if conditions.empty?
     #  @operations = Operation.all
     #else
@@ -330,9 +354,19 @@ class OperationsController < ApplicationController
     end
     
     if (chemical == "")
-      @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?)", "%#{user}%", "%#{project}%", kinds)
+      if (user == "")
+        @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?)", "%#{user}%", "%#{project}%", kinds)
+      else
+        @operations = Operation.joins(:project).joins("INNER JOIN 'users' AS 'owner' ON 'owner'.'id' = 'operations'.'user_id' LEFT OUTER JOIN 'operations_users' ON 'operations_users'.'id' = 'operations'.'id' LEFT OUTER JOIN 'users' AS 'participants_operations' ON 'participants_operations'.'id' = 'operations_users'.'user_id'").where("((owner.name LIKE ?) OR (participants_operations.name LIKE ?)) AND projects.name LIKE ? AND operations.kind IN (?)", "%#{user}%", "%#{user}%", "%#{project}%", kinds)
+      end
+      if @protocols_only
+        @operations = @operations.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
+      end
     else
       @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%")
+      if @protocols_only
+        @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
+      end
       ids = []
       @operations = []
       @ops.each do |op|
@@ -348,12 +382,6 @@ class OperationsController < ApplicationController
       format.js {}
       format.json {}
     end
-  end
-  
-  def index_protocols
-    @operations = Operation.find_all_by_protocol(true)
-    @protocols_only = true
-    render :index
   end
   
   def edit
