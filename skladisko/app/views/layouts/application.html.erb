@@ -23,7 +23,7 @@
                 <ul class="nav navbar-nav">
                         <li <% if(@controller=="") %> class="active" <% end %>><a href="./">Home</a></li>
                         <li <% if(@controller=="users" && params[:action] == 'index') %> class="active" <% end %>><a href="/users">Users</a></li>
-                        <% if @current_user.admin %><li<% if(@controller=="users") && params[:action] == 'new' %> class="active" <% end %>><a href="/users/new">Create user</a></li><% end %>
+                        <% if @current_user.admin %><li<% if(@controller=="users") && params[:action] == 'new' %> class="active" <% end %>><a href="/users/new">Create User</a></li><% end %>
                         <li<% if(@controller=="chemicals") %> class="active" <% end %>><a href="/chemicals">Chemicals</a></li>
                         <li<% if(@controller=="messages") %> class="active" <% end %>><a href="/messages">Messages
                         

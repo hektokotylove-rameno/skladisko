@@ -42,7 +42,7 @@ class SettingsController < ApplicationController
     if system "rake db:data:load"
       session[:message] = 'Database loaded successfully!'
     else
-      session[:message] = 'Error occured while loading database'
+      session[:message] = 'Error Occured While Loading Database'
       session[:type] = 'error'
     end
     redirect_to settings_path
@@ -52,7 +52,7 @@ class SettingsController < ApplicationController
     if system "rake db:data:dump"
       session[:message] = 'Database saved successfully!'
     else
-      session[:message] = 'Error occured while saving database'
+      session[:message] = 'Error Occured While Saving Database'
       session[:type] = 'error'
     end
     redirect_to settings_path
@@ -60,6 +60,7 @@ class SettingsController < ApplicationController
   
   
   def force_check_expired_chems
+<<<<<<< HEAD
     Message.create_expired_messages
     #if system "/usr/bin/wget localhost:3000/messages/check_expired"
       session[:message] = 'Expiration dates checked succesfully!'
@@ -67,6 +68,14 @@ class SettingsController < ApplicationController
       #session[:message] = 'Error occured while checking expiration dates'
       #session[:type] = 'error'
     #end
+=======
+    if system "wget localhost:3000/messages/check_expired"
+      session[:message] = 'Expiration Dates Checked Succesfully!'
+    else
+      session[:message] = 'Error Occured While Checking Expiration Dates'
+      session[:type] = 'error'
+    end
+>>>>>>> b468e650c4ea7f46a739c746a1cbd0eb75702a33
     redirect_to settings_path
   end
   
@@ -74,17 +83,17 @@ class SettingsController < ApplicationController
     @setting = Setting.find(1)
     @setting.days_before_warn = params[:setting][:days_before_warn]
     if(@setting.save)
-      session[:message] = 'Settings saved'
+      session[:message] = 'Settings Saved'
       redirect_to settings_path
     else
       session[:type] = 'Error'
-      session[:message] = 'Must be a number'
+      session[:message] = 'Must Be a Number'
       redirect_to settings_path
     end
   end
   
   def dump
-    session[:message] = 'Database saved successfully'
+    session[:message] = 'Database Saved Successfully'
     redirect_to settings_path
   end
   

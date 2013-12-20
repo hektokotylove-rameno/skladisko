@@ -22,16 +22,16 @@
 <% else %>
   <% val = '' %>
 <% end %>
-<p><%= operation.label :project_name %></p>
+<p><%= operation.label :project_name, 'Project Name' %></p>
 <p><%= operation.text_field(:project_name, value: val, class: 'project-auto-complete', placeholder: 'Projects') %></p>
 
 <p><%= operation.label :note %></p>
 <p><%= operation.text_area :note, class: "form-control"%></p>
 
-<p><%= check_box_tag(:is_protocol, '', false) %> <%= label_tag(:is_protocol, "Save as protocol") %></p>
+<p><%= check_box_tag(:is_protocol, '', false) %> <%= label_tag(:is_protocol, "Save as Protocol") %></p>
 <div id="operation_protocol_name" style="display: none;">
 <p><%= operation.label(:name) %></p>
-<p><%= operation.text_field :name, class: "form-control", placeholder: "Protocol name" %></p>
+<p><%= operation.text_field :name, class: "form-control", placeholder: "Protocol Name" %></p>
 </div>
 
 <% if (@operation.kind == 2) or (@operation.kind == 3) %>
@@ -44,7 +44,7 @@
   <% else %>
     <% @val = ''%>
   <% end %>
-  <p><%= container.label :chemical_name %></p>
+  <p><%= container.label :chemical_name, 'Chemical Name' %></p>
   <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
@@ -57,7 +57,7 @@
   </div>
 </div>
 <% end %>
-<p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-success" %></p>
+<p><%= operation.link_to_add "Add Another Chemical", :containers, class: "btn btn-success" %></p>
 
 <%= operation.fields_for :participants, wrapper: :div do |participant| %>
 <p><%= participant.label :name %></p>
@@ -65,11 +65,11 @@
 <%= participant.link_to_remove "Remove", class: "btn btn-danger" %>
   </p>
 <% end %>
-<p><%= operation.link_to_add "Add another participants", :participants, class: "btn btn-primary" %></p>
+<p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
 <p><div class="btn-group">
-<%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-primary" %>
-<%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>
+<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-primary" %>
+<%= operation.submit "Submit Changes and Save as Protocol", :name => 'save', :class => "btn btn-primary" %>
 </div></p></p>
 
 
@@ -83,11 +83,11 @@
     <% @val = ''%>
   <% end %>
 <div class="well">
-  <p><%= container.label :chemical_name %></p>
+  <p><%= container.label :chemical_name, 'Chemical Name' %></p>
   <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger" %>
-  <a class="chemical-new btn btn-primary">Create chemical</a></p>
+  <a class="chemical-new btn btn-primary">Create Chemical</a></p>
   <div class="row">
     <div class="chemical-form" style="display: none">
       <%= container.fields_for :chemical, wrapper: :div do |chemical|%>
@@ -97,7 +97,7 @@
       <p><%= chemical.label :unit %></p>
       <p><%= chemical.text_field :unit, class: "form-control", placeholder: "Unit"  %></p>
 
-      <p><%= chemical.label :critical_amount %></p>
+      <p><%= chemical.label :critical_amount , 'Critical Amount'%></p>
       <p><%= chemical.text_field :critical_amount,  class: "form-control", placeholder: "Critical amount"  %></p>
       
       </div>
@@ -119,7 +119,7 @@
       <p><%= container.label :amount %></p>
       <p><%= container.text_field :amount, class: "form-control amount-validation", placeholder: "Amount"  %></p>
 
-      <p><%= container.label :expiration_date %></p>
+      <p><%= container.label :expiration_date , 'Expiration Date'%></p>
       <p><%= container.date_field :expiration_date,  class: "form-control" %></p>
     </div>
     <div class="col-md-6">
@@ -127,14 +127,14 @@
       <p><%= container.label :location %></p>
       <p><%= container.text_field :location, class: "form-control", placeholder: "Location"  %></p>
 
-      <p><%= container.label :catalog_number %></p>
+      <p><%= container.label :catalog_number , 'Catalog Number'%></p>
       <p><%= container.text_field :catalog_number, class: "form-control", placeholder: "Catalog number"  %></p>
     </div>
   </div>
 </div>
 
 <% end %>
-<p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-primary" %></p>
+<p><%= operation.link_to_add "Add Another Chemical", :containers, class: "btn btn-primary" %></p>
 
 <%= operation.fields_for :participants, wrapper: :div do |participant| %>
 <p><%= participant.label :name %></p>
@@ -142,10 +142,10 @@
 <%= participant.link_to_remove "Remove", class: "btn btn-danger" %>
   </p>
 <% end %>
-<p><%= operation.link_to_add "Add another participants", :participants, class: "btn btn-primary" %></p>
+<p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
 <p><div class="btn-group">
-<%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-success" %>
+<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-success" %>
 </div></p>
 
 <% end %>
