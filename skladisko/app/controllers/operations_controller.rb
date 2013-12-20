@@ -13,6 +13,7 @@ class OperationsController < ApplicationController
   end
   
   def new
+    session[:message] = nil
     @operation = Operation.new
     @operation.containers.build
     if (params[:kind] == 'add')
@@ -256,7 +257,11 @@ class OperationsController < ApplicationController
       end
       redirect_to "/operations"
     else
-      render text: 'Nedostatocne mnozstvo'
+      session[:message] = "Chemical amount is not sufficient"
+      @operation = Operation.new
+      @operation.kind = params[:operation][:kind]
+      @operation.containers.build
+      render 'new'
     end
   end
   
@@ -407,7 +412,7 @@ class OperationsController < ApplicationController
   end
   
   def operation_params
-    params[:operation].permit(:kind, :note)
+    params[:operation].permit(:kind, :note, :name)
   end
   
 end

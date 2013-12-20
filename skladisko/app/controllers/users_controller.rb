@@ -52,6 +52,10 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     if can_edit
       if @current_user.admin || check_password
+        if (params[:user][:admin])
+          @user.admin = params[:user][:admin];
+        end
+        
         if (@user.update(user_params))
           redirect_to @user
         else

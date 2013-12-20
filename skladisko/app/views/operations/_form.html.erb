@@ -4,8 +4,16 @@
  <div class="alert alert-danger">
   <% @operation.errors.full_messages.each do |msg| %>
   <li><%= msg %></li>
-  <% end %>
+<% end %>
+
 </div>
+</div>
+<% end %>
+<% if session[:message] %>
+  <div id="error_explanation">
+  <div class="alert alert-danger">
+  <li><%= session[:message] %></li>
+  </div>
 </div>
 <% end %>
 <% if (@operation.kind == 2) %>
@@ -16,22 +24,27 @@
 <%= operation.hidden_field(:kind, :value => '1') %>
 <% end %>
 
-
-<% if @operation.protocol %>
-  <% val = @operation.name %>
+<% if @operation.project %>
+  <% val = @operation.project.name %>
 <% else %>
   <% val = '' %>
 <% end %>
+
 <p><%= operation.label :project_name, 'Project Name' %></p>
 <p><%= operation.text_field(:project_name, value: val, class: 'project-auto-complete', placeholder: 'Projects') %></p>
 
 <p><%= operation.label :note %></p>
 <p><%= operation.text_area :note, class: "form-control"%></p>
 
+<% if @operation.protocol %>
+  <% val = @operation.name %>
+<% else %>
+  <% val = '' %>
+<% end %>
 <p><%= check_box_tag(:is_protocol, '', false) %> <%= label_tag(:is_protocol, "Save as Protocol") %></p>
 <div id="operation_protocol_name" style="display: none;">
 <p><%= operation.label(:name) %></p>
-<p><%= operation.text_field :name, class: "form-control", placeholder: "Protocol Name" %></p>
+<p><%= operation.text_field :name, value: val, class: "form-control", placeholder: "Protocol Name" %></p>
 </div>
 
 <% if (@operation.kind == 2) or (@operation.kind == 3) %>
@@ -67,10 +80,9 @@
 <% end %>
 <p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
-<p><div class="btn-group">
+<p>
 <%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-primary" %>
-<%= operation.submit "Submit Changes and Save as Protocol", :name => 'save', :class => "btn btn-primary" %>
-</div></p></p>
+</p>
 
 
 
@@ -107,7 +119,7 @@
       <p><%= chemical.text_field :group,  class: "groups-auto-complete", placeholder: "Group"  %></p>
       
       <p><%= chemical.label :note %></p>
-      <p><%= chemical.text_area:note,  class: "form-control", placeholder: "Note"  %></p>
+      <p><%= chemical.text_area :note,  class: "form-control", placeholder: "Note"  %></p>
       
       </div>
       
@@ -144,9 +156,9 @@
 <% end %>
 <p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
-<p><div class="btn-group">
+<p>
 <%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-success" %>
-</div></p>
+</p>
 
 <% end %>
 
