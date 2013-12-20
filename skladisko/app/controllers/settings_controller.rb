@@ -13,6 +13,9 @@ class SettingsController < ApplicationController
     if (params[:load])
       load_database
     end
+    if (params[:load])
+      drop_and_load
+    end
     if (params[:settings])
       save_settings
     end
@@ -21,8 +24,22 @@ class SettingsController < ApplicationController
     end
   end
   
+  def drop_and_load
+    if system "rake db:data:load"
+      if system "rake db:drop && rake db:data:load"
+        session[:message] = 'Database Restored Successfully!'
+      else
+        session[:message] = 'Error Occured While Restoring Database'
+        session[:type] = 'error'
+      end
+      session[:message] = 'Database Backup Corrupted, Please Backup Again'
+      session[:type] = 'error'
+    end
+    
+  end
+  
   def load_database
-    if system "/home/andrej/.rvm/gems/ruby-2.0.0-p247@global/bin/rake db:data:load"
+    if system "rake db:data:load"
       session[:message] = 'Database Loaded Successfully!'
     else
       session[:message] = 'Error Occured While Loading Database'
@@ -32,8 +49,8 @@ class SettingsController < ApplicationController
   end
   
   def save_database
-    if system "/home/andrej/.rvm/gems/ruby-2.0.0-p247@global/bin/rake db:data:dump"
-      session[:message] = 'Database saved successfully!'
+    if system "rake db:data:dump"
+      session[:message] = 'Database Saved Successfully!'
     else
       session[:message] = 'Error Occured While Saving Database'
       session[:type] = 'error'
@@ -43,12 +60,8 @@ class SettingsController < ApplicationController
   
   
   def force_check_expired_chems
-    if system "wget localhost:3000/messages/check_expired"
-      session[:message] = 'Expiration Dates Checked Succesfully!'
-    else
-      session[:message] = 'Error Occured While Checking Expiration Dates'
-      session[:type] = 'error'
-    end
+    Message.create_expired_messages
+    session[:message] = 'Expiration Dates Checked Succesfully!'
     redirect_to settings_path
   end
   
