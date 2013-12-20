@@ -5,9 +5,9 @@
 <% end %>
 <%= form_tag(operations_path, method: "get", remote: true, id: "operations_filter", :class => 'form-inline', :role => 'form') do%>
 <%= check_box_tag("kind_1") %>
-<%= label_tag("kind_1", "I own a dog") %>
+<%= label_tag("kind_1", "Add") %>
 <%= check_box_tag("kind_2") %>
-<%= label_tag("kind_2", "I own a cat") %>
+<%= label_tag("kind_2", "Withdraw") %>
 <%= check_box_tag("kind_3") %>
 <%= label_tag("kind_3", "Modify") %>
 <%= text_field_tag("user" , "",:placeholder => "User" , :class => 'users-auto-complete') %>

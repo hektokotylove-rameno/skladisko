@@ -19,11 +19,11 @@
   </div>
 
   <p>
-    <%= s.label :days_before_warn %><br>
+    <%= s.label :days_before_warn, 'Days Before Warn' %><br>
     <%= s.text_field :days_before_warn, class: "form-control", placeholder: "How many days before expiration is warning sent" %>
   </p>
   
   <p>
-    <%= s.submit "Save settings", :name => "settings", class: "btn btn-primary"  %>
+    <%= s.submit "Save Settings", :name => "settings", class: "btn btn-primary"  %>
   </p>
 <% end %>
