@@ -15,27 +15,15 @@
     </div>
     <% end %>
 
-    <% if !@current_user.admin %>
-      <p>
-        <%= f.label :old_password, 'Old Password' %><br>
-        <%= f.password_field :old_password, class: "form-control" %>
-      </p>
-    <% end %>
-
     <p>
-      <%= f.label :password, 'Password' %><br>
-      <%= f.password_field :password, class: "form-control" %>
+      <%= f.label :name %><br>
+      <%= f.text_field :name, class: "form-control" %>
     </p>
 
     <p>
-      <%= f.label :password_confirmation, 'Password Confirmation' %><br>
-      <%= f.password_field :password_confirmation, class: "form-control" %>
-    </p>
-
-    <p>
-      <%= f.submit class: "btn btn-success"  %>
+      <%= f.submit class: "btn btn-primary"  %>
     </p>
     <% end %>
 
-    <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+    <%= link_to 'Back', users_path %>
     </div>
