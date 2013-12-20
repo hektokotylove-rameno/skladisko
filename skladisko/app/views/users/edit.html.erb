@@ -15,7 +15,7 @@
     </div>
     <% end %>
 
-    <% if @current_user.admin && !@user.id == @current_user.id %>
+    <% if !@current_user.admin %>
       <p>
         <%= f.label :old_password %><br>
         <%= f.password_field :old_password, class: "form-control" %>
