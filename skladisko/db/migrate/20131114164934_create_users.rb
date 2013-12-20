@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       user.string :password_hash
       user.string :password_salt
       user.boolean :admin
+      user.boolean :new_message, default: false
 
       user.timestamps
     end

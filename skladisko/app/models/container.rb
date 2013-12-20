@@ -14,7 +14,11 @@ class Container < ActiveRecord::Base
   
   def remove_obsolete_messages
     message = Message.find_by_container_id(self.id)
-    message.delete
+    if message
+      message.delete
+    end
+    
+    
   end
   
   def add_chemical_name

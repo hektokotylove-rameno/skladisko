@@ -2,12 +2,13 @@
   <div class="col-xs-4">
     <div class="well">
       <h1>Operation detail</h1>
-      <table class="table">
-        <tr><td><b>Type: <%= @operation.get_kind%></b></td></tr>
-        <tr><td><b>Executed by: <%= @operation.user.name%></b></td></tr>
-        <tr><td><b>Date: <%= @operation.created_at.to_formatted_s(:long)%></b></td></tr>
-        <tr><td><b>Note: <%= @operation.note%></b></td></tr>
-        <tr><td><b>Project: <%= @operation.project.name%></b></td></tr>
+      <table class="table table-striped">
+        <tr><td><b>Type: </b></td><td><%= @operation.get_kind%></td></tr>
+        <tr><td><b>Executed by: </b></td><td><%= @operation.user.name%></td></tr>
+        <tr><td><b>Date: </b></td><td><%= @operation.created_at.to_formatted_s(:long)%></td></tr>
+        <tr><td><b>Note: </b></td><td><%= @operation.note%></td></tr>
+        <tr><td><b>Project: </b></td><td><%= @operation.project.name%></td></tr>
+        <tr><td><b>Participants: </b></td><td><%= @participants %> </td></tr>
       </table></h1>    
     </div>
   </div>
@@ -39,6 +40,6 @@
       <% end %>
     </table>
   </div>
-</div>
+  </div>
 
 <%= link_to 'Back', operations_path, class: "btn btn-default"  %>

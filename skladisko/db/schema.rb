@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20131219152418) do
     t.string   "password_hash"
     t.string   "password_salt"
     t.boolean  "admin"
+    t.boolean  "new_message",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

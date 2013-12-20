@@ -10,6 +10,8 @@
 <% end %>
 <% if (@operation.kind == 2) %>
 <%= operation.hidden_field(:kind, :value => '2') %>
+<% elsif (@operation.kind == 3) %>
+<%= operation.hidden_field(:kind, :value => '3') %>
 <% else %>
 <%= operation.hidden_field(:kind, :value => '1') %>
 <% end %>
@@ -32,7 +34,7 @@
 <p><%= operation.text_field :name, class: "form-control", placeholder: "Protocol name" %></p>
 </div>
 
-<% if (@operation.kind == 2) %>
+<% if (@operation.kind == 2) or (@operation.kind == 3) %>
 <% counter = 0 %>
 
 <%= operation.fields_for :containers, wrapper: :div do |container| %>
@@ -56,6 +58,15 @@
 </div>
 <% end %>
 <p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-success" %></p>
+
+<%= operation.fields_for :participants, wrapper: :div do |participant| %>
+<p><%= participant.label :name %></p>
+  <p><%= participant.text_field(:name, class: 'users-auto-complete', placeholder: 'Participant') %>
+<%= participant.link_to_remove "Remove", class: "btn btn-danger" %>
+  </p>
+<% end %>
+<p><%= operation.link_to_add "Add another participants", :participants, class: "btn btn-primary" %></p>
+
 <p><div class="btn-group">
 <%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-primary" %>
 <%= operation.submit "Vykonať zmeny a uložiť ako protokol", :name => 'save', :class => "btn btn-primary" %>
@@ -125,7 +136,13 @@
 <% end %>
 <p><%= operation.link_to_add "Add another chemical", :containers, class: "btn btn-primary" %></p>
 
-  
+<%= operation.fields_for :participants, wrapper: :div do |participant| %>
+<p><%= participant.label :name %></p>
+  <p><%= participant.text_field(:name, class: 'users-auto-complete', placeholder: 'Participant') %>
+<%= participant.link_to_remove "Remove", class: "btn btn-danger" %>
+  </p>
+<% end %>
+<p><%= operation.link_to_add "Add another participants", :participants, class: "btn btn-primary" %></p>
 
 <p><div class="btn-group">
 <%= operation.submit "Vykonať zmeny", :name => 'execute', :class => "btn btn-success" %>

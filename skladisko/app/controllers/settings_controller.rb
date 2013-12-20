@@ -11,7 +11,7 @@ class SettingsController < ApplicationController
       save_database
     end
     if (params[:load])
-      if system "/usr/local/bin/rake db:data:load"
+      if system "/home/andrej/.rvm/gems/ruby-2.0.0-p247@global/bin/rake db:data:load"
         session[:message] = 'Database loaded successfully!'
       else
         session[:message] = 'Error occured while loading database'
@@ -25,7 +25,7 @@ class SettingsController < ApplicationController
   end
   
   def save_database
-    if system "/usr/local/bin/rake db:data:dump"
+    if system "/home/andrej/.rvm/gems/ruby-2.0.0-p247@global/bin/rake db:data:dump"
       session[:message] = 'Database saved successfully!'
     else
       session[:message] = 'Error occured while saving database'

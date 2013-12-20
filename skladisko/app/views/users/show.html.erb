@@ -1,20 +1,26 @@
   <p>
-    <strong>Username: </strong>
-    <%= @user.username %>
+
+    <h1>
+      <strong>Username: </strong>
+      <%= @user.username %>
+    </h1>
   </p>
- 
-  <p>
-    <strong>Name: </strong>
-    <%= @user.name %>
-  </p>
-  
-  <p>
-    <strong>Admin: </strong>
-    <% if @user.admin %>
-      true
-    <% else %>
-      false
-    <% end %>
-  </p>
-  <td><%= link_to 'Back', users_path %></td>
+  <div class="row">
+  <div class="well col-md-6">
+    <p>
+      <strong>Name: </strong>
+      <%= @user.name %>
+    </p>
+
+    <p>
+      <strong>User type: </strong>
+      <% if @user.admin %>
+      Admin
+      <% else %>
+      User
+      <% end %>
+    </p>
+  </div>
+  </div>
+  <td><%= link_to 'Back', users_path, :class => "btn btn-primary" %></td>
 

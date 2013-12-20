@@ -7,6 +7,7 @@ class Chemical < ActiveRecord::Base
   has_and_belongs_to_many :messages
   validates :group_id, presence: true
   validates :name, presence: true
+  validates :total_amount, numericality: {greater_than_or_equal_to: 0}
   
   #before_save :check_minimum
   before_update :check_minimum
@@ -19,6 +20,11 @@ class Chemical < ActiveRecord::Base
         message.text = 'critical amount'
         message.kind = 1
         message.save
+        users = User.all
+        users.each do |user|
+          user.new_message = true
+          user.save
+        end
       end
     else
       message = Message.find_by_chemical_id_and_kind(self.id, 1)

@@ -132,11 +132,24 @@ $(document).on('nested:fieldAdded', function(event){
         ttl: 1,
         limit: 10 });
     
+    $('.users-auto-complete').typeahead({
+    name: 'user',
+    prefetch: {url: "/operations/users", ttl: 0},
+    ttl: 1,
+    limit: 10 });
+    
     //$('.chemical-form').toggle();//css('display','none');
     
     $('.chemical-new').unbind("click");
     $('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
     
     $('.selectpicker').selectpicker();
+    
+    $('.amount-validation').keyup(function() {
+        value = $(this).val();
+        if (!$.isNumeric(value) && !(value == "-")) {
+            $(this).val("");
+        }
+    });
 })
 
