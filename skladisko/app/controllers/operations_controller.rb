@@ -304,8 +304,6 @@ class OperationsController < ApplicationController
         chemical.containers += [container]
         chemical.save
       end
-      
-      
     end
   end
   
