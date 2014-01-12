@@ -83,12 +83,12 @@ $(document).ready( function () {
     ttl: 1,
     limit: 10 });
     
-    $('.amount-validation').keyup(function() {
-        value = $(this).val();
-        if (!$.isNumeric(value) && !(value == "-")) {
-            $(this).val("");
-        }
-    });
+    //$('.amount-validation').keyup(function() {
+    //    value = $(this).val();
+    //    if (!$.isNumeric(value) && !(value == "-")) {
+    //        $(this).val("");
+    //    }
+    //});
     
 	e = document.getElementById('operation_protocol_name');
 	box = document.getElementById('is_protocol');
@@ -119,8 +119,63 @@ $(document).ready( function () {
 	
 	//e.toggle();
     });
-    
-	$('.selectpicker').selectpicker();});
+    $('#submit').hide();
+    validate();
+    document.onkeyup = validate;
+    document.onclick = validate;
+    function validate(e) {
+	if (amounts_valid() & locations_valid() & catalog_nums_valid() & dates_valid()) {
+	   console.log("valid");
+	   $('#submit').show();
+	} else {
+	    console.log("invalid");
+	    $('#submit').hide();
+	}
+    };
+    function amounts_valid() {
+	var array = $('.amount-validation').filter(":visible");
+	for (var i = 0; i < array.length; i++) {
+		array.eq(i).css({
+			'border': '1px solid black'	
+		});
+		if (!$.isNumeric(array.eq(i).val()) || parseInt(array.eq(i).val()) < 0) {
+			array.eq(i).css({
+				'border': '1px solid red'	
+			});
+			console.log(parseInt(array.eq(i).val()));
+			return false;
+		}
+	}
+	return true;
+    };
+    function dates_valid() {
+	var array = $('.date-validation').filter(":visible");
+	return presence_validation(array);
+    };
+    function locations_valid() {
+	var array = $('.location-validation').filter(":visible");
+	return presence_validation(array);
+    };
+    function catalog_nums_valid() {
+	var array = $('.catalog-num-validation').filter(":visible");
+	return presence_validation(array);
+    };
+    function presence_validation(array) {
+	for (var i = 0; i < array.length; i++) {
+		array.eq(i).css({
+			'border': '1px solid black'	
+		});
+		if (!array.eq(i).val().length > 0) {
+			array.eq(i).css({
+				'border': '1px solid red'	
+			});
+			return false;
+		}
+	}
+	return true;
+    }
+    $('.selectpicker').selectpicker();
+});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		
 // 		}
@@ -153,11 +208,11 @@ $(document).on('nested:fieldAdded', function(event){
     
     $('.selectpicker').selectpicker();
     
-    $('.amount-validation').keyup(function() {
-        value = $(this).val();
-        if (!$.isNumeric(value) && !(value == "-")) {
-            $(this).val("");
-        }
-    });
+    //$('.amount-validation').keyup(function() {
+    //    value = $(this).val();
+    //    if (!$.isNumeric(value) && !(value == "-")) {
+    //        $(this).val("");
+    //    }
+    //});
 })
 

@@ -132,15 +132,15 @@
       <p><%= container.text_field :amount, class: "form-control amount-validation", placeholder: "Amount"  %></p>
 
       <p><%= container.label :expiration_date , 'Expiration Date'%></p>
-      <p><%= container.date_field :expiration_date,  class: "form-control" %></p>
+      <p><%= container.date_field :expiration_date,  class: "form-control date-validation" %></p>
     </div>
     <div class="col-md-6">
 
       <p><%= container.label :location %></p>
-      <p><%= container.text_field :location, class: "form-control", placeholder: "Location"  %></p>
+      <p><%= container.text_field :location, class: "form-control location-validation", placeholder: "Location"  %></p>
 
       <p><%= container.label :catalog_number , 'Catalog Number'%></p>
-      <p><%= container.text_field :catalog_number, class: "form-control", placeholder: "Catalog number"  %></p>
+      <p><%= container.text_field :catalog_number, class: "form-control catalog-num-validation", placeholder: "Catalog number", "required" => "" %></p>
     </div>
   </div>
 </div>
@@ -157,7 +157,7 @@
 <p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
 <p>
-<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-success" %>
+<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-success", :id => "submit" %>
 </p>
 
 <% end %>
