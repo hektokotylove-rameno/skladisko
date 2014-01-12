@@ -304,8 +304,6 @@ class OperationsController < ApplicationController
         chemical.containers += [container]
         chemical.save
       end
-      
-      
     end
   end
   
@@ -357,7 +355,7 @@ class OperationsController < ApplicationController
       if (user == "")
         @operations = Operation.joins(:user, :project).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?)", "%#{user}%", "%#{project}%", kinds)
       else
-        @operations = Operation.joins(:project).joins("INNER JOIN 'users' AS 'owner' ON 'owner'.'id' = 'operations'.'user_id' LEFT OUTER JOIN 'operations_users' ON 'operations_users'.'id' = 'operations'.'id' LEFT OUTER JOIN 'users' AS 'participants_operations' ON 'participants_operations'.'id' = 'operations_users'.'user_id'").where("((owner.name LIKE ?) OR (participants_operations.name LIKE ?)) AND projects.name LIKE ? AND operations.kind IN (?)", "%#{user}%", "%#{user}%", "%#{project}%", kinds)
+        @operations = Operation.joins(:user, :project).joins("LEFT OUTER JOIN 'operations_users' ON 'operations_users'.'operation_id' = 'operations'.'id' LEFT OUTER JOIN 'users' AS 'participants_operations' ON 'participants_operations'.'id' = 'operations_users'.'user_id'").where("((users.name LIKE ?) OR (participants_operations.name LIKE ?)) AND projects.name LIKE ? AND operations.kind IN (?)", "%#{user}%", "%#{user}%", "%#{project}%", kinds)
       end
       if @protocols_only
         @operations = @operations.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
