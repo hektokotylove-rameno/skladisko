@@ -31,7 +31,7 @@
 <% end %>
 
 <p><%= operation.label :project_name, 'Project Name' %></p>
-<p><%= operation.text_field(:project_name, value: val, class: 'project-auto-complete', placeholder: 'Projects') %></p>
+<p><%= operation.text_field(:project_name, value: val, class: 'project-auto-complete project-validation', placeholder: 'Projects') %></p>
 
 <p><%= operation.label :note %></p>
 <p><%= operation.text_area :note, class: "form-control"%></p>
@@ -96,27 +96,27 @@
   <% end %>
 <div class="well">
   <p><%= container.label :chemical_name, 'Chemical Name' %></p>
-  <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete chemical-name-validation', placeholder: 'Chemicals') %>
   <% counter += 1 %>
-  <%= container.link_to_remove "Remove", class: "btn btn-danger" %>
+  <%= container.link_to_remove "Remove", class: "btn btn-danger remove-container" %>
   <a class="chemical-new btn btn-primary">Create Chemical</a></p>
   <div class="row">
     <div class="chemical-form" style="display: none">
       <%= container.fields_for :chemical, wrapper: :div do |chemical|%>
       
-      <div class="col-md-6">
+      <div class="col-md-6 visibility-validation">
 
       <p><%= chemical.label :unit %></p>
-      <p><%= chemical.text_field :unit, class: "form-control", placeholder: "Unit"  %></p>
+      <p><%= chemical.text_field :unit, class: "form-control unit-validation", placeholder: "Unit"  %></p>
 
       <p><%= chemical.label :critical_amount , 'Critical Amount'%></p>
-      <p><%= chemical.text_field :critical_amount,  class: "form-control", placeholder: "Critical amount"  %></p>
+      <p><%= chemical.text_field :critical_amount,  class: "form-control critical-amount-validation", placeholder: "Critical amount"  %></p>
       
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 visibility-validation">
       
       <p><%= chemical.label :group %></p>
-      <p><%= chemical.text_field :group,  class: "groups-auto-complete", placeholder: "Group"  %></p>
+      <p><%= chemical.text_field :group,  class: "groups-auto-complete group-validation", placeholder: "Group"  %></p>
       
       <p><%= chemical.label :note %></p>
       <p><%= chemical.text_area :note,  class: "form-control", placeholder: "Note"  %></p>
@@ -146,7 +146,7 @@
 </div>
 
 <% end %>
-<p><%= operation.link_to_add "Add Another Chemical", :containers, class: "btn btn-primary" %></p>
+<p><%= operation.link_to_add "Add Another Chemical", :containers, class: "btn btn-primary", id: "add-another-chemical" %></p>
 
 <%= operation.fields_for :participants, wrapper: :div do |participant| %>
 <p><%= participant.label :name %></p>
