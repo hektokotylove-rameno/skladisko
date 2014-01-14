@@ -133,16 +133,7 @@ $(document).ready( function () {
 	getChemNames();
 	validate(e);
     });
-//    $('.chemical-new').click(function(e) {
-//	var visible = $( this ).parent().parent().parent().children().children().children().children(".visibility-validation").is(":visible");
-//	var name = $(this).siblings('.twitter-typeahead').children(".chemical-name-validation").val();
-//	if (!visible) {
-//		if ($.inArray(name, names)) {
-//			names.splice( $.inArray(name, names), 1 );
-//		}
-//	}
-//    });
-    ///////end validations///////////////
+
     function validate(e) {
 	names = [];
 	getChemNames();
