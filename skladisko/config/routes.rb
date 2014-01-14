@@ -1,5 +1,7 @@
 Skladisko::Application.routes.draw do
   
+  post "params" => 'params#show'
+  get "params" => 'params#show'
   get "groups" => 'groups#index'
   get "settings" => 'settings#index'
   patch "settings" => 'settings#save'

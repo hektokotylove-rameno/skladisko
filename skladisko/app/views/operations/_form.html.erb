@@ -46,7 +46,7 @@
 <p><%= operation.label(:name) %></p>
 <p><%= operation.text_field :name, value: val, class: "form-control", placeholder: "Protocol Name" %></p>
 </div>
-
+<p><a class="chemical-new btn btn-primary">Create Chemical</a></p>
 <% if (@operation.kind == 2) or (@operation.kind == 3) %>
 <% counter = 0 %>
 
@@ -99,7 +99,7 @@
   <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete chemical-name-validation', placeholder: 'Chemicals') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger remove-container" %>
-  <a class="chemical-new btn btn-primary">Create Chemical</a></p>
+  <!--<a class="chemical-new btn btn-primary">Create Chemical</a>--></p>
   <div class="row">
     <div class="chemical-form" style="display: none">
       <%= container.fields_for :chemical, wrapper: :div do |chemical|%>
@@ -137,10 +137,10 @@
     <div class="col-md-6">
 
       <p><%= container.label :location %></p>
-      <p><%= container.text_field :location, class: "form-control location-validation", placeholder: "Location"  %></p>
+      <p><%= container.text_field :location, class: "form-control location-validation", placeholder: "Location" %></p>
 
       <p><%= container.label :catalog_number , 'Catalog Number'%></p>
-      <p><%= container.text_field :catalog_number, class: "form-control catalog-num-validation", placeholder: "Catalog number", "required" => "" %></p>
+      <p><%= container.text_field :catalog_number, class: "form-control catalog-num-validation", placeholder: "Catalog number" %></p>
     </div>
   </div>
 </div>
@@ -162,6 +162,50 @@
 
 <% end %>
 
+<div id="dialog" title="Basic dialog" style="display: none;">
+ <%= form_for @chemical do |f| %>
+  <% if @chemical.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@chemical.errors.count, "error") %> prohibited
+      this post from being saved:</h2>
+    <div class="alert alert-danger">
+    <ul>
+    <% @chemical.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+    </div>
+  </div>
+  <% end %>
 
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+  </p>
+  
+  <p>
+    <%= f.label :unit %><br>
+    <%= f.text_field :unit, class: "form-control", placeholder: "Unit" %>
+  </p>
+  
+  <p>
+    <%= f.label :critical_amount %><br>
+    <%= f.text_field :critical_amount, class: "form-control", placeholder: "Critical amount" %>
+  </p>
+  
+  <p><%= label_tag(:group_name) %></p>
+  <% if @chemical.group %>
+    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name) %></p>
+  <% else %>
+    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group') %></p>
+  <% end %>
+ 
+  <p>
+    <%= f.label :note %><br>
+    <%= f.text_area :note, class: "form-control", placeholder: "Note" %>
+  </p>
+   
+<% end %>
+</div>
 
 <% end %>

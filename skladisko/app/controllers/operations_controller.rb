@@ -14,6 +14,7 @@ class OperationsController < ApplicationController
   
   def new
     session[:message] = nil
+    @chemical = Chemical.new
     @operation = Operation.new
     @operation.containers.build
     if (params[:kind] == 'add')
