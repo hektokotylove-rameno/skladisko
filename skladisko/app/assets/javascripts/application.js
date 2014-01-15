@@ -119,13 +119,12 @@ $(document).ready( function () {
 	
 	//e.toggle();
     });
-    ///////////validations///////////////
     $('.chemical-new').click(function() {
 	$( "#dialog" ).dialog({
-		resizable: false,
+		resizable: true,
 		draggable: false,
-		height: $('#new_operation').outerHeight(),
-		width: $('#new_operation').outerWidth(),
+		height: $('form').outerHeight(),
+		width: $('form').outerWidth(),
 		border: '1px solid red',
 		modal: true,
 		buttons: {
@@ -181,7 +180,7 @@ $(document).ready( function () {
     function validate(e) {
 	console.log(names);
 	chem_form_valid();
-	if (project_name_valid() & amounts_valid() & locations_valid() & catalog_nums_valid() & dates_valid() & chemicals_names_valid()) {
+	if (project_name_valid() & amounts_valid() & locations_valid() & catalog_nums_valid() & dates_valid() & chemicals_names_valid() & protocol_name_valid()) {
 	   $('#submit').show();
 	} else {
 	    $('#submit').hide();
@@ -257,6 +256,10 @@ $(document).ready( function () {
 	if (!result) {
 		return false;
 	}
+	return presence_validation(array);
+    }
+    function protocol_name_valid() {
+	var array = $('#operation_name').filter(":visible");
 	return presence_validation(array);
     }
     function units_valid() {

@@ -385,6 +385,7 @@ class OperationsController < ApplicationController
   
   def edit
     #render text: params
+    @chemical = Chemical.new
     @operation = Operation.find(params[:id])
   end
   
