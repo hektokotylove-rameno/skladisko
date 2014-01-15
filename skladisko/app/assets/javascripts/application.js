@@ -167,20 +167,18 @@ $(document).ready( function () {
     });
     $('#submit').hide();
     getChemNames();
+    getUserNames();
     validate();
     document.onkeyup = validate;
     document.onclick = validate;
-    $('.remove-container').mouseup(function(e) {
-	console.log("now");
-	names = [];
-	getChemNames();
-	validate(e);
-    });
 
     function validate(e) {
 	console.log(names);
 	chem_form_valid();
-	if (project_name_valid() & amounts_valid() & locations_valid() & catalog_nums_valid() & dates_valid() & chemicals_names_valid() & protocol_name_valid()) {
+	if (project_name_valid() & amounts_valid() & locations_valid() & catalog_nums_valid() & dates_valid() & chemicals_names_valid() & protocol_name_valid() &
+	    user_names_valid()) {
+		console.log(names);
+		console.log(userNames);
 	   $('#submit').show();
 	} else {
 	    $('#submit').hide();
@@ -203,6 +201,28 @@ $(document).ready( function () {
 	var array = $('.amount-validation').filter(":visible");
 	return greaterThanZeroValidation(array);
     };
+    
+    function user_names_valid() {
+	var array = $('.users-auto-complete').filter(":visible");
+	var result = true;
+	for (var i = 0; i < array.length; i++) {
+		var name = array.eq(i).val();
+		if ($.inArray(name, userNames) < 0 ) {
+			array.eq(i).css({
+				'border': '2px solid red'	
+			});
+			result = false;
+		} else {
+			array.eq(i).css({
+				'border': '2px solid black'	
+			});
+		}
+	}
+	if (!result) {
+		return false;
+	}
+	return presence_validation(array);
+    }
     
     function greaterThanZeroValidation(array) {
 	var result = true;
@@ -231,6 +251,19 @@ $(document).ready( function () {
 	});
 	console.log("names acquired");
     };
+    
+    function getUserNames() {
+	userNames = [];
+	$.ajax({url: "/operations/users",
+	       async: false,
+	       cache: false,
+	       success: function(result){
+		userNames = result;
+		}
+	});
+	console.log("userNames acquired");
+    }
+    
     function project_name_valid() {
 	var array = $('.project-validation').filter(":visible");
 	return presence_validation(array);
@@ -238,7 +271,6 @@ $(document).ready( function () {
     
     function chemicals_names_valid() {
 	var array = $('.chemical-name-validation').filter(":visible");
-	console.log(array.length);
 	var result = true;
 	for (var i = 0; i < array.length; i++) {
 		var name = array.eq(i).val();
