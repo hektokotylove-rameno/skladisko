@@ -173,30 +173,28 @@ $(document).ready( function () {
     document.onclick = validate;
 
     function validate(e) {
-	console.log(names);
+	console.log(chemicalNames);
 	chem_form_valid();
-	if (project_name_valid() & amounts_valid() & locations_valid() & catalog_nums_valid() & dates_valid() & chemicals_names_valid() & protocol_name_valid() &
-	    user_names_valid()) {
-		console.log(names);
+	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
+	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
+	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
+		console.log(chemicalNames);
 		console.log(userNames);
 	   $('#submit').show();
 	} else {
 	    $('#submit').hide();
 	}
     };
-    function chem_forms_valid() {
-	 var result = units_valid() & critical_amounts_valid() & groups_valid() & project_name_valid();
-	 if (result && $('.unit-validation').filter(":visible").length > 0) {
-		var array = $('.chemical-name-validation').filter(":visible");
-		for (var i = 0; i < array.length; i++) {
-			var name = array.eq(i).val();
-			if ($.inArray(name, names) < 0) {
-				names.push(name);
-			}
-		}
-	 }
-	 return result;
+    
+    function array_presence_validator(presence_validation_selectors) {
+	var presence_selectors_valid = true;
+	for (var i = 0; i < presence_validation_selectors.length; i++){
+		var array = $(presence_validation_selectors[i]).filter(":visible");
+		presence_selectors_valid &= presence_validation(array);
+	}
+	return presence_selectors_valid;
     }
+    
     function amounts_valid() {
 	var array = $('.amount-validation').filter(":visible");
 	return greaterThanZeroValidation(array);
@@ -204,21 +202,7 @@ $(document).ready( function () {
     
     function user_names_valid() {
 	var array = $('.users-auto-complete').filter(":visible");
-	var result = true;
-	for (var i = 0; i < array.length; i++) {
-		var name = array.eq(i).val();
-		if ($.inArray(name, userNames) < 0 ) {
-			array.eq(i).css({
-				'border': '2px solid red'	
-			});
-			result = false;
-		} else {
-			array.eq(i).css({
-				'border': '2px solid black'	
-			});
-		}
-	}
-	if (!result) {
+	if (!array_not_contains_validator(array, userNames)) {
 		return false;
 	}
 	return presence_validation(array);
@@ -241,15 +225,15 @@ $(document).ready( function () {
     }
     
     function getChemNames() {
-	names = [];
+	chemicalNames = [];
 	$.ajax({url: "/operations/chemicals",
 	       async: false,
 	       cache: false,
 	       success: function(result){
-		names = result;
+		chemicalNames = result;
 		}
 	});
-	console.log("names acquired");
+	console.log("chemicalNames acquired");
     };
     
     function getUserNames() {
@@ -264,80 +248,35 @@ $(document).ready( function () {
 	console.log("userNames acquired");
     }
     
-    function project_name_valid() {
-	var array = $('.project-validation').filter(":visible");
-	return presence_validation(array);
-    }
-    
     function chemicals_names_valid() {
 	var array = $('.chemical-name-validation').filter(":visible");
-	var result = true;
-	for (var i = 0; i < array.length; i++) {
-		var name = array.eq(i).val();
-		if ($.inArray(name, names) < 0 ) {
-			array.eq(i).css({
-				'border': '2px solid red'	
-			});
-			result = false;
-		} else {
-			array.eq(i).css({
-				'border': '2px solid black'	
-			});
-		}
-	}
-	if (!result) {
+	if (!array_not_contains_validator(array, chemicalNames)) {
 		return false;
 	}
 	return presence_validation(array);
     }
-    function protocol_name_valid() {
-	var array = $('#operation_name').filter(":visible");
-	return presence_validation(array);
-    }
-    function units_valid() {
-	var array = $('.unit-validation').filter(":visible");
-	return presence_validation(array);
-    }
-    function groups_valid() {
-	var array = $('.group-validation').filter(":visible");
-	return presence_validation(array);
-    }
     
-    function critical_amounts_valid() {
-	var array = $('.critical-amount-validation').filter(":visible");
-	return greaterThanZeroValidation(array);
+    function array_not_contains_validator(elements, array) {
+	for (var i = 0; i < elements.length; i++) {
+		var name = elements.eq(i).val();
+		if ($.inArray(name, array) < 0 ) {
+			elements.eq(i).css({
+				'border': '2px solid red'	
+			});
+			result = false;
+		} else {
+			elements.eq(i).css({
+				'border': '2px solid black'	
+			});
+		}
+	}
     }
     
     function chem_form_valid() {
-	result = true;
-	var array = $('#chemical_name').filter(":visible");
-	result &= presence_validation(array);
-	result &= ($.inArray(array.eq(0).val(), names) < 0);
-	if (!result) {
-		array.eq(0).css({
-			'border': '2px solid red'	
-		});
-	}
-	array = $('#chemical_unit');
-	result &= presence_validation(array);
-	array = $('#chemical_critical_amount');
-	result &= greaterThanZeroValidation(array);
-	array = $("#group_name");
-	result &= presence_validation(array);
-	return result;
+	var presence_validation_selectors = ['#chemical_name', '#chemical_unit', '#chemical_critical_amount', "#group_name"];
+	return array_presence_validator(presence_validation_selectors);
     };
-    function dates_valid() {
-	var array = $('.date-validation').filter(":visible");
-	return presence_validation(array);
-    };
-    function locations_valid() {
-	var array = $('.location-validation').filter(":visible");
-	return presence_validation(array);
-    };
-    function catalog_nums_valid() {
-	var array = $('.catalog-num-validation').filter(":visible");
-	return presence_validation(array);
-    };
+
     function presence_validation(array) {
 	var result = true;
 	for (var i = 0; i < array.length; i++) {
