@@ -184,7 +184,17 @@ $(document).ready( function () {
 	} else {
 	    $('#submit').hide();
 	}
+	setUnits();
     };
+    
+    function setUnits() {
+	var array = $('.chemical-name-validation').filter(":visible");
+	for (var i = 0; i < array.length; i++) {
+		var id = array.eq(i).attr('id')
+		var number_in_id = id.match(/\d+/);
+		console.log(number_in_id[0]);
+	}
+    }
     
     function array_presence_validator(presence_validation_selectors) {
 	var presence_selectors_valid = true;
