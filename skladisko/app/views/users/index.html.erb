@@ -20,7 +20,9 @@
           <% if @current_user.admin %>
             <%= link_to 'Edit', edit_user_path(user), :class => "btn btn-default" %>
           <% end %>
-          <%= link_to 'Change password', '/users/' + user.id.to_s + '/change_password',:class => "btn btn-default"%>
+          <% if @current_user.id == user.id %>
+            <%= link_to 'Change password', '/users/' + user.id.to_s + '/change_password',:class => "btn btn-default"%>
+          <% end %>
         </div>
       </td>
     </tr>

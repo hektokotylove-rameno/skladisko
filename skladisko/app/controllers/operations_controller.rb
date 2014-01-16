@@ -325,6 +325,8 @@ class OperationsController < ApplicationController
     kinds = []
     chemical = ""
     protocol_name = ""
+    from_date = DateTime.new
+    til_date = DateTime.now
     if not (params[:user].nil? or (params[:user] == ""))
       user = params[:user]
     end
@@ -369,6 +371,8 @@ class OperationsController < ApplicationController
       end
       
     end
+    #@ops = @ops.where("('operations'.'date' >= ?) AND ('operations'.'date' <= ?)", from_date, til_date)
+    #@ops = @ops.where("(date >= ?)", from_date)
     ids = []
     @operations = []
     @ops.each do |op|
