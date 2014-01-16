@@ -133,6 +133,11 @@
 
       <p><%= container.label :expiration_date , 'Expiration Date'%></p>
       <p><%= container.date_field :expiration_date,  class: "form-control date-validation" %></p>
+      <p>
+       <%= container.check_box :expirable %>
+       <%= container.label :expirable %>
+      </p>
+      
     </div>
     <div class="col-md-6">
 

@@ -1,5 +1,6 @@
 class Container < ActiveRecord::Base
   attr_accessor :chemical_name
+  attr_accessor :expirable
   after_initialize :add_chemical_name
   belongs_to :chemical
   has_and_belongs_to_many :operations
