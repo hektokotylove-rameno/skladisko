@@ -192,6 +192,9 @@ $(document).ready( function () {
 	for (var i = 0; i < array.length; i++) {
 		var id = array.eq(i).attr('id')
 		var number_in_id = id.match(/\d+/);
+		var amountLabel = $("label[for='operation_containers_attributes_"+number_in_id+"_amount']");
+		//console.log(amountLabel);
+		amountLabel.css({'border':'10px solid red'});
 		console.log(number_in_id[0]);
 	}
     }
