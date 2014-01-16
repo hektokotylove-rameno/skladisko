@@ -14,6 +14,15 @@ class ChemicalsController < ApplicationController
     @chemical = Chemical.new
   end
   
+  def get_unit
+    chemical = Chemical.find_by_name(params[:name])
+    if (chemical)
+      render text: chemical.unit
+    else
+      render text: '';
+    end
+  end
+  
   def create
     @chemical = Chemical.new(chem_params)
     @group = Group.find_or_create_by_name(params[:group_name])

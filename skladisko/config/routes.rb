@@ -8,6 +8,7 @@ Skladisko::Application.routes.draw do
   get 'messages' => 'messages#index'
   get 'messages/check_expired' => 'messages#check_expired'
   get 'users/:id/change_password' => 'users#change_password'
+  get 'chemicals/:name/unit' => 'chemicals#get_unit'
   
   get "projects/index"
   get "operations/projects" => 'operations#options_projects'
