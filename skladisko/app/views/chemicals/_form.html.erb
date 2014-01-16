@@ -29,6 +29,7 @@
     <%= f.text_field :critical_amount, class: "form-control", placeholder: "Critical amount" %>
   </p>
   
+  
   <p><%= label_tag(:group_name) %></p>
   <% if @chemical.group %>
     <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name, "required" => "") %></p>
