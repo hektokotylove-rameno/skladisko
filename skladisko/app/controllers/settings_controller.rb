@@ -22,7 +22,8 @@ class SettingsController < ApplicationController
   end
   
   def load_database
-    if system "rake db:drop && rake db:data:load"
+    response = system 'bundle exec rake db:drop && bundle exec rake db:migrate && bundle exec rake db:data:load'
+    if response
       session[:message] = 'Database Loaded Successfully!'
     else
       session[:message] = 'Error Occured While Loading Database'
@@ -32,7 +33,7 @@ class SettingsController < ApplicationController
   end
   
   def save_database
-    if system "rake db:data:dump"
+    if system "bundle exec rake db:data:dump"
       session[:message] = 'Database Saved Successfully!'
     else
       session[:message] = 'Error Occured While Saving Database'
