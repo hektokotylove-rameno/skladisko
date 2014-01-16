@@ -83,12 +83,12 @@ $(document).ready( function () {
     ttl: 1,
     limit: 10 });
     
-    $('.amount-validation').keyup(function() {
-        value = $(this).val();
-        if (!$.isNumeric(value) && !(value == "-")) {
-            $(this).val("");
-        }
-    });
+    //$('.amount-validation').keyup(function() {
+    //    value = $(this).val();
+    //    if (!$.isNumeric(value) && !(value == "-")) {
+    //        $(this).val("");
+    //    }
+    //});
     
 	e = document.getElementById('operation_protocol_name');
 	box = document.getElementById('is_protocol');
@@ -119,8 +119,181 @@ $(document).ready( function () {
 	
 	//e.toggle();
     });
+    $('.chemical-new').click(function() {
+	$( "#dialog" ).dialog({
+		resizable: true,
+		draggable: false,
+		height: $('form').outerHeight(),
+		width: $('form').outerWidth(),
+		border: '1px solid red',
+		modal: true,
+		buttons: {
+			"Create chemical": function() {
+				if (!chem_form_valid()) {
+					return;
+				}
+				var formData = {};
+				formData['name'] = $('#chemical_name').val();
+				formData['unit'] = $('#chemical_unit').val();
+				formData['critical_amount'] = $('#chemical_critical_amount').val();
+				formData['note'] = $('#chemical_note').val();
+				sendData = {};
+				sendData['chemical'] = formData;
+				sendData["group_name"] = $("#group_name").val();
+				console.log(formData);				
+				$.ajax({
+					url : "/chemicals",
+					type: "POST",
+					data : sendData,
+					async: false,
+					cache: false,
+					success: function(data, textStatus, jqXHR)
+					{
+						getChemNames();
+						validate();
+					},
+					error: function (jqXHR, textStatus, errorThrown)
+					{
+						console.log(textStatus);
+					}
+				});
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+    });
+    $('#submit').hide();
+    getChemNames();
+    getUserNames();
+    validate();
+    document.onkeyup = validate;
+    document.onclick = validate;
+
+    function validate(e) {
+	console.log(chemicalNames);
+	chem_form_valid();
+	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
+	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
+	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
+		console.log(chemicalNames);
+		console.log(userNames);
+	   $('#submit').show();
+	} else {
+	    $('#submit').hide();
+	}
+    };
     
-	$('.selectpicker').selectpicker();});
+    function array_presence_validator(presence_validation_selectors) {
+	var presence_selectors_valid = true;
+	for (var i = 0; i < presence_validation_selectors.length; i++){
+		var array = $(presence_validation_selectors[i]).filter(":visible");
+		presence_selectors_valid &= presence_validation(array);
+	}
+	return presence_selectors_valid;
+    }
+    
+    function amounts_valid() {
+	var array = $('.amount-validation').filter(":visible");
+	return greaterThanZeroValidation(array);
+    };
+    
+    function user_names_valid() {
+	var array = $('.users-auto-complete').filter(":visible");
+	if (!array_not_contains_validator(array, userNames)) {
+		return false;
+	}
+	return presence_validation(array);
+    }
+    
+    function greaterThanZeroValidation(array) {
+	var result = true;
+	for (var i = 0; i < array.length; i++) {
+		array.eq(i).css({
+			'border': '2px solid black'	
+		});
+		if (!$.isNumeric(array.eq(i).val()) || parseInt(array.eq(i).val()) < 0) {
+			array.eq(i).css({
+				'border': '2px solid red'	
+			});
+			result = false;
+		}
+	}
+	return result;
+    }
+    
+    function getChemNames() {
+	chemicalNames = [];
+	$.ajax({url: "/operations/chemicals",
+	       async: false,
+	       cache: false,
+	       success: function(result){
+		chemicalNames = result;
+		}
+	});
+	console.log("chemicalNames acquired");
+    };
+    
+    function getUserNames() {
+	userNames = [];
+	$.ajax({url: "/operations/users",
+	       async: false,
+	       cache: false,
+	       success: function(result){
+		userNames = result;
+		}
+	});
+	console.log("userNames acquired");
+    }
+    
+    function chemicals_names_valid() {
+	var array = $('.chemical-name-validation').filter(":visible");
+	if (!array_not_contains_validator(array, chemicalNames)) {
+		return false;
+	}
+	return presence_validation(array);
+    }
+    
+    function array_not_contains_validator(elements, array) {
+	for (var i = 0; i < elements.length; i++) {
+		var name = elements.eq(i).val();
+		if ($.inArray(name, array) < 0 ) {
+			elements.eq(i).css({
+				'border': '2px solid red'	
+			});
+			result = false;
+		} else {
+			elements.eq(i).css({
+				'border': '2px solid black'	
+			});
+		}
+	}
+    }
+    
+    function chem_form_valid() {
+	var presence_validation_selectors = ['#chemical_name', '#chemical_unit', '#chemical_critical_amount', "#group_name"];
+	return array_presence_validator(presence_validation_selectors);
+    };
+
+    function presence_validation(array) {
+	var result = true;
+	for (var i = 0; i < array.length; i++) {
+		array.eq(i).css({
+			'border': '2px solid black'	
+		});
+		if (!array.eq(i).val().length > 0) {
+			array.eq(i).css({
+				'border': '2px solid red'	
+			});
+			result = false;
+		}
+	}
+	return result;
+    }
+    $('.selectpicker').selectpicker();
+});
 // 	$('.add_nested_fields_link').click().function(){
 // 		$('.selectpicker').selectpicker();		
 // 		}
@@ -148,16 +321,16 @@ $(document).on('nested:fieldAdded', function(event){
     
     //$('.chemical-form').toggle();//css('display','none');
     
-    $('.chemical-new').unbind("click");
-    $('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
+    //$('.chemical-new').unbind("click");
+    //$('.chemical-new').click(function() { $(this).parent().next("div.row").children("div.chemical-form").toggle() });
     
     $('.selectpicker').selectpicker();
     
-    $('.amount-validation').keyup(function() {
-        value = $(this).val();
-        if (!$.isNumeric(value) && !(value == "-")) {
-            $(this).val("");
-        }
-    });
+    //$('.amount-validation').keyup(function() {
+    //    value = $(this).val();
+    //    if (!$.isNumeric(value) && !(value == "-")) {
+    //        $(this).val("");
+    //    }
+    //});
 })
 

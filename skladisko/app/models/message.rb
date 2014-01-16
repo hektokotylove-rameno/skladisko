@@ -3,6 +3,9 @@ class Message < ActiveRecord::Base
   belongs_to :chemical
   belongs_to :container
   
+  after_destroy :check_if_any
+
+  
   def self.create_expired_messages
     days_before = get_days_before
     warn_date = DateTime.now + days_before
@@ -28,6 +31,17 @@ class Message < ActiveRecord::Base
   def self.get_days_before
     setting = Setting.find(1)
     return setting.days_before_warn
+  end
+  
+  def check_if_any
+    messages = Message.all
+    if messages.empty?
+      users = User.all
+      users.each do |user|
+        user.new_message = false
+        user.save
+      end
+    end
   end
   
 end

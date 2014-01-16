@@ -16,12 +16,12 @@
 
   <p>
     <%= f.label :name %><br>
-    <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Name", "required" => "" %>
   </p>
   
   <p>
     <%= f.label :unit %><br>
-    <%= f.text_field :unit, class: "form-control", placeholder: "Unit" %>
+    <%= f.text_field :unit, class: "form-control", placeholder: "Unit", "required" => "" %>
   </p>
   
   <p>
@@ -31,9 +31,9 @@
   
   <p><%= label_tag(:group_name) %></p>
   <% if @chemical.group %>
-    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name) %></p>
+    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name, "required" => "") %></p>
   <% else %>
-    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group') %></p>
+    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', "required" => "") %></p>
   <% end %>
  
   <p>
