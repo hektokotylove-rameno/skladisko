@@ -176,9 +176,8 @@ $(document).ready( function () {
 	chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
+	console.log(presence_selectors_valid);
 	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
-		console.log(chemicalNames);
-		console.log(userNames);
 	   $('#submit').show();
 	} else {
 	    $('#submit').hide();
@@ -187,7 +186,7 @@ $(document).ready( function () {
     };
     
     function setUnits() {
-	var array = $('.chemical-name-validation').filter(":visible");
+	var array = $('.chemicals-auto-complete').filter(":visible");
 	for (var i = 0; i < array.length; i++) {
 		var id = array.eq(i).attr('id');
 		var number_in_id = id.match(/\d+/);
@@ -225,7 +224,7 @@ $(document).ready( function () {
     
     function user_names_valid() {
 	var array = $('.users-auto-complete').filter(":visible");
-	if (!array_not_contains_validator(array, userNames)) {
+	if (!array_contains_validator(array, userNames)) {
 		return false;
 	}
 	return presence_validation(array);
@@ -270,14 +269,15 @@ $(document).ready( function () {
     }
     
     function chemicals_names_valid() {
-	var array = $('.chemical-name-validation').filter(":visible");
-	if (!array_not_contains_validator(array, chemicalNames)) {
+	var array = $('.chemicals-auto-complete').filter(":visible");
+	if (!array_contains_validator(array, chemicalNames)) {
 		return false;
 	}
 	return presence_validation(array);
     }
     
-    function array_not_contains_validator(elements, array) {
+    function array_contains_validator(elements, array) {
+	result = true;
 	for (var i = 0; i < elements.length; i++) {
 		var name = elements.eq(i).val();
 		if ($.inArray(name, array) < 0 ) {
@@ -291,6 +291,7 @@ $(document).ready( function () {
 			});
 		}
 	}
+	return result;
     }
     
     function chem_form_valid() {

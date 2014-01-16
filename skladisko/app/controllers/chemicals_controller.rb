@@ -17,7 +17,7 @@ class ChemicalsController < ApplicationController
   def get_unit
     chemical = Chemical.find_by_name(params[:name])
     if (chemical)
-      render text: chemical.unit
+      render text: 'remaining: ' + chemical.total_amount.to_s + chemical.unit
     else
       render text: '';
     end
