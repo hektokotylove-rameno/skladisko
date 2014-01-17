@@ -227,7 +227,6 @@ $(document).ready( function () {
 		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
 		amountLabel.text("Amount");
-		amountLabel.css({'border' : '10px solid red'});
 		console.log(units);
 		for (var j = 0; j < units.length; j++) {
 			if (units[j].name == array.eq(i).val()) {
