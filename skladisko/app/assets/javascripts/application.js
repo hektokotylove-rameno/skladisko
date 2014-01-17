@@ -103,6 +103,10 @@ $(document).ready( function () {
 	    e.style.display = 'block';    
 	
 	//e.toggle();
+	
+    $('.expirable-check-box').mouseup(function() {
+	console.log('now');
+    });
     
     $('#is_protocol').click (function() {
 	e = document.getElementById('operation_protocol_name');
@@ -176,7 +180,6 @@ $(document).ready( function () {
 	chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
-	console.log(presence_selectors_valid);
 	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
 	   $('#submit').show();
 	} else {
