@@ -1,9 +1,7 @@
 class SettingsController < ApplicationController
+  
   def index
     @setting = Setting.find(1)
-    @dump = RestoreData.new
-    @dump.attachment = '/db/data.yml'
-    @dump.save
     render 'index'
     session[:message] = nil
     session[:type] = nil
@@ -16,10 +14,9 @@ class SettingsController < ApplicationController
   
   def restore
     @restore_data = RestoreData.new(restore_data_params)
-    
     if (@restore_data.save)
-      session[:message] = @restore_data.attachment
-      redirect_to settings_path
+      system ("cp public" + @restore_data.attachment_url + " ./db/data.yml");
+      load_database
     else
       render 'select_file'
     end
@@ -61,10 +58,7 @@ class SettingsController < ApplicationController
       session[:type] = 'error'
       redirect_to settings_path
     end
-    
-    
   end
-  
   
   def force_check_expired_chems
     Message.create_expired_messages
