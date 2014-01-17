@@ -96,26 +96,22 @@ $(document).ready( function () {
 //            e.style.display = 'none';
 //	else
 //	    e.style.display = 'block';
-	    
-	if(!box.checked == true)
-            e.style.display = 'none';
-	else
-	    e.style.display = 'block';    
-	
-	//e.toggle();
-	
-    $('.expirable-check-box').mouseup(function() {
-	console.log('now');
-    });
+	if (box != null) {
+		if(!box.checked == true)
+	            e.style.display = 'none';
+		else
+		    e.style.display = 'block';    
+	}
+    
+    
+    $('#upload').hide();
+    $('#restore_data_attachment').change(toggleExpirable(e));
+    
+    
     
     $('#is_protocol').click (function() {
 	e = document.getElementById('operation_protocol_name');
 	box = document.getElementById('is_protocol');
-//	if(e.style.display == 'block')
-//            e.style.display = 'none';
-//	else
-//	    e.style.display = 'block';
-	    
 	if(!box.checked == true)
             e.style.display = 'none';
 	else
@@ -175,6 +171,7 @@ $(document).ready( function () {
     validate();
     document.onkeyup = validate;
     document.onclick = validate;
+    toggleExpirable();
 
     function validate(e) {
 	chem_form_valid();
@@ -186,14 +183,29 @@ $(document).ready( function () {
 	    $('#submit').hide();
 	}
 	setUnits();
+	
     };
+    
+    function toggleExpirable() {
+	$('.date-validation').hide();
+	$('.expirable').click(function() {
+		var id = $(this).attr('id');
+		var number_in_id = id.match(/\d+/);
+		var dateInput = $("#operation_containers_attributes_" + number_in_id + "_expiration_date");
+		if ($(this).is(":checked")) {
+			dateInput.show();
+		} else {
+			dateInput.hide();
+		}
+	});
+    }
     
     function setUnits() {
 	var array = $('.chemicals-auto-complete').filter(":visible");
 	for (var i = 0; i < array.length; i++) {
 		var id = array.eq(i).attr('id');
 		var number_in_id = id.match(/\d+/);
-		var amountLabel = $("label[for='operation_containers_attributes_"+number_in_id+					"_amount']");
+		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
 		$.ajax({
 			url : url,
