@@ -4,6 +4,8 @@ Skladisko::Application.routes.draw do
   get "params" => 'params#show'
   get "groups" => 'groups#index'
   get "settings" => 'settings#index'
+  get "settings/restore" => 'settings#select_file'
+  post "settings/restore" => 'settings#restore'
   patch "settings" => 'settings#save'
   get 'messages' => 'messages#index'
   get 'messages/check_expired' => 'messages#check_expired'

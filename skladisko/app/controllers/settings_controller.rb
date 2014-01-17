@@ -6,12 +6,27 @@ class SettingsController < ApplicationController
     session[:type] = nil
   end
   
+  def select_file
+    @restore_data = RestoreData.new
+  end
+  
+  def restore
+    @restore_data = RestoreData.new(restore_data_params)
+    
+    if (@restore_data.save)
+      session[:message] = @restore_data.attachment
+      redirect_to settings_path
+    else
+      render 'select_file'
+    end
+  end
+  
   def save
     if (params[:save])
       save_database
     end
-    if (params[:load])
-      load_database
+    if (params[:restore])
+      restore
     end
     if (params[:settings])
       save_settings
@@ -65,6 +80,10 @@ class SettingsController < ApplicationController
   def dump
     session[:message] = 'Database Saved Successfully'
     redirect_to settings_path
+  end
+  
+  def restore_data_params
+    params.require(:restore_data).permit(:name, :attachment)
   end
   
 end

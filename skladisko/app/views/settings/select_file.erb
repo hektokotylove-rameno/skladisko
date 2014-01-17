@@ -1,0 +1,17 @@
+<% if !@restore_data.errors.empty? %>
+  <div class="alert alert-error">
+    <ul>
+      <% @restore_data.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="well">
+  <%= form_for @restore_data, html: { multipart: true }, url: settings_restore_path do |f| %>
+    <%= f.label :attachment %>
+    <%= f.file_field :attachment %>
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  <% end %>
+</div>
