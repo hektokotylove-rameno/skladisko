@@ -150,6 +150,7 @@ $(document).ready( function () {
 					success: function(data, textStatus, jqXHR)
 					{
 						getChemNames();
+						getChemUnits();
 						validate();
 					},
 					error: function (jqXHR, textStatus, errorThrown)
@@ -168,6 +169,7 @@ $(document).ready( function () {
     $('#submit').hide();
     getChemNames();
     getUserNames();
+    getChemUnits();
     validate();
     document.onkeyup = validate;
     document.onclick = validate;
@@ -200,6 +202,21 @@ $(document).ready( function () {
 	});
     }
     
+    function getChemUnits() {
+	units = {};
+	var url = "/chemicals/units";
+	$.ajax({
+		url : url,
+		type: "GET",
+		async: false,
+		cache: false,
+		success: function(data, textStatus, jqXHR)
+		{
+			units = data;
+		},
+	});
+    }
+    
     function setUnits() {
 	var array = $('.chemicals-auto-complete').filter(":visible");
 	for (var i = 0; i < array.length; i++) {
@@ -207,19 +224,11 @@ $(document).ready( function () {
 		var number_in_id = id.match(/\d+/);
 		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
-		$.ajax({
-			url : url,
-			type: "GET",
-			async: false,
-			cache: false,
-			success: function(data, textStatus, jqXHR)
-			{
-				if (data != "") {
-					data = "(" + data + ")";
-				}
-				amountLabel.text("Amount " + data);
-			},
-		});
+		for (var i = 0; i < units.length; i++) {
+			if (units[i].name == array.eq(i).val()) {
+				console.log(array.eq(i).val() + " " + i);
+			}
+		}
 	}
     }
     

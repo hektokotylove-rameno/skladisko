@@ -14,13 +14,25 @@ class ChemicalsController < ApplicationController
     @chemical = Chemical.new
   end
   
-  def get_unit
-    chemical = Chemical.find_by_name(params[:name])
-    if (chemical)
-      render text: 'remaining: ' + chemical.total_amount.to_s + chemical.unit
-    else
-      render text: '';
+  def get_units
+    chemicals = Chemical.all
+    response = [];
+    chemicals.each do |chemical|
+      response.push(get_name_and_unit(chemical))
     end
+    render json: response
+  end
+  
+  def get_name_and_unit(chemical)
+    hash = JSON.parse(chemical.to_json)
+    hash.delete("id")
+    hash.delete("total_amount")
+    hash.delete("critical_amount")
+    hash.delete("note")
+    hash.delete("group_id")
+    hash.delete("created_at")
+    hash.delete("updated_at")
+    return hash
   end
   
   def create
