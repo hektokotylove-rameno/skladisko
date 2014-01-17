@@ -39,9 +39,14 @@ class SettingsController < ApplicationController
   end
   
   def load_database
-    response = system 'bundle exec rake db:drop && bundle exec rake db:migrate && bundle exec rake db:data:load'
-    if response
-      session[:message] = 'Database Loaded Successfully!'
+    if (system("bundle exec rake db:data:load"))
+      response = system 'bundle exec rake db:drop && bundle exec rake db:migrate && bundle exec rake db:data:load'
+      if response
+        session[:message] = 'Database Loaded Successfully!'
+      else
+        session[:message] = 'Error Occured While Loading Database'
+        session[:type] = 'error'
+      end
     else
       session[:message] = 'Error Occured While Loading Database'
       session[:type] = 'error'
