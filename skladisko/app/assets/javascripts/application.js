@@ -96,26 +96,22 @@ $(document).ready( function () {
 //            e.style.display = 'none';
 //	else
 //	    e.style.display = 'block';
-	    
-	if(!box.checked == true)
-            e.style.display = 'none';
-	else
-	    e.style.display = 'block';    
-	
-	//e.toggle();
-	
-    $('.expirable-check-box').mouseup(function() {
-	console.log('now');
-    });
+	if (box != null) {
+		if(!box.checked == true)
+	            e.style.display = 'none';
+		else
+		    e.style.display = 'block';    
+	}
+    
+    
+    $('#upload').hide();
+    $('#restore_data_attachment').change(toggleExpirable(e));
+    
+    
     
     $('#is_protocol').click (function() {
 	e = document.getElementById('operation_protocol_name');
 	box = document.getElementById('is_protocol');
-//	if(e.style.display == 'block')
-//            e.style.display = 'none';
-//	else
-//	    e.style.display = 'block';
-	    
 	if(!box.checked == true)
             e.style.display = 'none';
 	else
@@ -154,6 +150,7 @@ $(document).ready( function () {
 					success: function(data, textStatus, jqXHR)
 					{
 						getChemNames();
+						getChemUnits();
 						validate();
 					},
 					error: function (jqXHR, textStatus, errorThrown)
@@ -172,11 +169,13 @@ $(document).ready( function () {
     $('#submit').hide();
     getChemNames();
     getUserNames();
+    getChemUnits();
     validate();
     document.onkeyup = validate;
     document.onclick = validate;
 
     function validate(e) {
+	toggleExpirable();
 	chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
@@ -186,28 +185,54 @@ $(document).ready( function () {
 	    $('#submit').hide();
 	}
 	setUnits();
+	
     };
+    
+    function toggleExpirable() {
+	$('.date-validation').hide();
+	var array = $('.expirable').filter(":visible");
+	for (var i = 0; i < array.length; i++) {
+		console.log("now");
+		var id = array.eq(i).attr('id');
+		var number_in_id = id.match(/\d+/);
+		var dateInput = $("#operation_containers_attributes_" + number_in_id + "_expiration_date");
+		if (array.eq(i).is(":checked")) {
+			dateInput.show();
+		} else {
+			dateInput.hide();
+		}
+	}
+    }
+    
+    function getChemUnits() {
+	units = {};
+	var url = "/chemicals/units";
+	$.ajax({
+		url : url,
+		type: "GET",
+		async: false,
+		cache: false,
+		success: function(data, textStatus, jqXHR)
+		{
+			units = data;
+		},
+	});
+    }
     
     function setUnits() {
 	var array = $('.chemicals-auto-complete').filter(":visible");
 	for (var i = 0; i < array.length; i++) {
 		var id = array.eq(i).attr('id');
 		var number_in_id = id.match(/\d+/);
-		var amountLabel = $("label[for='operation_containers_attributes_"+number_in_id+					"_amount']");
+		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
-		$.ajax({
-			url : url,
-			type: "GET",
-			async: false,
-			cache: false,
-			success: function(data, textStatus, jqXHR)
-			{
-				if (data != "") {
-					data = "(" + data + ")";
-				}
-				amountLabel.text("Amount " + data);
-			},
-		});
+		amountLabel.text("Amount");
+		for (var i = 0; i < units.length; i++) {
+			if (units[i].name == array.eq(i).val()) {
+				amountLabel.text("Amount (remaining: " + units[i].total_amount + units[i].unit + ")");
+				console.log(array.eq(i).val() + " " + i);
+			}
+		}
 	}
     }
     
