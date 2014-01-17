@@ -14,6 +14,26 @@ class ChemicalsController < ApplicationController
     @chemical = Chemical.new
   end
   
+  def get_units
+    chemicals = Chemical.all
+    response = [];
+    chemicals.each do |chemical|
+      response.push(get_name_and_unit(chemical))
+    end
+    render json: response
+  end
+  
+  def get_name_and_unit(chemical)
+    hash = JSON.parse(chemical.to_json)
+    hash.delete("id")
+    hash.delete("critical_amount")
+    hash.delete("note")
+    hash.delete("group_id")
+    hash.delete("created_at")
+    hash.delete("updated_at")
+    return hash
+  end
+  
   def create
     @chemical = Chemical.new(chem_params)
     @group = Group.find_or_create_by_name(params[:group_name])

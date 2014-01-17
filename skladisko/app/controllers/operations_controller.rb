@@ -364,7 +364,7 @@ class OperationsController < ApplicationController
         @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
       end
     else
-      @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%")
+      @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%").reverse_order
       if @protocols_only
         @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
       end

@@ -46,7 +46,7 @@
 <p><%= operation.label(:name) %></p>
 <p><%= operation.text_field :name, value: val, class: "form-control", placeholder: "Protocol Name" %></p>
 </div>
-<p><a class="chemical-new btn btn-primary">Create Chemical</a></p>
+
 <% if (@operation.kind == 2) or (@operation.kind == 3) %>
 <% counter = 0 %>
 
@@ -65,12 +65,12 @@
   <div class="row">
     <div class="col-md-6">   
       <p><%= container.label :amount %></p>
-      <p><%= container.text_field :amount, class: "form-control", placeholder: "Amount"  %></p>
+      <p><%= container.text_field :amount, class: "form-control amount-validation", placeholder: "Amount"  %></p>
     </div>
   </div>
 </div>
 <% end %>
-<p><%= operation.link_to_add "Add Another Chemical", :containers, class: "btn btn-success" %></p>
+<p><%= operation.link_to_add "Add Another Chemical", :containers, class: "btn btn-primary" %></p>
 
 <%= operation.fields_for :participants, wrapper: :div do |participant| %>
 <p><%= participant.label :name %></p>
@@ -81,12 +81,13 @@
 <p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
 <p>
-<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-primary" %>
+<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-sucess", :id => "submit" %>
 </p>
 
 
 
 <% else %>
+  <p><a class="chemical-new btn btn-primary">Create Chemical</a></p>
   <% counter = 0 %>
 <%= operation.fields_for :containers, wrapper: :div do |container| %>
   <% if @operation.containers[counter] && @operation.containers[counter].chemical %>
@@ -133,6 +134,11 @@
 
       <p><%= container.label :expiration_date , 'Expiration Date'%></p>
       <p><%= container.date_field :expiration_date,  class: "form-control date-validation" %></p>
+      <p>
+       <%= container.check_box :expirable, class: "expirable" %>
+       <%= container.label :expirable %>
+      </p>
+      
     </div>
     <div class="col-md-6">
 
