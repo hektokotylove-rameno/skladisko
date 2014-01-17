@@ -16,6 +16,7 @@ class SettingsController < ApplicationController
     @restore_data = RestoreData.new(restore_data_params)
     if (@restore_data.save)
       system ("cp public" + @restore_data.attachment_url + " ./db/data.yml");
+      system ("rm -r public/uploads/restore_data/attachment/*")
       load_database
     else
       render 'select_file'
