@@ -173,9 +173,9 @@ $(document).ready( function () {
     validate();
     document.onkeyup = validate;
     document.onclick = validate;
-    toggleExpirable();
 
     function validate(e) {
+	toggleExpirable();
 	chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
@@ -190,16 +190,18 @@ $(document).ready( function () {
     
     function toggleExpirable() {
 	$('.date-validation').hide();
-	$('.expirable').click(function() {
-		var id = $(this).attr('id');
+	var array = $('.expirable').filter(":visible");
+	for (var i = 0; i < array.length; i++) {
+		console.log("now");
+		var id = array.eq(i).attr('id');
 		var number_in_id = id.match(/\d+/);
 		var dateInput = $("#operation_containers_attributes_" + number_in_id + "_expiration_date");
-		if ($(this).is(":checked")) {
+		if (array.eq(i).is(":checked")) {
 			dateInput.show();
 		} else {
 			dateInput.hide();
 		}
-	});
+	}
     }
     
     function getChemUnits() {
@@ -224,8 +226,10 @@ $(document).ready( function () {
 		var number_in_id = id.match(/\d+/);
 		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
+		amountLabel.text("Amount");
 		for (var i = 0; i < units.length; i++) {
 			if (units[i].name == array.eq(i).val()) {
+				amountLabel.text("Amount (remaining: " + units[i].total_amount + units[i].unit + ")");
 				console.log(array.eq(i).val() + " " + i);
 			}
 		}

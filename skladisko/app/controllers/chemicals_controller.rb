@@ -26,7 +26,6 @@ class ChemicalsController < ApplicationController
   def get_name_and_unit(chemical)
     hash = JSON.parse(chemical.to_json)
     hash.delete("id")
-    hash.delete("total_amount")
     hash.delete("critical_amount")
     hash.delete("note")
     hash.delete("group_id")
