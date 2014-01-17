@@ -175,6 +175,10 @@ $(document).ready( function () {
     document.onclick = validate;
 
     function validate(e) {
+	console.log(window.location.pathname);
+	if (window.location.pathname.indexOf("/new") < 0 && window.location.pathname.indexOf("/edit") < 0) {
+		return;
+	}
 	toggleExpirable();
 	chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
