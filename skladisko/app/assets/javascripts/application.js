@@ -230,8 +230,7 @@ $(document).ready( function () {
 		console.log(units);
 		for (var j = 0; j < units.length; j++) {
 			if (units[j].name == array.eq(i).val()) {
-				amountLabel.text("Amount (remaining: " + units[i].total_amount + units[i].unit + ")");
-				console.log(array.eq(i).val() + " " + i);
+				amountLabel.text("Amount (remaining: " + units[j].total_amount + units[j].unit + ")");
 			}
 		}
 	}
