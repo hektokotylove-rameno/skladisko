@@ -1,16 +1,18 @@
 class Container < ActiveRecord::Base
   attr_accessor :chemical_name
-  attr_accessor :expirable
   after_initialize :add_chemical_name
   belongs_to :chemical
   has_and_belongs_to_many :operations
   has_and_belongs_to_many :messages
   validates :amount, presence: true, numericality: true
-  validates :expiration_date, presence: true, if: :real?
+  validates :expiration_date, presence: true, if: :expirable? and :real?
   validates :catalog_number, presence: true, if: :real?
   
   def expired
-    return expiration_date < DateTime.now
+    if expirable?
+      return expiration_date < DateTime.now
+    end
+    return false
   end
   
   def remove_obsolete_messages
@@ -28,6 +30,10 @@ class Container < ActiveRecord::Base
   
   def real?
     return self.real
+  end
+  
+  def expirable?
+    return self.expirable
   end
   
 end

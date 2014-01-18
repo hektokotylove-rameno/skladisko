@@ -412,7 +412,7 @@ class OperationsController < ApplicationController
   end
   
   def permit_container_params(args)
-    ActionController::Parameters.new(args).permit(:amount, :expiration_date, :catalog_number, :location)
+    ActionController::Parameters.new(args).permit(:amount, :expiration_date, :expirable, :catalog_number, :location)
   end
   
   def operation_params

@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140117113719) do
   create_table "containers", force: true do |t|
     t.float    "amount"
     t.datetime "expiration_date"
+    t.boolean  "expirable",       default: true
     t.string   "location"
     t.string   "catalog_number"
     t.boolean  "real"
