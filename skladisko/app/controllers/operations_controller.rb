@@ -364,12 +364,17 @@ class OperationsController < ApplicationController
         @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
       end
     else
-      @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%").reverse_order
+      if (user == "")
+        @ops = Operation.joins(:user, :project, containers: [:chemical]).where("users.name LIKE ? AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%")
+      else
+        @ops = Operation.joins(:project, containers: [:chemical]).joins("INNER JOIN 'users' AS 'owner' ON 'owner'.'id' = 'operations'.'user_id' LEFT OUTER JOIN 'operations_users' ON 'operations_users'.'operation_id' = 'operations'.'id' LEFT OUTER JOIN 'users' AS 'participants_operations' ON 'participants_operations'.'id' = 'operations_users'.'user_id'").where("(('owner'.'name' LIKE ?) OR ('participants_operations'.'name' LIKE ?)) AND projects.name LIKE ? AND kind IN (?) AND chemicals.name LIKE ?", "%#{user}%", "%#{user}%", "%#{project}%", kinds, "%#{chemical}%")
+      end
       if @protocols_only
         @ops = @ops.where({:protocol => true}).where("operations.name LIKE ?", "%#{protocol_name}%")
       end
       
     end
+    @ops = @ops.order(created_at: :desc)
     #@ops = @ops.where("('operations'.'date' >= ?) AND ('operations'.'date' <= ?)", from_date, til_date)
     #@ops = @ops.where("(date >= ?)", from_date)
     ids = []

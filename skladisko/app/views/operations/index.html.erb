@@ -19,6 +19,8 @@
 <% end %>
 <%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'project-auto-complete') %>
 <%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'chemicals-auto-complete') %>
+<%= date_field_tag("from_date", nil) %>
+<%= date_field_tag("til_date", nil) %>
 <%= submit_tag("Search", :class => "btn btn-primary") %>
 <% end %>
 <div id="operations">
