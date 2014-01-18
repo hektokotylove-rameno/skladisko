@@ -175,6 +175,10 @@ $(document).ready( function () {
     document.onclick = validate;
 
     function validate(e) {
+	console.log(window.location.pathname);
+	if (window.location.pathname.indexOf("/new") < 0 && window.location.pathname.indexOf("/edit") < 0) {
+		return;
+	}
 	toggleExpirable();
 	chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
@@ -227,10 +231,10 @@ $(document).ready( function () {
 		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
 		amountLabel.text("Amount");
-		for (var i = 0; i < units.length; i++) {
-			if (units[i].name == array.eq(i).val()) {
-				amountLabel.text("Amount (remaining: " + units[i].total_amount + units[i].unit + ")");
-				console.log(array.eq(i).val() + " " + i);
+		console.log(units);
+		for (var j = 0; j < units.length; j++) {
+			if (units[j].name == array.eq(i).val()) {
+				amountLabel.text("Amount (remaining: " + units[j].total_amount + units[j].unit + ")");
 			}
 		}
 	}
