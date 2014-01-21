@@ -83,6 +83,12 @@ $(document).ready( function () {
     ttl: 1,
     limit: 10 });
     
+    $('.locations-auto-complete').typeahead({
+    name: 'Locations',
+    prefetch: {url: "/locations", ttl: 0},
+    ttl: 1,
+    limit: 10 });
+    
     //$('.amount-validation').keyup(function() {
     //    value = $(this).val();
     //    if (!$.isNumeric(value) && !(value == "-")) {

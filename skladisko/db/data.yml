@@ -1,0 +1,125 @@
+
+---
+users:
+  columns:
+  - id
+  - username
+  - name
+  - password_hash
+  - password_salt
+  - admin
+  - new_message
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - admin
+    - Admin
+    - $2a$10$eZlnTjkyqLhpiNOOamg2sOmR5khIK.zXgjeo1W3r.icQ/Xu7cgom2
+    - $2a$10$eZlnTjkyqLhpiNOOamg2sO
+    - true
+    - false
+    - '2013-12-20 12:05:33.328826'
+    - '2013-12-20 12:05:33.328826'
+  - - 2
+    - timo
+    - Timotej Krajči
+    - $2a$10$DKgE0XhSbezBBAOM4a03PeWslP6N7OfzK5ynPG97eejqSJ/i/T3Ji
+    - $2a$10$DKgE0XhSbezBBAOM4a03Pe
+    - false
+    - false
+    - '2013-12-20 12:05:33.462753'
+    - '2013-12-20 12:05:33.462753'
+  - - 3
+    - adam
+    - Adamko
+    - $2a$10$kYDjAcMFGCuIyRU3qaq45uc6OgaYptIhDjNxP3GF0zA4bIEw91qfq
+    - $2a$10$kYDjAcMFGCuIyRU3qaq45u
+    - false
+    - false
+    - '2013-12-20 12:08:48.791458'
+    - '2013-12-20 12:08:48.791458'
+
+---
+chemicals:
+  columns:
+  - id
+  - name
+  - total_amount
+  - critical_amount
+  - unit
+  - group_id
+  - note
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - Hovno
+    - 0.0
+    - 1.0
+    - kg
+    - 1
+    - hovnisko
+    - '2013-12-20 12:05:31.868313'
+    - '2013-12-20 12:05:31.868313'
+  - - 2
+    - Pivo
+    - 0.0
+    - 1.5
+    - l
+    - 2
+    - pivcisko
+    - '2013-12-20 12:05:32.055238'
+    - '2013-12-20 12:05:32.055238'
+  - - 3
+    - Voda
+    - 0.0
+    - 10.0
+    - l
+    - 2
+    - vodisko
+    - '2013-12-20 12:05:32.198944'
+    - '2013-12-20 12:05:32.198944'
+  - - 4
+    - Piesok
+    - 0.0
+    - 1.0
+    - t
+    - 3
+    - stavebný matroš
+    - '2013-12-20 12:05:32.324361'
+    - '2013-12-20 12:05:32.324361'
+
+---
+settings:
+  columns:
+  - id
+  - days_before_warn
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - 0
+    - '2013-12-20 12:05:33.016323'
+    - '2013-12-20 12:05:33.016323'
+
+---
+groups:
+  columns:
+  - id
+  - name
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - pevné látky
+    - '2013-12-20 12:05:32.499952'
+    - '2013-12-20 12:05:32.499952'
+  - - 2
+    - tekutiny
+    - '2013-12-20 12:05:32.638048'
+    - '2013-12-20 12:05:32.638048'
+  - - 3
+    - sypké veci
+    - '2013-12-20 12:05:32.781760'
+    - '2013-12-20 12:05:32.781760'
