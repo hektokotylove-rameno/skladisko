@@ -6,22 +6,40 @@
 <h1>Operations</h1>
 <% end %>
 <%= form_tag(path_form, method: "get", remote: true, id: "operations_filter", :class => 'form-inline', :role => 'form') do%>
-<%= check_box_tag("kind_1") %>
-<%= label_tag("kind_1", "Add") %>
-<%= check_box_tag("kind_2") %>
-<%= label_tag("kind_2", "Withdraw") %>
-<%= check_box_tag("kind_3") %>
-<%= label_tag("kind_3", "Modify") %>
-<% if @protocols_only %>
-<%= text_field_tag("protocol_name" , "",:placeholder => "Name" , :class => 'protocols-name-auto-complete') %>
-<% else %>
-<%= text_field_tag("user" , "",:placeholder => "User" , :class => 'users-auto-complete') %>
-<% end %>
-<%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'project-auto-complete') %>
-<%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'chemicals-auto-complete') %>
-<%= date_field_tag("from_date", nil) %>
-<%= date_field_tag("til_date", nil) %>
-<%= submit_tag("Search", :class => "btn btn-primary") %>
+<div class="col-xs-2">
+  <div>
+    <%= check_box_tag("kind_1") %>
+    <%= label_tag("kind_1", "Add") %>
+  </div>
+  <div>
+    <%= check_box_tag("kind_2") %>
+    <%= label_tag("kind_2", "Withdraw") %>
+  </div>
+  <div>
+    <%= check_box_tag("kind_3") %>
+    <%= label_tag("kind_3", "Modify") %>
+  </div>
+</div>
+  <div class="col-xs-2">
+  <% if @protocols_only %>
+    <%= text_field_tag("protocol_name" , "",:placeholder => "Name" , :class => 'protocols-name-auto-complete') %>
+  <% else %>
+    <%= text_field_tag("user" , "",:placeholder => "User" , :class => 'form-control users-auto-complete') %>
+  <% end %>
+  </div>
+  <div class="col-xs-2">
+  <%= text_field_tag("project" , nil, :placeholder => "Project" ,:class => 'form-control project-auto-complete') %>
+  </div>
+  <div class="col-xs-2">
+  <%= text_field_tag("chemical" , nil, :placeholder => "Chemical" ,:class => 'form-control chemicals-auto-complete') %>
+  </div>
+  <div class="col-xs-2">
+  <%= date_field_tag("from_date", nil, class: 'form-control') %>
+  </div>
+  <div class="col-xs-2">
+  <%= date_field_tag("til_date", nil, class: 'form-control') %>
+  </div>
+
 <% end %>
 <div id="operations">
 	<%= render 'operations' %>

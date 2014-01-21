@@ -182,15 +182,42 @@ $(document).ready( function () {
     document.onkeyup = validate;
     document.onclick = validate;
     $('#submit').click(function (e) {
-	if (!VALID) {
+	if (!VALID || !sufficientAmount()) {
 		console.log("zle")
 		e.preventDefault();
 	} else {
 		console.log("dobre")
 	}
     });
+    
+    function sufficientAmount() {
+	if (window.location.pathname.indexOf('/withdraw') < 0) {
+		return true;
+	} else {
+		var array = $('.amount-validation').filter(":visible");
+		for (var i = 0; i < array.length; i++) {
+			var id = array.eq(i).attr("id");
+			var numId = id.match(/\d+/);
+			var selector = "#operation_containers_attributes_" + numId + "_chemical_name";
+			var name = ($(selector).val());
+			for (var j = 0; j < units.length; j++) {
+				if (units[j].name == name) {
+					units[j].total_amount -= array.eq(i).val()
+					if (units[j].total_amount < 0) {
+						getChemUnits();
+						alert("Not sufficient amount of " + name);
+						return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
+    }
+    
     function validate(e) {
-	console.log(window.location.pathname);
+	$("form").addClass("form-inline");
+	$(".tt-hint").addClass("form-control");
 	VALID = true;
 	if (window.location.pathname.indexOf("/new") < 0 && window.location.pathname.indexOf("/edit") < 0) {
 		return true;
@@ -248,7 +275,6 @@ $(document).ready( function () {
 		var amountLabel = $("label[for='operation_containers_attributes_" + number_in_id + "_amount']");
 		var url = "/chemicals/"+array.eq(i).val()+"/unit";
 		amountLabel.text("Amount");
-		console.log(units);
 		for (var j = 0; j < units.length; j++) {
 			if (units[j].name == array.eq(i).val()) {
 				amountLabel.text("Amount (remaining: " + units[j].total_amount + units[j].unit + ")");
@@ -285,7 +311,7 @@ $(document).ready( function () {
 		array.eq(i).css({
 			'border': '2px solid black'	
 		});
-		if (!$.isNumeric(array.eq(i).val()) || parseInt(array.eq(i).val()) < 0) {
+		if (!$.isNumeric(array.eq(i).val()) || parseInt(array.eq(i).val()) <= 0) {
 			array.eq(i).css({
 				'border': '2px solid red'	
 			});

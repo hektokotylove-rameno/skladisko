@@ -31,7 +31,7 @@
 <% end %>
 
 <p><%= operation.label :project_name, 'Project Name' %></p>
-<p><%= operation.text_field(:project_name, value: val, class: 'project-auto-complete project-validation', placeholder: 'Projects') %></p>
+<p><%= operation.text_field(:project_name, value: val, class: 'form-control project-auto-complete project-validation', placeholder: 'Projects') %></p>
 
 <p><%= operation.label :note %></p>
 <p><%= operation.text_area :note, class: "form-control"%></p>
@@ -58,7 +58,7 @@
     <% @val = ''%>
   <% end %>
   <p><%= container.label :chemical_name, 'Chemical Name' %></p>
-  <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'form-control chemicals-auto-complete', placeholder: 'Chemicals') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
 
@@ -74,7 +74,7 @@
 
 <%= operation.fields_for :participants, wrapper: :div do |participant| %>
 <p><%= participant.label :name %></p>
-  <p><%= participant.text_field(:name, class: 'users-auto-complete', placeholder: 'Participant') %>
+  <p><%= participant.text_field(:name, class: 'form-control users-auto-complete', placeholder: 'Participant') %>
 <%= participant.link_to_remove "Remove", class: "btn btn-danger" %>
   </p>
 <% end %>
@@ -97,7 +97,7 @@
   <% end %>
 <div class="well">
   <p><%= container.label :chemical_name, 'Chemical Name' %></p>
-  <p><%= container.text_field(:chemical_name, value: @val, class: 'chemicals-auto-complete chemical-name-validation', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'form-control chemicals-auto-complete chemical-name-validation', placeholder: 'Chemicals') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger remove-container" %>
   <!--<a class="chemical-new btn btn-primary">Create Chemical</a>--></p>
@@ -117,7 +117,7 @@
       <div class="col-md-6 visibility-validation">
       
       <p><%= chemical.label :group %></p>
-      <p><%= chemical.text_field :group,  class: "groups-auto-complete group-validation", placeholder: "Group"  %></p>
+      <p><%= chemical.text_field :group,  class: "form-control groups-auto-complete group-validation", placeholder: "Group"  %></p>
       
       <p><%= chemical.label :note %></p>
       <p><%= chemical.text_area :note,  class: "form-control", placeholder: "Note"  %></p>
@@ -143,7 +143,7 @@
     <div class="col-md-6">
 
       <p><%= container.label :location_name %></p>
-      <p><%= container.text_field :location_name, class: "locations-auto-complete location-validation", placeholder: "Location" %></p>
+      <p><%= container.text_field :location_name, class: "form-control locations-auto-complete location-validation", placeholder: "Location" %></p>
 
       <p><%= container.label :catalog_number , 'Catalog Number'%></p>
       <p><%= container.text_field :catalog_number, class: "form-control catalog-num-validation", placeholder: "Catalog number" %></p>
@@ -156,7 +156,7 @@
 
 <%= operation.fields_for :participants, wrapper: :div do |participant| %>
 <p><%= participant.label :name %></p>
-  <p><%= participant.text_field(:name, class: 'users-auto-complete', placeholder: 'Participant') %>
+  <p><%= participant.text_field(:name, class: 'form-control users-auto-complete', placeholder: 'Participant') %>
 <%= participant.link_to_remove "Remove", class: "btn btn-danger" %>
   </p>
 <% end %>
@@ -201,9 +201,9 @@
   
   <p><%= label_tag(:group_name) %></p>
   <% if @chemical.group %>
-    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name) %></p>
+    <p><%= text_field_tag(:group_name, '', class: 'form-control groups-auto-complete', placeholder: 'Group', value: @chemical.group.name) %></p>
   <% else %>
-    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group') %></p>
+    <p><%= text_field_tag(:group_name, '', class: 'form-control groups-auto-complete', placeholder: 'Group') %></p>
   <% end %>
  
   <p>
