@@ -111,7 +111,9 @@ $(document).ready( function () {
     
     
     $('#upload').hide();
-    $('#restore_data_attachment').change(toggleExpirable(e));
+    $('#restore_data_attachment').change( function() {
+		$('#upload').show();
+	});
     
     
     
