@@ -184,12 +184,11 @@ $(document).ready( function () {
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
 	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
-	   $('#submit').show();
+	   $('#submit').show();             
 	} else {
 	    $('#submit').hide();
 	}
 	setUnits();
-	
     };
     
     function toggleExpirable() {
