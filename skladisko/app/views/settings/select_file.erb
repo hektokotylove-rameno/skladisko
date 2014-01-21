@@ -12,6 +12,6 @@
   <%= form_for @restore_data, html: { multipart: true }, url: settings_restore_path do |f| %>
     <%= f.label :attachment %>
     <%= f.file_field :attachment %>
-    <%= f.submit "Save", class: "btn btn-primary", style: "margin-top: 10px;", id:"upload" %>
+    <%= f.submit "Restore", class: "btn btn-success", style: "margin-top: 10px;", id:"upload" %>
   <% end %>
 </div>

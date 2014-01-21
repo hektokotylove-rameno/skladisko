@@ -5,7 +5,6 @@ class SettingsController < ApplicationController
     render 'index'
     session[:message] = nil
     session[:type] = nil
-    session[:download] = nil
   end
   
   def select_file
@@ -66,8 +65,6 @@ class SettingsController < ApplicationController
   
   def save_database
     if system "bundle exec rake db:data:dump"
-      session[:message] = 'Database Saved Successfully!'
-      session[:download] = true
       send_file 'db/data.yml'
     else
       session[:message] = 'Error Occured While Saving Database'
