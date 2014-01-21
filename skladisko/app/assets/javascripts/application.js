@@ -410,6 +410,12 @@ $(document).on('nested:fieldAdded', function(event){
         ttl: 1,
         limit: 10 });
     
+    $('.locations-auto-complete').typeahead({
+        name: 'Locations',
+        prefetch: {url: "/locations", ttl: 0},
+        ttl: 1,
+        limit: 10 });
+    
     $('.users-auto-complete').typeahead({
     name: 'user',
     prefetch: {url: "/operations/users", ttl: 0},

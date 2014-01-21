@@ -31,7 +31,7 @@
 <% end %>
 
 <p><%= operation.label :project_name, 'Project Name' %></p>
-<p><%= operation.text_field(:project_name, value: val, class: 'form-control project-auto-complete project-validation', placeholder: 'Projects') %></p>
+<p><%= operation.text_field(:project_name, value: val, class: 'form-control project-auto-complete project-validation', placeholder: 'Project Name') %></p>
 
 <p><%= operation.label :note %></p>
 <p><%= operation.text_area :note, class: "form-control"%></p>
@@ -58,7 +58,7 @@
     <% @val = ''%>
   <% end %>
   <p><%= container.label :chemical_name, 'Chemical Name' %></p>
-  <p><%= container.text_field(:chemical_name, value: @val, class: 'form-control chemicals-auto-complete', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'form-control chemicals-auto-complete', placeholder: 'Chemical Name') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger" %></p>
 
@@ -97,7 +97,7 @@
   <% end %>
 <div class="well">
   <p><%= container.label :chemical_name, 'Chemical Name' %></p>
-  <p><%= container.text_field(:chemical_name, value: @val, class: 'form-control chemicals-auto-complete chemical-name-validation', placeholder: 'Chemicals') %>
+  <p><%= container.text_field(:chemical_name, value: @val, class: 'form-control chemicals-auto-complete chemical-name-validation', placeholder: 'Chemical Name') %>
   <% counter += 1 %>
   <%= container.link_to_remove "Remove", class: "btn btn-danger remove-container" %>
   <!--<a class="chemical-new btn btn-primary">Create Chemical</a>--></p>
