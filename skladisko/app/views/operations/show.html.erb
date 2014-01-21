@@ -33,7 +33,11 @@
         <% else %>
         <td></td>
         <% end %>
-        <td> <%= container.location.name %> </td>
+        <% if container.location %>
+          <td> <%= container.location.name %> </td>
+        <% else %>
+          <td> </td>
+        <% end %>
         <td> <%= container.catalog_number %> </td>
       </tr>
       <% end %>

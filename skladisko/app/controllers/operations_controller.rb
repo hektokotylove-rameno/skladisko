@@ -13,14 +13,13 @@ class OperationsController < ApplicationController
   end
   
   def new
-    session[:message] = nil
     @chemical = Chemical.new
     @operation = Operation.new
     @operation.containers.build
     if (params[:kind] == 'add')
       render 'new'
     end
-    if (params[:kind] == 'retract')
+    if (params[:kind] == 'withdraw')
       @operation.kind = 2
       render 'new'
     end
@@ -28,6 +27,7 @@ class OperationsController < ApplicationController
       @operation.kind = 3
       render 'new'
     end
+    session[:message] = nil
   end
   
   def options_projects
@@ -88,6 +88,7 @@ class OperationsController < ApplicationController
   
   def create
     #render text: params
+    @chemical = Chemical.new
     choose_operation
   end
   
@@ -264,10 +265,11 @@ class OperationsController < ApplicationController
       redirect_to "/operations"
     else
       session[:message] = "Chemical amount is not sufficient"
-      @operation = Operation.new
-      @operation.kind = params[:operation][:kind]
-      @operation.containers.build
-      render 'new'
+      #@operation = Operation.new
+      #@operation.kind = params[:operation][:kind]
+      #@operation.containers.build
+      #@operation.errors.add(:project, "Vyser si oko!")
+      redirect_to "/operations/new/withdraw"
     end
   end
   

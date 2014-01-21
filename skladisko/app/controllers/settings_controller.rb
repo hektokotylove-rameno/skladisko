@@ -40,7 +40,17 @@ class SettingsController < ApplicationController
   
   def load_database
     if (system("bundle exec rake db:data:load"))
-      response = system 'bundle exec rake db:drop && bundle exec rake db:migrate && bundle exec rake db:data:load'
+      Chemical.delete_all
+      Container.delete_all
+      Group.delete_all
+      Location.delete_all
+      Message.delete_all
+      Operation.delete_all
+      Project.delete_all
+      RestoreData.delete_all
+      Setting.delete_all
+      User.delete_all
+      response = system 'bundle exec rake db:data:load'
       if response
         session[:message] = 'Database Loaded Successfully!'
       else
