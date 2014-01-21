@@ -1,4 +1,4 @@
-<%= nested_form_for @operation, url: operations_path do |operation| %>
+<%= nested_form_for @operation, url: operations_path, class:'classa' do |operation| %>
 <% if @operation.errors.any? %>
 <div id="error_explanation">
  <div class="alert alert-danger">
@@ -81,7 +81,7 @@
 <p><%= operation.link_to_add "Add Another Participants", :participants, class: "btn btn-primary" %></p>
 
 <p>
-<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-sucess", :id => "submit" %>
+<%= operation.submit "Submit Changes", :name => 'execute', :class => "btn btn-success", :id => "submit" %>
 </p>
 
 

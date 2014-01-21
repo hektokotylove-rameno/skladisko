@@ -179,23 +179,33 @@ $(document).ready( function () {
     validate();
     document.onkeyup = validate;
     document.onclick = validate;
-
+    $('#submit').click(function (e) {
+	if (!validate(e)) {
+		console.log("zle")
+		e.preventDefault();
+	} else {
+		console.log("dobre")
+	}
+    });
     function validate(e) {
 	console.log(window.location.pathname);
+	var result = true;
 	if (window.location.pathname.indexOf("/new") < 0 && window.location.pathname.indexOf("/edit") < 0) {
-		return;
+		return true;
 	}
 	toggleExpirable();
-	chem_form_valid();
+	result &= chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
 	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
 	   $('#submit').show();
+	   result &= true;
 	} else {
 	    $('#submit').hide();
+	    result = false;
 	}
 	setUnits();
-	
+	return result;
     };
     
     function toggleExpirable() {
