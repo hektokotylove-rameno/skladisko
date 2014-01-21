@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140117113719) do
+ActiveRecord::Schema.define(version: 20140118213626) do
 
   create_table "chemicals", force: true do |t|
     t.string   "name"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140117113719) do
     t.float    "amount"
     t.datetime "expiration_date"
     t.boolean  "expirable",       default: true
-    t.string   "location"
+    t.integer  "location_id"
     t.string   "catalog_number"
     t.boolean  "real"
     t.integer  "chemical_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20140117113719) do
   end
 
   add_index "containers", ["chemical_id"], name: "index_containers_on_chemical_id"
+  add_index "containers", ["location_id"], name: "index_containers_on_location_id"
 
   create_table "containers_operations", force: true do |t|
     t.integer "container_id"
@@ -51,6 +52,12 @@ ActiveRecord::Schema.define(version: 20140117113719) do
   end
 
   create_table "groups", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "locations", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

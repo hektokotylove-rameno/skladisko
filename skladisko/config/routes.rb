@@ -2,6 +2,7 @@ Skladisko::Application.routes.draw do
   
   post "params" => 'params#show'
   get "params" => 'params#show'
+  get "locations" => "locations#index"
   get "groups" => 'groups#index'
   get "settings" => 'settings#index'
   get "settings/restore" => 'settings#select_file'

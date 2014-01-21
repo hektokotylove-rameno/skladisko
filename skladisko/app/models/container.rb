@@ -1,7 +1,9 @@
 class Container < ActiveRecord::Base
   attr_accessor :chemical_name
-  after_initialize :add_chemical_name
+  attr_accessor :location_name
+  after_initialize :add_chemical_name, :add_location_name
   belongs_to :chemical
+  belongs_to :location
   has_and_belongs_to_many :operations
   has_and_belongs_to_many :messages
   validates :amount, presence: true, numericality: true
@@ -26,6 +28,10 @@ class Container < ActiveRecord::Base
   
   def add_chemical_name
     chemical_name = ""
+  end
+  
+  def add_location_name
+    location_name = ""
   end
   
   def real?

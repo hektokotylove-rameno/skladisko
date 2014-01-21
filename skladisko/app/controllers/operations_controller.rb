@@ -139,12 +139,17 @@ class OperationsController < ApplicationController
           chemical.save
         end
         
+        location = nil
+        location = Location.find_or_create_by_name(container["location_name"])
+        
         cont = Container.new(permit_container_params(container))
         cont.chemical = chemical
+        cont.location = location
         cont.real = true
         containers += [cont]
         cont_fake = Container.new(permit_container_params(container))
         cont_fake.chemical = chemical
+        cont_fake.location = location
         cont_fake.real = false
         containers_fake += [cont_fake]
       end
@@ -417,7 +422,7 @@ class OperationsController < ApplicationController
   end
   
   def permit_container_params(args)
-    ActionController::Parameters.new(args).permit(:amount, :expiration_date, :expirable, :catalog_number, :location)
+    ActionController::Parameters.new(args).permit(:amount, :expiration_date, :expirable, :catalog_number)
   end
   
   def operation_params
