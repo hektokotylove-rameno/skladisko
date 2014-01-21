@@ -100,7 +100,7 @@ class OperationsController < ApplicationController
       do_retract
     end
     if (operation_kind == '3')
-      do_retract
+      do_modify
     end
   end
   
@@ -271,6 +271,33 @@ class OperationsController < ApplicationController
       #@operation.errors.add(:project, "Vyser si oko!")
       redirect_to "/operations/new/withdraw"
     end
+  end
+  
+  def do_modify
+    @chemicals = []
+    container_attributes = params[:operation][:containers_attributes]
+    @containers_fake = []
+    container_attributes.each do |key,cont|
+      if (cont["_destroy"] == "false")
+        chemical = Chemical.find_by_name(cont[:chemical_name])
+        remaining_amount = cont[:amount].to_f
+        difference = remaining_amount - chemical.total_amount
+        chemical.total_amount = remaining_amount
+        container_fake = Container.new
+        container_fake.chemical = chemical
+        container_fake.expirable = false
+        container_fake.expiration_date = nil
+        container_fake.amount = difference
+        container_fake.real = false
+        @containers_fake += [container_fake]
+        chemical.save
+      end
+    end
+    @project = Project.find_or_create_by_name(get_project_name)
+    create_retract_operation
+    
+    @operation.save
+    redirect_to "/operations"
   end
   
   def create_retract_operation
