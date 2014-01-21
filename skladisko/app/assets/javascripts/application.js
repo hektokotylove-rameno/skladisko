@@ -180,7 +180,7 @@ $(document).ready( function () {
     document.onkeyup = validate;
     document.onclick = validate;
     $('#submit').click(function (e) {
-	if (!validate(e)) {
+	if (!VALID) {
 		console.log("zle")
 		e.preventDefault();
 	} else {
@@ -189,23 +189,22 @@ $(document).ready( function () {
     });
     function validate(e) {
 	console.log(window.location.pathname);
-	var result = true;
+	VALID = true;
 	if (window.location.pathname.indexOf("/new") < 0 && window.location.pathname.indexOf("/edit") < 0) {
 		return true;
 	}
 	toggleExpirable();
-	result &= chem_form_valid();
+	VALID &= chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
 	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
 	   $('#submit').show();
-	   result &= true;
+	   VALID &= true;
 	} else {
 	    $('#submit').hide();
-	    result = false;
+	    VALID = false;
 	}
 	setUnits();
-	return result;
     };
     
     function toggleExpirable() {
