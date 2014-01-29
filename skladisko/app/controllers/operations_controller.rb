@@ -360,6 +360,13 @@ class OperationsController < ApplicationController
     protocol_name = ""
     from_date = DateTime.new
     til_date = DateTime.now
+    if (params[:from_date].present?)
+      from_date = DateTime.parse(params[:from_date])
+    end
+    if (params[:til_date].present?)
+      til_date = DateTime.parse(params[:til_date])
+    end
+    
     if not (params[:user].nil? or (params[:user] == ""))
       user = params[:user]
     end
@@ -408,9 +415,9 @@ class OperationsController < ApplicationController
       end
       
     end
+    @ops = @ops.where("(operations.created_at > ?) AND (operations.created_at < ?)", from_date, til_date)
     @ops = @ops.order(created_at: :desc)
-    #@ops = @ops.where("('operations'.'date' >= ?) AND ('operations'.'date' <= ?)", from_date, til_date)
-    #@ops = @ops.where("(date >= ?)", from_date)
+    
     ids = []
     @operations = []
     @ops.each do |op|

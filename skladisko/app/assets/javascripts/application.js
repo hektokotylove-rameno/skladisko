@@ -160,6 +160,13 @@ $(document).ready( function () {
 						getChemNames();
 						getChemUnits();
 						validate();
+						$('.chemicals-auto-complete').typeahead('destroy');
+						$('.chemicals-auto-complete').typeahead({
+						name: 'Chemicals new',
+						cache: false,
+						prefetch: {url: "/operations/chemicals", ttl: 0},
+						ttl: 1,
+						limit: 10 });
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
