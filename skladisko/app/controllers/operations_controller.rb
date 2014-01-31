@@ -39,8 +39,6 @@ class OperationsController < ApplicationController
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
-    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
-    #format.js   {@options.reverse}
     render json: @options.reverse
   end
   
@@ -53,8 +51,6 @@ class OperationsController < ApplicationController
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
-    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
-    #format.js   {@options.reverse}
     render json: @options
   end
   
@@ -67,8 +63,6 @@ class OperationsController < ApplicationController
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
-    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
-    #format.js   {@options.reverse}
     render json: @options
   end
   
@@ -81,13 +75,10 @@ class OperationsController < ApplicationController
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
-    #format.html { redirect_to @current_user, notice: 'User was successfully created.' }
-    #format.js   {@options.reverse}
     render json: @options
   end
   
   def create
-    #render text: params
     @chemical = Chemical.new
     choose_operation
   end
@@ -112,7 +103,6 @@ class OperationsController < ApplicationController
     prepare_variables
     p @operation
     if (@operation.save)
-      #@chemical.save
       redirect_to chemicals_path
     else
       render 'new'
@@ -128,21 +118,8 @@ class OperationsController < ApplicationController
         chemical_data = container["chemical"]
         chemical = nil
         chemical = Chemical.find_by_name(container["chemical_name"])
-        if chemical.nil? and not ((chemical_data["unit"] == "") || (chemical_data["critical_amount"] == "") && (chemical_data["note"] == "") && (chemical_data["group"] == ""))
-          group = Group.find_or_create_by_name(chemical_data["group"])
-          group.save
-          chemical = Chemical.new()
-          chemical.name = container["chemical_name"]
-          chemical.unit = chemical_data["unit"]
-          chemical.critical_amount = chemical_data["critical_amount"]
-          chemical.group = group
-          chemical.note = chemical_data["note"]
-          chemical.save
-        end
-        
         location = nil
         location = Location.find_or_create_by_name(container["location_name"])
-        
         cont = Container.new(permit_container_params(container))
         cont.chemical = chemical
         cont.location = location
@@ -155,14 +132,9 @@ class OperationsController < ApplicationController
         containers_fake += [cont_fake]
       end
     end
-    #@container = Container.new(container_params)
-    #@container.real = true
-    #@container_op = Container.new(container_params)
-    #@container_op.real = false
     @project = Project.find_or_create_by_name(get_project_name)
     @operation = Operation.new(operation_params)
     @operation.user = @current_user
-    #@operation.containers.push(@container_op)
     @operation.containers += containers_fake
     participants_attributes = params[:operation][:participants_attributes]
     participants = []
@@ -180,14 +152,12 @@ class OperationsController < ApplicationController
       @operation.protocol = true
       @operation.name = params[:operation][:name]
     end
-    #change_total_amount
     update_chemical_amounts(containers)
   end
   
   def do_retract
     @chemicals = []
     container_attributes = params[:operation][:containers_attributes]
-    #@chemical = Chemical.find(get_chem_id)
     enough = true
     container_attributes.each do |key,container|
       if (container["_destroy"] == "false")
@@ -236,39 +206,12 @@ class OperationsController < ApplicationController
           chemical.save
         end
       end
-      #@chemical.total_amount -= params_amount
-      #am = params_amount
-      #while (am > 0)
-      #  container = Container.find_by_chemical_id_and_real(@chemical.id, true)
-      #  if container.amount > am
-      #    container.amount -= am
-      #    am = 0
-      #    container.save
-      #  else
-      #    am -= container.amount
-      #    container.delete
-      #  end
-      #end
       @project = Project.find_or_create_by_name(get_project_name)
-      #create_retract_container
       create_retract_operation
-      
-      #@chemical.save
-      p @operation
-      if @operation.save
-        p "JUHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU***********************************"
-      else
-        p "HOVNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO**************************"
-        p @operation.participants.to_json
-        p @operation.errors.full_messages.to_json
-      end
+      @operation.save
       redirect_to "/operations"
     else
       session[:message] = "Chemical amount is not sufficient"
-      #@operation = Operation.new
-      #@operation.kind = params[:operation][:kind]
-      #@operation.containers.build
-      #@operation.errors.add(:project, "Vyser si oko!")
       redirect_to "/operations/new/withdraw"
     end
   end
@@ -295,7 +238,6 @@ class OperationsController < ApplicationController
     end
     @project = Project.find_or_create_by_name(get_project_name)
     create_retract_operation
-    
     @operation.save
     redirect_to "/operations"
   end
@@ -352,7 +294,6 @@ class OperationsController < ApplicationController
     if params[:protocols]
       @protocols_only = true
     end
-    
     user = ""
     project = ""
     kinds = []
@@ -388,9 +329,6 @@ class OperationsController < ApplicationController
     if not (params[:protocol_name].nil? or params[:protocol_name] == "")
       protocol_name = params[:protocol_name]
     end
-    #if conditions.empty?
-    #  @operations = Operation.all
-    #else
     if kinds.empty?
       kinds = [1, 2, 3]
     end
@@ -426,7 +364,6 @@ class OperationsController < ApplicationController
         @operations += [op]
       end
     end
-    #end
     respond_to do |format|
       format.html
       format.js {}
@@ -435,13 +372,11 @@ class OperationsController < ApplicationController
   end
   
   def edit
-    #render text: params
     @chemical = Chemical.new
     @operation = Operation.find(params[:id])
   end
   
   def add_from_protocol
-    #render json: params
     choose_operation
   end
   
