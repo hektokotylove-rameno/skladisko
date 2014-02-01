@@ -318,7 +318,7 @@ $(document).ready( function () {
 		array.eq(i).css({
 			'border': '2px solid black'	
 		});
-		if (!$.isNumeric(array.eq(i).val()) || parseInt(array.eq(i).val()) <= 0) {
+		if (!$.isNumeric(array.eq(i).val()) || parseFloat(array.eq(i).val()) <= 0) {
 			array.eq(i).css({
 				'border': '2px solid red'	
 			});

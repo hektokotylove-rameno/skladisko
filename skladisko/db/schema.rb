@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20140118213626) do
     t.datetime "updated_at"
   end
 
-  add_index "chemicals", ["group_id"], name: "index_chemicals_on_group_id"
+  add_index "chemicals", ["group_id"], name: "index_chemicals_on_group_id", using: :btree
 
   create_table "chemicals_operations", force: true do |t|
     t.integer "chemical_id"
@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 20140118213626) do
     t.datetime "updated_at"
   end
 
-  add_index "containers", ["chemical_id"], name: "index_containers_on_chemical_id"
-  add_index "containers", ["location_id"], name: "index_containers_on_location_id"
+  add_index "containers", ["chemical_id"], name: "index_containers_on_chemical_id", using: :btree
+  add_index "containers", ["location_id"], name: "index_containers_on_location_id", using: :btree
 
   create_table "containers_operations", force: true do |t|
     t.integer "container_id"
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 20140118213626) do
     t.datetime "updated_at"
   end
 
-  add_index "messages", ["chemical_id"], name: "index_messages_on_chemical_id"
-  add_index "messages", ["container_id"], name: "index_messages_on_container_id"
+  add_index "messages", ["chemical_id"], name: "index_messages_on_chemical_id", using: :btree
+  add_index "messages", ["container_id"], name: "index_messages_on_container_id", using: :btree
 
   create_table "operations", force: true do |t|
     t.integer  "kind"
@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 20140118213626) do
     t.datetime "updated_at"
   end
 
-  add_index "operations", ["project_id"], name: "index_operations_on_project_id"
-  add_index "operations", ["user_id"], name: "index_operations_on_user_id"
+  add_index "operations", ["project_id"], name: "index_operations_on_project_id", using: :btree
+  add_index "operations", ["user_id"], name: "index_operations_on_user_id", using: :btree
 
   create_table "operations_users", force: true do |t|
     t.integer "operation_id"

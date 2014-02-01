@@ -9,7 +9,7 @@ class Message < ActiveRecord::Base
   def self.create_expired_messages
     days_before = get_days_before
     warn_date = DateTime.now + days_before
-    containers = Container.where('real = ? AND expiration_date < ?', true, warn_date)
+    containers = Container.where("(containers.real = ?) AND (containers.expiration_date < ?)", true, warn_date.to_s(:db))
     containers.each do |container|
       message = Message.find_by_container_id_and_kind(container.id, 2)
       if !message
