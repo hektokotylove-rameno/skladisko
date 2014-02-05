@@ -221,7 +221,7 @@ $(document).ready( function () {
 	}
 	return true;
     }
-    
+
     function validate(e) {
 	$("form").addClass("form-inline");
 	$(".tt-hint").addClass("form-control");
@@ -233,7 +233,7 @@ $(document).ready( function () {
 	VALID &= chem_form_valid();
 	presence_validation_selectors = [".project_validation", ".location-validation", '.catalog-num-validation', '.date-validation', '#operation_name', "#operation_project_name"];
 	presence_selectors_valid = array_presence_validator(presence_validation_selectors);
-	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid()){
+	if (presence_selectors_valid & amounts_valid() & chemicals_names_valid() & user_names_valid() & dates_valid()){
 	   $('#submit').show();
 	   VALID &= true;
 	} else {
@@ -242,7 +242,25 @@ $(document).ready( function () {
 	}
 	setUnits();
     };
-    
+
+    function dates_valid() {
+        var array = $('.date-validation').filter(":visible");
+        var result = true;
+        var regexp = new RegExp("([0-2][0-9]|3[0-1])[\\/\\-\\.](0[0-9]|1[0-2])[\\/\\-\\.](19[0-9]{2}|2[0-9]{3})$");
+        array.eq(i).css({
+            'border': '2px solid black'
+        });
+        for (var i = 0; i < array.length; i++) {
+            if(!array.eq(i).val().match(regexp)){
+                array.eq(i).css({
+                    'border': '2px solid red'
+                });
+                result = false;
+            }
+        }
+        return result;
+    }
+
     function toggleExpirable() {
 	$('.date-validation').hide();
 	var array = $('.expirable').filter(":visible");
@@ -270,7 +288,7 @@ $(document).ready( function () {
 		success: function(data, textStatus, jqXHR)
 		{
 			units = data;
-		},
+		}
 	});
     }
     
