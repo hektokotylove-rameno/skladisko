@@ -1,0 +1,4 @@
+crontab -l > mycron
+echo "0 1 * * * wget "http://localhost:3000/messages/check_expired"" >> mycron
+crontab mycron
+rm mycron

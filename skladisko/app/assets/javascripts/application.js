@@ -246,7 +246,7 @@ $(document).ready( function () {
     function dates_valid() {
         var array = $('.date-validation').filter(":visible");
         var result = true;
-        var regexp = new RegExp("([0-2][0-9]|3[0-1])[\\/\\-\\.](0[0-9]|1[0-2])[\\/\\-\\.](19[0-9]{2}|2[0-9]{3})$");
+        var regexp = new RegExp("([0][1-9]|[1-2][0-9]|3[0-1])[\\/\\-\\.](0[1-9]|1[0-2])[\\/\\-\\.](19[0-9]{2}|2[0-9]{3})$");
         array.eq(i).css({
             'border': '2px solid black'
         });
