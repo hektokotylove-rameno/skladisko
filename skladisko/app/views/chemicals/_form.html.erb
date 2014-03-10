@@ -32,9 +32,9 @@
   
   <p><%= label_tag(:group_name) %></p>
   <% if @chemical.group %>
-    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', value: @chemical.group.name, "required" => "") %></p>
+    <p><%= text_field_tag(:group_name, '', class: 'form-control groups-auto-complete', placeholder: 'Group', value: @chemical.group.name, "required" => "") %></p>
   <% else %>
-    <p><%= text_field_tag(:group_name, '', class: 'groups-auto-complete', placeholder: 'Group', "required" => "") %></p>
+    <p><%= text_field_tag(:group_name, '', class: 'form-control groups-auto-complete', placeholder: 'Group', "required" => "") %></p>
   <% end %>
  
   <p>
@@ -43,7 +43,7 @@
   </p>
   
   <p>
-    <%= f.submit :class => "btn btn-primary" %>
+    <%= f.submit :class => "btn btn-primary", :id => "submit" %>
   </p>
  
    
